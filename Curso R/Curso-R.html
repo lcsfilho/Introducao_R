@@ -5,20 +5,244 @@
     <meta charset="utf-8" />
     <meta name="author" content="Yihui Xie" />
     <meta name="author" content="Garrick Aden-Buie" />
-    <meta name="date" content="2022-11-17" />
+    <meta name="date" content="2022-11-25" />
     <script src="Curso-R_files/header-attrs-2.18/header-attrs.js"></script>
-    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="Curso_R.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 
+layout: true
+
+
+
+
+
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/BrasaoGoverno.png?raw=true" style="left: 5px; top: 5px; position: absolute" width="7.5%" height="13%"&gt;
+
+ 
+ &lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/UCS.PNG?raw=true" style="right: 20px; top: 5px; position: absolute" width="6%" height="14%"&gt;
+
+ &lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/LinhaVertical.PNG?raw=true" style="right: 0px; top: 0px; position: absolute" width="1.5%" height="99.7%"&gt;
+ 
+  &lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/LinhaHorizontal.PNG?raw=true" style="left: -1px; bottom: 0px; position: absolute" width="99.3%" height="2.5%"&gt;
+
+---
+class: center, middle
+
+# Introdução ao Software R e ao R Markdown
+
+Luiz Carlos Santana Filho
+&lt;p style="font-size: 12px"&gt;
+Diretoria de Planejamento Social&lt;/p&gt;
+&lt;p style="font-size: 12px"&gt;Superintendência de Planejamento Estratégico&lt;/p&gt;
+&lt;p style="font-size: 15px"&gt;Secretaria do Planejamento&lt;/p&gt;
+
+&lt;p style="color: blue; font-size: 14px; margin: 5px"&gt;&lt;i&gt;luizcarlos.santanafilho@seplan.ba.gov.br&lt;/i&gt;&lt;/p&gt;
+
+[https://github.com/lcsfilho](https://github.com/lcsfilho)
+
+
+ &lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/FigR_RStudio_RMarkdown.png?raw=true" style="left: auto; right=auto; bottom:-100px; position: relative" width="40%" height="1.7%"&gt;
+
+---
+&lt;div class="titulo" position="Center"&gt;Introdução ao Software R e ao R Markdown&lt;/div&gt;
+
+
+&lt;br&gt;
+
+# Índice
+
+
+-  Índice
+-  O que é o R?
+-  Definições
+-  Iniciação
+-  Referências
+
+
+---
+
+layout: true
+
+&lt;div class="titulo" position="Center"&gt;Introdução ao Software R e ao R Markdown&lt;/div&gt;
+
+
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/BrasaoGoverno.png?raw=true" style="left: 5px; top: 5px; position: absolute" width="7.5%" height="13%"&gt;
+
+ 
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/UCS.PNG?raw=true" style="right: 20px; top: 5px; position: absolute" width="6%" height="14%"&gt;
+
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/LinhaVertical.PNG?raw=true" style="right: 0px; top: 0px; position: absolute" width="1.5%" height="99.7%"&gt;
+ 
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/LinhaHorizontal.PNG?raw=true" style="left: -1px; bottom: 0px; position: absolute" width="99.3%" height="2.5%"&gt;
+
+---
+&lt;center&gt;&lt;font size="6"&gt;Bibliografia básica&lt;/font&gt;&lt;/center&gt;
+
+&lt;div class="container"&gt;
+
+
+&lt;img src="https://images-submarino.b2w.io/produtos/134528441/imagens/livro-r-para-data-science-importe-arrume-transforme-visualize-e-modele-dados/134528441_1_large.jpg" style="left: auto; top: 25%; position: absolute" width="20%"&gt;
+
+
+&lt;img src="http://www.cookbook-r.com/r_graphics_cookbook.png" style="left: 41%; top: 25%; position: absolute" width="18%"&gt;
+
+
+&lt;img src="https://bookdown.org/yihui/rmarkdown-cookbook/images/cover.png" style="right: 10%; top: 25%; position: absolute" width="12.5%"&gt;
+
+
+&lt;div class="bibliografia"&gt;
+
+.pull-left[
+&gt; [R para Data Science](https://www.amazon.com.br/para-data-science-transforme-visualize/dp/8550803243/ref=asc_df_8550803243/?tag=googleshopp00-20&amp;linkCode=df0&amp;hvadid=379736468109&amp;hvpos=&amp;hvnetw=g&amp;hvrand=4984106143229360944&amp;hvpone=&amp;hvptwo=&amp;hvqmt=&amp;hvdev=c&amp;hvdvcmdl=&amp;hvlocint=&amp;hvlocphy=1001533&amp;hvtargid=pla-811060137763&amp;psc=1)&lt;br&gt;
+&gt; [R Graphics Cookbook](https://www.amazon.com.br/Graphics-Cookbook-2e-Winston-Chang/dp/1491978600/ref=asc_df_1491978600/?tag=googleshopp00-20&amp;linkCode=df0&amp;hvadid=379787555408&amp;hvpos=&amp;hvnetw=g&amp;hvrand=5700521040944184438&amp;hvpone=&amp;hvptwo=&amp;hvqmt=&amp;hvdev=c&amp;hvdvcmdl=&amp;hvlocint=&amp;hvlocphy=1001533&amp;hvtargid=pla-422014417858&amp;psc=1/)&lt;br&gt;
+&gt; [R Markdown Cookbook (WEB)](https://bookdown.org/yihui/rmarkdown-cookbook/)&lt;br&gt;
+&gt; [R Markdown Cookbook (PDF)](https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-cookbook.pdf)&lt;br&gt;
+&gt; [Ciência de Dados em R - Curso R](https://livro.curso-r.com/)
+
+]
+
+.pull-right[
+&gt; [Cookbook for R](http://www.cookbook-r.com/)&lt;br&gt;
+&gt; [Aprendendo R - Fiocruz](http://www.de.ufpb.br/~tatiene/Disciplinas/2014.2/LivroR/aprendendo_r.pdf)&lt;br&gt;
+&gt; [An Introduction to R](https://cran.r-project.org/doc/manuals/R-intro.pdf)&lt;br&gt;
+&gt; [Using R for Data Analysis and Graphics](https://cran.r-project.org/doc/contrib/usingR.pdf)&lt;br&gt;
+&gt; [Visualização de dados com ggplot2](http://leg.ufpr.br/~walmes/cursoR/data-vis/slides/08-ggplot2.pdf)&lt;br&gt;
+
+]
+
+
+[Livros R gratuitos para download](https://producaoanimalcomr.wordpress.com/2015/12/15/livros-r-gratuitos-para-downloads/)
+
+
+
+&lt;/div&gt;
+&lt;/div&gt;
+---
+
+# O que é o R?
+
+- R é uma linguagem e um ambiente de desenvolvimento integrado, para cálculos estatísticos e gráficos.
+
+- Foi criada originalmente por [_Ross Ihaka_](https://pt.wikipedia.org/w/index.php?title=Ross_Ihaka&amp;action=edit&amp;redlink=1) e por [_Robert Gentleman_](https://pt.wikipedia.org/w/index.php?title=Robert_Gentleman&amp;action=edit&amp;redlink=1) no departamento de Estatística da universidade de Auckland, Nova Zelândia, e foi desenvolvido por um esforço colaborativo de pessoas em vários locais do mundo.
+
+- O nome R provêm em parte das iniciais dos criadores e também de um jogo figurado com a linguagem S (da Bell Laboratories, antiga AT&amp;T).
+
+- R é uma linguagem e ambiente similar ao [S](https://pt.wikipedia.org/wiki/S_(linguagem_de_programa%C3%A7%C3%A3o) - pode ser considerado uma implementação distinta do S; embora com importantes diferenças, muitos códigos escritos para o S rodam inalterados no R. A implementação comercial de S é [S-PLUS](https://www.splus.iag.usp.br/).
+
+- O código fonte do R está disponível sob a licença [GNU](https://www.gnu.org/) [GPL](https://pt.wikipedia.org/wiki/GNU_General_Public_License) e as versões binárias pré-compiladas são fornecidas para Windows, Macintosh, e muitos sistemas operacionais Unix/Linux.
+
+- R é também altamente expansível com o uso dos pacotes, que são bibliotecas para funções específicas ou áreas de estudo específicas.
+
+[Blog Software Livre na Educação](https://www.ufrgs.br/soft-livre-edu/software-educacional-livre-na-wikipedia/r-linguagem-de-programacao/)
+
+---
+&lt;div class="Ross_Ihaka"&gt;
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Ross_Ihaka_%285189180796%29.jpg/220px-Ross_Ihaka_%285189180796%29.jpg" style="left: 17%; top: 30%; position: absolute" width="35%" height="40%" &gt;
+&lt;p&gt;Ross Ihaka&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class="Robert_Gentleman"&gt;
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Rober_Gentleman.png/220px-Rober_Gentleman.png" style="right: 16%; top: 30%; position: absolute"width="23%" height="40%" &gt;
+&lt;p&gt;Robert Gentleman&lt;/p&gt;
+&lt;/div&gt;
+
+---
+&lt;center&gt;
+&lt;figure&gt;
+&lt;img src="https://revolution-computing.typepad.com/.a/6a010534b1db25970b01b8d2594d25970c-800wi" style="left: 25%; top: 20%; position: absolute"width="50%"&gt;
+&lt;figcaption&gt;Número de pacotes R publicados no Repositório CRAN&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+
+---
+# Definições
+
+* Objeto: R é uma linguagem orientada a objetos e tudo em R é um objeto. Trata-se de uma referência a um local da memória que possui um valor.
+Por exemplo, um único número é um objeto, uma variável é um objeto, a saída é um objeto, um conjunto de dados é um objeto que é, por si próprio, uma coleção de objetos, etc.
+
+* Vetor: Uma coleção de um ou mais objetos do mesmo tipo. Por exemplo, todos os números ou todos os caracteres.
+
+* Função: Um conjunto de instruções realizadas em um ou mais objetos. Funções são normalmente utilizadas para executar tarefas específicas e comuns, que normalmente exigiriam muitas instruções.
+Por exemplo, a função `mean()` (média) é usada para calcular a média aritmética dos valores de um vetor numérico.
+
+* Argumento: Informação específica (na forma name = value) passada para uma função para determinar como ela deve desempenhar a sua tarefa. Por exemplo, a função `mean()` requer, pelo menos, um argumento - o nome de um objeto que contém os valores a partir dos quais a média será calculada.
+
+* Operador: Um símbolo com significado pré-definido. Os operadores
+comuns incluem +, −, ∗, /, ˆ, e os operadores lógicos
+&lt;, &gt;, &lt;=, &gt;=, ==, !=, &amp;&amp;, ||.
+
+&lt;a name=cite-andreluis&gt;&lt;/a&gt;[Maia (2016)](#bib-andreluis)
+
+---
+# Iniciação
+
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/TelaR.PNG?raw=true" style="right: 3%; top: 35%; position: absolute"width="45%"&gt;
+
+
+1. Acesse o endereço https://www.r-project.org e baixe o R por uma das URLs disponíveis (CRAN&lt;sup&gt;1&lt;/sup&gt; Mirrors)
+1. Instale o software R
+1. Execute o software R
+
+.pull-left[
+Ao executar, o software R abre o console com informações e avisos, seguidos pelo prompt de comando (&lt;font color="#F2A025"&gt; &gt; &lt;/font&gt;).
+]
+
+.footnote[
+[1] [Comprehensive R Archive Network](https://cran.r-project.org/mirrors.html)
+]
+
+---
+## Explorando o R
+
+Operações básicas no R
+
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/Operacoes_R.PNG?raw=true" style="right: auto; top: 35%; position: absolute"width="40%"&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+O símbolo &lt;font color="#F2A025"&gt; # &lt;/font&gt; é usado para comentário no R.
+
+
+
+---
+## Criando vetores
+
+Criando uma sequência de números de 0 a 20:
+
+
+```r
+x = 0 : 20
+x
+```
+
+```
+##  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+```
+
+Acessando o 6º elemento do vetor:
+
+
+```r
+x [6]
+```
+
+```
+## [1] 5
+```
+---
+# Referências
+
+&lt;a name=bib-andreluis&gt;&lt;/a&gt;[Maia, A. L. S.](#cite-andreluis) (2016).
+_Métodos Computacionais em Estatística no R_. Unijorge – Centro
+Universitário Jorge Amado. Boston, MA.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "slideNumberFormat": "%current%",
-"highlightStyle": "github",
+"highlightStyle": true,
 "highlightLines": true,
 "ratio": "16:9",
 "countIncrementalSlides": true

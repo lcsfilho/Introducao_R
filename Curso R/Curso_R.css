@@ -23,9 +23,10 @@
   --text-font-size: 1rem;
   --code-font-size: 0.9rem;
   --code-inline-font-size: 1em;
-  --header-h1-font-size: 2.75rem;
-  --header-h2-font-size: 2.25rem;
+  --header-h1-font-size: 2.20rem;
+  --header-h2-font-size: 1.90rem;
   --header-h3-font-size: 1.75rem;
+  --header-h4-font-size: 1.5rem;
 
   /* Colors */
   --text-color: #000000;
@@ -56,14 +57,72 @@ body {
   font-family: var(--text-font-family), var(--text-font-family-fallback), var(--text-font-base);
   font-weight: normal;
   color: var(--text-color);
+  text-align: justify;
+}
+
+.titulo{font-size: 40px;
+font-family: var(--header-font-family), var(--header-font-family-fallback);
+  font-weight: 600;
+  color: var(--header-color);
+  text-align: center;
+  display: block;
+    margin-block-start: 0em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  
 }
 
 
 
+.container{
+  display: block;
+  flex-direction: row;
+}
+
+.bibliografia{
+  background-color: white;
+  margin-top: 27%;
+  margin-left: auto;
+  margin-right: auto;
+  margin
+  width:90%;
+  align-items: center;
+  justify-content: center;
+}
+
+.Ross_Ihaka p{
+  position:absolute;
+  top: 70%;
+  left: 30%;
+}
+
+.Robert_Gentleman p{
+  position:absolute;
+  top: 70%;
+  left: 65%;
+}
+
+h1, h2, h3 {
+    display: block;
+    margin-block-start: 0em;
+    margin-block-end: 0.67em;
+    margin-inline-start: -50px;
+    margin-inline-end: 0px;
+}
+
+h4 {
+    display: block;
+    margin-block-start: 0em;
+    margin-block-end: 0.3em;
+    margin-inline-start: 10px;
+    margin-inline-end: 0px;
+}
+
 p {
     display: block;
     margin-block-start: 0.2em;
-    margin-block-end: 0.2em;
+    margin-block-end: 0.5em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
@@ -74,6 +133,13 @@ h1, h2, h3 {
   font-weight: 600;
   color: var(--header-color);
 }
+
+h4 {
+  font-family: var(--header-font-family), var(--header-font-family-fallback);
+  font-weight: 600;
+  color: var(--header-color);
+}
+
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
@@ -90,6 +156,10 @@ h1, h2, h3 {
 .remark-slide-content h3 {
   font-size: var(--header-h3-font-size);
 }
+.remark-slide-content h4 {
+  font-size: var(--header-h4-font-size);
+}
+
 .remark-code, .remark-inline-code {
   font-family: var(--code-font-family), Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
 }
@@ -109,11 +179,13 @@ strong {
   font-weight: bold;
   color: var(--text-bold-color);
 }
+
 a, a > code {
   color: var(--link-color);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 1rem;
 }
+
 .footnote {
   position: absolute;
   bottom: 60px;
