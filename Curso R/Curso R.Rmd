@@ -23,7 +23,8 @@ layout: true
 
 
 ```{r, load_refs, include=FALSE, cache=FALSE}
-
+#install.packages("RefManageR")
+#install.packages("bibtex")
 
 library(RefManageR)
 RefManageR::BibOptions(
@@ -227,10 +228,13 @@ comuns incluem +, −, ∗, /, ˆ, e os operadores lógicos
 
 
 1. Acesse o endereço https://www.r-project.org e baixe o R por uma das URLs disponíveis (CRAN<sup>1</sup> Mirrors)
-1. Instale o software R
-1. Execute o software R
+1. Instale o software R (R-Gui)
+1. Execute o software R (R-Gui)
 
 .pull-left[
+"O sistema é formado por um programa básico (R-Gui) e muitos pacotes com procedimento adicionais. Tudo é gratuito e com código livre, voltado para comunidade acadêmica."
+`r RefManageR::Cite(referencias, "lingR")`
+
 Ao executar, o software R abre o console com informações e avisos, seguidos pelo prompt de comando (<font color="#F2A025"> > </font>).
 ]
 
@@ -272,6 +276,23 @@ x [1] = 20
 x
 ```
 ---
+## R Studio
+
+O [R Studio ](https://posit.co/) "é um software livre de ambiente de desenvolvimento integrado para R, uma linguagem de programação para gráficos e cálculos estatísticos."  `r RefManageR::Cite(referencias, "RStudio")`
+
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
 # Referências
 
 ```{r refs, echo=FALSE, results="asis"}

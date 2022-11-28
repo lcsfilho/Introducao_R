@@ -1,8 +1,13 @@
-# install.packages("RefManageR")
-# install.packages("bibtex")
-
 exemplo:
 Segundo o `r RefManageR::TextCite(referencias, "rstudio")`...
+O pacote usethis é muito legal `r RefManageR::Cite(referencias, "rstudio")`...
+
+---
+# References
+
+```{r refs, echo=FALSE, results="asis"}
+RefManageR::PrintBibliography(referencias)
+```
 
 @manual{andreluis,
 	address = {Boston, MA},
@@ -12,4 +17,21 @@ Segundo o `r RefManageR::TextCite(referencias, "rstudio")`...
 	year = {2016},
 
 }
+
+@manual{lingR,
+  title = {Linguagem R: R-Gui e R-Commander},
+  author = {INE/UFSC},
+  organization = {Universidade Federal de Santana Catarina - UFSC},
+  year = {2013},
+  
+}
+
+@misc{RStudio,
+   author = "Wikipédia",
+   title = "RStudio",
+   year = "2017",
+   url = "https://pt.wikipedia.org/wiki/RStudio",
+   note = "[Online; acesso em  28-Novembro-2022]"
+ }
+
 
