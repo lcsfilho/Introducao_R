@@ -264,6 +264,13 @@ Acessando o 6º elemento do vetor:
 ```{r}
 x [6]
 ```
+
+Alterando dados:
+
+```{r}
+x [1] = 20
+x
+```
 ---
 # Referências
 
