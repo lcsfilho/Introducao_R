@@ -103,6 +103,8 @@ font-family: var(--header-font-family), var(--header-font-family-fallback);
   left: 65%;
 }
 
+
+
 h1, h2, h3 {
     display: block;
     margin-block-start: 0em;

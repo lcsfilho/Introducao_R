@@ -7,13 +7,14 @@ author:
 date: '`r Sys.Date()`'
 output:
   xaringan::moon_reader:
+    lib_dir: libs
     seal: false
     css: Curso_R.css
     fig_caption: true
     number_sections: true
     nature:
       slideNumberFormat: "%current%"
-      highlightStyle: true
+      highlightStyle: github
       highlightLines: true
       ratio: 16:9
       countIncrementalSlides: true
@@ -100,9 +101,10 @@ writeLines(doc, file_name)
 
 
 -  Índice
--  O que é o R?
+-  O que é o `R`?
 -  Definições
 -  Iniciação
+-  Dados no `R`
 -  Referências
 
 
@@ -161,24 +163,27 @@ layout: true
 [Livros R gratuitos para download](https://producaoanimalcomr.wordpress.com/2015/12/15/livros-r-gratuitos-para-downloads/)
 
 
-
 </div>
 </div>
 ---
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/R_logo.png?raw=true)
+background-size: 45px
+background-position: 50% 16%
 
-# O que é o R?
+# O que é o `R`?
+
 
 - R é uma linguagem e um ambiente de desenvolvimento integrado, para cálculos estatísticos e gráficos.
 
 - Foi criada originalmente por [_Ross Ihaka_](https://pt.wikipedia.org/w/index.php?title=Ross_Ihaka&action=edit&redlink=1) e por [_Robert Gentleman_](https://pt.wikipedia.org/w/index.php?title=Robert_Gentleman&action=edit&redlink=1) no departamento de Estatística da universidade de Auckland, Nova Zelândia, e foi desenvolvido por um esforço colaborativo de pessoas em vários locais do mundo.
 
-- O nome R provêm em parte das iniciais dos criadores e também de um jogo figurado com a linguagem S (da Bell Laboratories, antiga AT&T).
+- O nome R provêm em parte das iniciais dos criadores e também de um jogo figurado com a linguagem `S` (da Bell Laboratories, antiga AT&T).
 
 - R é uma linguagem e ambiente similar ao [S](https://pt.wikipedia.org/wiki/S_(linguagem_de_programa%C3%A7%C3%A3o) - pode ser considerado uma implementação distinta do S; embora com importantes diferenças, muitos códigos escritos para o S rodam inalterados no R. A implementação comercial de S é [S-PLUS](https://www.splus.iag.usp.br/).
 
-- O código fonte do R está disponível sob a licença [GNU](https://www.gnu.org/) [GPL](https://pt.wikipedia.org/wiki/GNU_General_Public_License) e as versões binárias pré-compiladas são fornecidas para Windows, Macintosh, e muitos sistemas operacionais Unix/Linux.
+- O código fonte do `R` está disponível sob a licença [GNU](https://www.gnu.org/) [GPL](https://pt.wikipedia.org/wiki/GNU_General_Public_License) e as versões binárias pré-compiladas são fornecidas para Windows, Macintosh, e muitos sistemas operacionais Unix/Linux.
 
-- R é também altamente expansível com o uso dos pacotes, que são bibliotecas para funções específicas ou áreas de estudo específicas.
+- `R` é também altamente expansível com o uso dos pacotes, que são bibliotecas para funções específicas ou áreas de estudo específicas.
 
 [Blog Software Livre na Educação](https://www.ufrgs.br/soft-livre-edu/software-educacional-livre-na-wikipedia/r-linguagem-de-programacao/)
 
@@ -205,7 +210,7 @@ layout: true
 ---
 # Definições
 
-* Objeto: R é uma linguagem orientada a objetos e tudo em R é um objeto. Trata-se de uma referência a um local da memória que possui um valor.
+* Objeto: `R` é uma linguagem orientada a objetos e tudo em R é um objeto. Trata-se de uma referência a um local da memória que possui um valor.
 Por exemplo, um único número é um objeto, uma variável é um objeto, a saída é um objeto, um conjunto de dados é um objeto que é, por si próprio, uma coleção de objetos, etc.
 
 * Vetor: Uma coleção de um ou mais objetos do mesmo tipo. Por exemplo, todos os números ou todos os caracteres.
@@ -227,15 +232,15 @@ comuns incluem +, −, ∗, /, ˆ, e os operadores lógicos
 <img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/TelaR.PNG?raw=true" style="right: 3%; top: 35%; position: absolute"width="45%">
 
 
-1. Acesse o endereço https://www.r-project.org e baixe o R por uma das URLs disponíveis (CRAN<sup>1</sup> Mirrors)
-1. Instale o software R (R-Gui)
-1. Execute o software R (R-Gui)
+1. Acesse o endereço https://www.r-project.org e baixe o `R` por uma das URLs disponíveis (CRAN<sup>1</sup> Mirrors)
+1. Instale o software `R` (`R-Gui`)
+1. Execute o software `R` (`R-Gui`)
 
 .pull-left[
-"O sistema é formado por um programa básico (R-Gui) e muitos pacotes com procedimento adicionais. Tudo é gratuito e com código livre, voltado para comunidade acadêmica."
+"O sistema é formado por um programa básico (`R-Gui`) e muitos pacotes com procedimento adicionais. Tudo é gratuito e com código livre, voltado para comunidade acadêmica."
 `r RefManageR::Cite(referencias, "lingR")`
 
-Ao executar, o software R abre o console com informações e avisos, seguidos pelo prompt de comando (<font color="#F2A025"> > </font>).
+Ao executar, o software `R` abre o console com informações e avisos, seguidos pelo prompt de comando (<font color="#F2A025"> > </font>).
 ]
 
 .footnote[
@@ -276,26 +281,185 @@ x [1] = 20
 x
 ```
 ---
+Há outra forma de criar vetores, utilizando a função `c()`.
+Vamos gerar uma sequência numérica de 0 a 10.
+
+```{r}
+
+x = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+x
+```
+
+Também podemos criar vetor de caracteres:
+
+```{r}
+y = c("A", "B", "C", "D", "E")
+y
+```
+
+Criando uma matriz:
+```{r}
+matriz <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+matriz
+```
+---
+Para criar uma lista:
+
+
+```{r}
+list(2, 5, "A", TRUE, FALSE)
+
+```
+
+Também podemos trabalhar com `data frames`, que são objetos semelhantes a uma matriz, mas as suas colunas têm nomes e podem conter tipos de dados diferentes.
+
+---
+## Gráficos
+
+Para criar um gráfico, precisamos dos dados. Na seção anterior, criamos uma sequência numérica atribuída à variável `x`. Agora, criaremos a varável `y` para fazer par com a `x`.
+
+```{r fig.height=5, fig.align='center', collapse = TRUE}
+y = 5 + 2*x^2
+plot(x,y)
+```
+
+---
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/matematica.gif?raw=true)
+background-size: 35%
+background-position: 85% 80%
+
+## Estatísticas
+
+.pull-left[
+Funções isoladas:
+```{r collapse = TRUE}
+mean(x)      #Média
+median(x)    #Mediana
+quantile(x)  #Quartis
+var(x)       #Variância
+sd(x)        #Desvio Padrão
+min(x)       #Mínimo
+max(x)       #Máximo
+range(x)     #Amplitude
+sum(x)       #Somatório
+
+```
+]
+
+.pull-right[
+Função summary()
+```{r collapse = TRUE}
+summary(x)
+```
+]
+
+---
+## Pacotes (Bibliotecas)
+
+- Um `pacote` é uma coleção de funções, dados e documetações, que ampliam as funcionalidades básicas do `R`.
+
+- A instalação básica do `R` já contém vários pacotes.
+
+- Há milhares de pacotes gratúitos para instalação, que não fazem parte da instalção básica do `R`.
+
+
+Pacotes podem ser instalados e carregados pelas funções `install.packages()` e `library()`, respectivamente.
+
+Exemplo: Vamos instalar e carregar um pacote de gráficos chamado `ggplot`.
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+library(ggplot2)
+```
+
+Repare que o nome do pacote deve estar escrito entre aspas para a instalação, mas, para carregar, as aspas devem ser dispensadas.
+
+Ao instalar um pacote, este deve ser carregado (`library()`) toda vez que o `R` for iniciado.
+
+---
+
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/RStudio.jpg?raw=true)
+background-size: 150px
+background-position: 50% 16%
+
 ## R Studio
 
-O [R Studio ](https://posit.co/) "é um software livre de ambiente de desenvolvimento integrado para R, uma linguagem de programação para gráficos e cálculos estatísticos."  `r RefManageR::Cite(referencias, "RStudio")`
+O [R Studio ](https://posit.co/) "é um software livre de ambiente de desenvolvimento integrado para `R`, uma linguagem de programação para gráficos e cálculos estatísticos."  `r RefManageR::Cite(referencias, "RStudio")`. É uma interface para uso do `R` e deve ser instalado após a instalação do `R`. Sua instalação se dá pelo endereço https://posit.co/.
+
+<div style="float:left"><br><br><br><br><br>Scripts<br>
+Funções<br>
+<br><br><br><br>
+Objetos<br>
+Valores<br>
+Funções ativas
+</div>
+
+
+<div style="float:right">Console<br>
+Terminal<br><br><br>
+  Background Jobs<br><br><br>
+Files<br>
+Plot<br>
+Packages<br><br><br>
+Help<br>
+Viewer</div>
+
+<img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/seta-imagem-animada-0032.gif?raw=true" style="left: 15%; top: 60%; position: absolute"width="5%">
+
+
+<img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/seta-imagem-animada-0032.gif?raw=true" style="left: 15%; top: 85%; position: absolute"width="5%">
+
+
+<img src="https://github.com/lcsfilho/Introducao_R/blob/faa0293cb8164941fa87551756cf3ea421c867ef/Curso%20R/fig/telaRStudio.PNG?raw=true" style="left: 20%; top: 38%; position: absolute"width="60%">
+
+<img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/seta-imagem-animada-0044.gif?raw=true" style="left: 80%; top: 50%; width=5%; position: absolute">
+
+
+<img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/seta-imagem-animada-0044.gif?raw=true" style="left: 80%; top: 80%; width=5%; position: absolute">
+
+---
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/giphy.gif?raw=true)
+background-size: 35%
+background-position: 90% 50%
+
+## Vantagens do RStudio
+
+
+- Highlight do código;
+
+- Autocomplete;
+
+- Match automático de parenteses e chaves;
+
+- Interface intuitiva para objetos, gráficos e script;
+
+- Criação de “projetos” com interface para controle de versão;
+
+- Facilidade na criação de pacotes;
+
+- Interação com HTML, entre outras.
+
+
+[Análise Real - Economia: Teoria, Prática e Política](https://analisereal.com/2015/01/20/r-e-rstudio-2/)
+
+---
+# Dados no `R`
+
+Vamos criar um conjunto de dados aleatório de 8 pessoas, com 4 variáveis: peso, altura, idade e renda. Perceba que a renda de uma pessoa não foi medida
+
+
+```{r collapse = TRUE}
+peso = c(55, 70, 76, 80, 62, 51, 68, 74)
+idade = c(27, 40, 36, 60, 42, 24, 35, 39)
+altura = c(1.60, 1.72, 1.65, 1.75, 1.55, 1.63, 1.72, 1.58)
+renda = c(2000, 5000, 4000, 3000, 1500, NA, 7000, 4500)
+```
+
 
 
 ---
-
----
-
----
-
----
-
----
-
----
-
 # Referências
 
 ```{r refs, echo=FALSE, results="asis"}
 RefManageR::PrintBibliography(referencias)
 ```
-
