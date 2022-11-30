@@ -105,6 +105,7 @@ writeLines(doc, file_name)
 -  Definições
 -  Iniciação
 -  Dados no `R`
+-  Importando dados no R
 -  Referências
 
 
@@ -263,20 +264,20 @@ O símbolo <font color="#F2A025"> # </font> é usado para comentário no R.
 
 Criando uma sequência de números de 0 a 20:
 
-```{r}
+```{r collapse = TRUE}
 x = 0 : 20
 x
 ```
 
 Acessando o 6º elemento do vetor:
 
-```{r}
+```{r collapse = TRUE}
 x [6]
 ```
 
 Alterando dados:
 
-```{r}
+```{r collapse = TRUE}
 x [1] = 20
 x
 ```
@@ -284,7 +285,7 @@ x
 Há outra forma de criar vetores, utilizando a função `c()`.
 Vamos gerar uma sequência numérica de 0 a 10.
 
-```{r}
+```{r collapse = TRUE}
 
 x = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 x
@@ -292,13 +293,13 @@ x
 
 Também podemos criar vetor de caracteres:
 
-```{r}
+```{r collapse = TRUE}
 y = c("A", "B", "C", "D", "E")
 y
 ```
 
 Criando uma matriz:
-```{r}
+```{r collapse = TRUE}
 matriz <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
 matriz
 ```
@@ -306,7 +307,7 @@ matriz
 Para criar uma lista:
 
 
-```{r}
+```{r collapse = TRUE}
 list(2, 5, "A", TRUE, FALSE)
 
 ```
@@ -316,7 +317,7 @@ Também podemos trabalhar com `data frames`, que são objetos semelhantes a uma 
 ---
 ## Gráficos
 
-Para criar um gráfico, precisamos dos dados. Na seção anterior, criamos uma sequência numérica atribuída à variável `x`. Agora, criaremos a varável `y` para fazer par com a `x`.
+Para criar um gráfico, precisamos dos dados. Na seção anterior, criamos uma sequência numérica atribuída à variável `x`. Agora, criaremos a varável `y` para fazer par com a variável `x`.
 
 ```{r fig.height=5, fig.align='center', collapse = TRUE}
 y = 5 + 2*x^2
@@ -433,7 +434,7 @@ background-position: 90% 50%
 
 - Interface intuitiva para objetos, gráficos e script;
 
-- Criação de “projetos” com interface para controle de versão;
+- Criação de "projetos" com interface para controle de versão;
 
 - Facilidade na criação de pacotes;
 
@@ -443,19 +444,145 @@ background-position: 90% 50%
 [Análise Real - Economia: Teoria, Prática e Política](https://analisereal.com/2015/01/20/r-e-rstudio-2/)
 
 ---
+
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/TabelaDados.PNG?raw=true)
+background-size: 25%
+background-position: 50% 55%
+
 # Dados no `R`
 
-Vamos criar um conjunto de dados aleatório de 8 pessoas, com 4 variáveis: peso, altura, idade e renda. Perceba que a renda de uma pessoa não foi medida
+Vamos criar um conjunto de dados aleatório de 8 pessoas, com 4 variáveis: peso, altura, idade e renda. Perceba que a renda de uma pessoa não foi medida (dado _missing_).
 
+<br><br><br><br><br><br><br><br>
 
 ```{r collapse = TRUE}
+#Criando os vetores de variáveis pela função c()
 peso = c(55, 70, 76, 80, 62, 51, 68, 74)
 idade = c(27, 40, 36, 60, 42, 24, 35, 39)
 altura = c(1.60, 1.72, 1.65, 1.75, 1.55, 1.63, 1.72, 1.58)
 renda = c(2000, 5000, 4000, 3000, 1500, NA, 7000, 4500)
 ```
 
+---
+## Dados no `R`
 
+A depender da função a presença do `NA` pode causar problemas
+
+```{r collapse = TRUE}
+sum(renda)
+```
+
+```{r collapse = TRUE}
+mean(renda)
+```
+
+```{r collapse = TRUE}
+min(renda)
+```
+
+
+```{r collapse = TRUE}
+summary(renda)
+```
+---
+## Dados no `R`
+
+Usamos a função `c()` (concatenar) para agrupar os dados, criando vetores separados. Agora, usaremos as funções `cbind` (<u>c</u>olumn) e `rbind` (<u>r</u>ow) para concatenar os vetores em linhas e colunas.
+
+Podemos agrupar as 4 variáveis em colunas, da seguinte forma:
+
+```{r collapse = TRUE}
+dados_pessoas = cbind(peso, idade, altura, renda)
+dados_pessoas
+```
+
+---
+## Dados no `R`
+
+Podemos recuperar dados de colunas, linhas, dados individuais ou um conjunto de dados selecionados.
+
+Acessando dados da 1ª coluna:
+
+.pull-left[
+```{r collapse = TRUE}
+dados_pessoas[,1]
+```
+
+Acessando dados da 3ª linha:
+```{r collapse = TRUE}
+dados_pessoas[3,]
+```
+
+Acessando dado da 2ª linha e 3ª coluna:
+```{r collapse = TRUE}
+dados_pessoas[2,3]
+```
+]
+
+.pull-right[
+Acessando dados das linhas 2 a 4, na coluna 1:
+```{r collapse = TRUE}
+dados_pessoas[2:4,1]
+```
+
+Acessando todos os dados das linhas 1, 2 e 4:
+```{r collapse = TRUE}
+dados_pessoas[c(1, 2, 4),]
+```
+]
+---
+## Dados no `R`
+Função `matrix()`
+.pull-left[
+Criando matriz de dimensão 8 x 4:
+
+```{r}
+dados_pessoas.M = matrix(nrow = 8, ncol = 4)
+dados_pessoas.M
+```
+]
+
+
+.pull-right[
+Vamos alimentar a matriz com os dados das pessoas
+
+```{r}
+dados_pessoas.M[,1] = c(55, 70, 76, 80, 62, 51, 68, 74)
+dados_pessoas.M[,2] = c(27, 40, 36, 60, 42, 24, 35, 39)
+dados_pessoas.M[,3] = c(1.60, 1.72, 1.65, 1.75, 1.55, 1.63, 1.72, 1.58)
+dados_pessoas.M[,4] = c(2000, 5000, 4000, 3000, 1500, NA, 7000, 4500)
+dados_pessoas.M
+```
+
+]
+---
+## Dados no `R`
+Função `data.frame()`
+O _Data Frame_ é uma estrutura semelhante à uma matriz, mas com cada coluna sendo tratada separadamente. Em um _Data Frame_, todos osa dados dentro da mesma coluna serão forçados a serem do mesmo tipo. Podemos ver o _Data Frame_ como uma "tabela" formada por um conjunto de dados, podendo ser de tipos diferentes entre as colunas, sendo que esses tipos podem ser variáveis numéricas, _strings_, nominais (fatores), datas etc.
+
+```{r collapse = TRUE}
+dados_pessoas.DF = data.frame(peso, idade, altura, renda)
+dados_pessoas.DF
+```
+---
+class: center
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/Exercitar1.gif?raw=true)
+background-size: 30%
+background-position: 50% 70%
+
+<font color="#256BC1", size="7", face="sans-serif"> <b>Bora trabalhar!</b> </font>
+
+---
+# Importando dados no R
+.pull-left[
+Com o `R`, podemos importar dados de diversos formatos (_xls_, _xlsx_, _CSV_, _txt_, _SAS_, _SPSS_ etc). Devemos seguir os seguintes passos:
+1. Saber o caminho do arquivo
+1. Usar a função `setwd()` para alterar o diretório de trabalho
+1. Instalar o  _tydeverse_, que é um pacote guarda-chuva (conjunto de pacotes) que auxilia no ciclo da ciência de dados (importar, arrumar, transformar, vizualizar e modelar)
+
+Use
+
+]
 
 ---
 # Referências
