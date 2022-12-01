@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Yihui Xie" />
     <meta name="author" content="Garrick Aden-Buie" />
-    <meta name="date" content="2022-11-30" />
+    <meta name="date" content="2022-12-01" />
     <script src="libs/header-attrs-2.18/header-attrs.js"></script>
     <link rel="stylesheet" href="Curso_R.css" type="text/css" />
   </head>
@@ -335,8 +335,6 @@ min(x)       #Mínimo
 ## [1] 0
 max(x)       #Máximo
 ## [1] 10
-range(x)     #Amplitude
-## [1]  0 10
 sum(x)       #Somatório
 ## [1] 55
 ```
@@ -375,6 +373,18 @@ library(ggplot2)
 Repare que o nome do pacote deve estar escrito entre aspas para a instalação, mas, para carregar, as aspas devem ser dispensadas.
 
 Ao instalar um pacote, este deve ser carregado (`library()`) toda vez que o `R` for iniciado.
+
+---
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/Help.PNG?raw=true)
+background-size: 41%
+background-position: 50% 88%
+
+## Help
+
+Para obter ajuda sobre qualquer função, basta escrever no `console` o nome da função (ou do pacote) precedido de uma interrogação: `?ggplot`. A outra opção é `help(ggplot)`.
+
+Também podemos acessar a área de Help do `R Studio` e escrever o nome da função no campo indicado na figura
+
 
 ---
 
@@ -441,6 +451,18 @@ background-position: 90% 50%
 
 
 [Análise Real - Economia: Teoria, Prática e Política](https://analisereal.com/2015/01/20/r-e-rstudio-2/)
+
+---
+
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/RCloud.PNG?raw=true)
+background-size: 71%
+background-position: 50% 92%
+
+## R Studio Cloud
+
+&lt;img src="https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/positCloud.svg?raw=true" style="left: 23%; top: 16%; position: absolute"width="20%"&gt;
+
+Pode ser acessado a partir de qualquer computador ligado à internet; pode ser acessado pelo celular; todos os pacotes já estão instalados; possibilidade de compartilhar projetos; opção de usar gratuitamente, porém com limitações de memória e tempo de uso por mês.
 
 ---
 
@@ -648,10 +670,44 @@ background-position: 50% 70%
 Com o `R`, podemos importar dados de diversos formatos (_xls_, _xlsx_, _CSV_, _txt_, _SAS_, _SPSS_ etc). Devemos seguir os seguintes passos:
 1. Saber o caminho do arquivo
 1. Usar a função `setwd()` para alterar o diretório de trabalho
-1. Instalar o  _tydeverse_, que é um pacote guarda-chuva (conjunto de pacotes) que auxilia no ciclo da ciência de dados (importar, arrumar, transformar, vizualizar e modelar)
+1. Instalar o  _tydeverse_, que é um pacote guarda-chuva (conjunto de pacotes) que auxilia no ciclo da ciência de dados (importar, arrumar, transformar, visualizar e modelar)
 
-Use
+A sua pasta de trabalho pode ser encontrada com o comando:
 
+
+```r
+getwd()
+## [1] "F:/Curso de R/Introducao_R/Curso R"
+```
+
+]
+
+.pull-right[
+
+Para definir a pasta de trabalho, por exemplo, use:
+
+
+
+
+```r
+setwd("C:/Documentos/Curso R")
+```
+Atenção: Atente para as barras invertidas ("/") no endereço do arquivo. Ao copiar e colar o endereço, as barras vêem inclinadas para esquerda ("C:\Documentos\Curso R").
+
+
+Para instalar o `tidyverse`:
+
+
+```r
+install.packages("tidyverse")
+```
+
+Carregue o `tideverse`
+
+
+```r
+library(tidyverse)
+```
 ]
 
 ---
