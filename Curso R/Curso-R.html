@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Yihui Xie" />
     <meta name="author" content="Garrick Aden-Buie" />
-    <meta name="date" content="2022-12-01" />
+    <meta name="date" content="2022-12-06" />
     <script src="libs/header-attrs-2.18/header-attrs.js"></script>
     <link rel="stylesheet" href="Curso_R.css" type="text/css" />
   </head>
@@ -640,6 +640,7 @@ dados_pessoas.M
 ---
 ## Dados no `R`
 Função `data.frame()`
+
 O _Data Frame_ é uma estrutura semelhante à uma matriz, mas com cada coluna sendo tratada separadamente. Em um _Data Frame_, todos osa dados dentro da mesma coluna serão forçados a serem do mesmo tipo. Podemos ver o _Data Frame_ como uma "tabela" formada por um conjunto de dados, podendo ser de tipos diferentes entre as colunas, sendo que esses tipos podem ser variáveis numéricas, _strings_, nominais (fatores), datas etc.
 
 
@@ -711,7 +712,757 @@ library(tidyverse)
 ]
 
 ---
+## Importando dados no R
+
+
+O `Tidyverse` agrega um conjunto de 30 pacotes. São eles:
+
+
+```r
+tidyverse::tidyverse_packages()
+##  [1] "broom"         "cli"           "crayon"        "dbplyr"       
+##  [5] "dplyr"         "dtplyr"        "forcats"       "ggplot2"      
+##  [9] "googledrive"   "googlesheets4" "haven"         "hms"          
+## [13] "httr"          "jsonlite"      "lubridate"     "magrittr"     
+## [17] "modelr"        "pillar"        "purrr"         "readr"        
+## [21] "readxl"        "reprex"        "rlang"         "rstudioapi"   
+## [25] "rvest"         "stringr"       "tibble"        "tidyr"        
+## [29] "xml2"          "tidyverse"
+```
+
+O pacote `readr` importa arquivos de texto, como `.txt` ou `.csv`.
+
+Já o pacote `readxl` é utilizado para ler planilhas do Excel, basta utilizar a função `read_excel()`.
+
+O pacote `haven` é usado para ler arquivos gerados por outros sotwares, como  `SPSS`, `SAS` e `STATA`.
+
+&lt;a name=cite-CursoR&gt;&lt;/a&gt;[curso-r (2022)](https://livro.curso-r.com)
+
+---
+## Importando dados no R
+
+Mas antes do `tideyverse`, vamos falar um pouco de alguns pacotes de leitura de dados já presentes na instalação básica do `R`. Um desses pacotes é o  `utils`, que possui recursos para leitura de diversos arquivos, inclusive aqueles que estão na internet.
+
+Algumas de suas funções são: `read.table` e `read.csv`.
+
+Por padrão, o `R` considera que os dados estão separados por tabulação e o separador de decimais é o ponto.
+
+Se os dados estiverem separados por ":" e o separador decimal for ",", os argumentos `sep` e `dec` da função serão:
+
+
+```r
+read.table("dados.csv", head=TRUE, sep=":", dec=",")
+```
+ou
+
+```r
+read.csv("dados.csv", head=TRUE, sep=":", dec=",")
+```
+
+Ou podemo ler diretamente na internet
+
+```r
+read.table("https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/escolas.txt",
+           sep="|", dec=",")
+```
+---
+## Importando dados no R
+
+O pacote `foreign`, também presente na distribuição base do `R`, possui diversas funções de importação. Para isso, basta carregar o pacote:
+
+
+
+```r
+library(foreign)
+```
+
+Algumas funções para importação de dados no `R`:
+
+.left-column[
+- read.dbf()
+
+- read.epiinfo()
+
+- read.mtp()
+
+- read.S()
+
+- read.spss()
+
+- read.dta()
+
+- read.xport()
+]
+
+
+.right-column[
+
+para arquivos DBASE
+
+para arquivos do Epi Info
+
+para arquivos do Minitab
+
+para arquivos do S-Plus
+
+para dados do SPSS
+
+para dados do Stata
+
+para dados do SAS
+
+]
+
+---
+## Importando dados no R
+Se o arquivo `.sav` está na sua pasta de trabalho:
+
+
+```r
+read.spss("escolas.sav")
+```
+
+Caso contrário, localize o arquivo com a função:
+
+
+```r
+file.chose()
+```
+
+O `R` retorna o caminho para o arquivo, por exemplo:
+
+
+```r
+"F:\\Curso de R\\Introducao_R\\Curso R\\bd\\escolas.sav"
+```
+
+Então, use (com `to.data.frame = TRUE` para retornar um `data frame`)
+
+
+```r
+dados.escola = read.spss("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\escolas.sav", to.data.frame = TRUE)
+```
+
+Assim, criamos uma variável chamada `dados.escola`, que recebe o banco de banco de dados `escola.sav`
+
+---
+## Importando dados no R
+
+Para inspecionar a estrutura do conjunto de dados, use:
+
+```r
+str(dados.escola)
+```
+
+```
+## 'data.frame':	62 obs. of  166 variables:
+##  $ NU_ANO_CENSO                 : num  2015 2015 2015 2015 2015 ...
+##  $ CO_ENTIDADE                  : num  12133221 12132225 12131229 12130222 12129224 ...
+##  $ NO_ENTIDADE                  : chr  "ESC ESTELA PEREIRA DOS SANTOS               " "ESC QUINTAIS FLORESTAIS                     " "ESC INDIGENA SHANENAWA                      " "ESC INDIGENA PEKURUNI SHANENAWA             " ...
+##  $ CO_ORGAO_REGIONAL            : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ TP_SITUACAO_FUNCIONAMENTO    : num  1 4 1 1 1 1 4 2 2 2 ...
+##  $ DT_ANO_LETIVO_INICIO         : chr  "23/03/2015" "          " "02/04/2015" "02/04/2015" ...
+##  $ DT_ANO_LETIVO_TERMINO        : chr  "18/12/2015" "          " "31/12/2015" "31/12/2015" ...
+##  $ CO_REGIAO                    : num  1 1 1 1 1 1 1 1 1 1 ...
+##  $ CO_MESORREGIAO               : num  1202 1202 1201 1201 1202 ...
+##  $ CO_MICRORREGIAO              : num  12005 12005 12002 12002 12003 ...
+##  $ CO_UF                        : num  12 12 12 12 12 12 12 12 12 12 ...
+##  $ CO_MUNICIPIO                 : num  1200252 1200252 1200302 1200302 1200344 ...
+##  $ CO_DISTRITO                  : num  1.2e+08 1.2e+08 1.2e+08 1.2e+08 1.2e+08 ...
+##  $ TP_DEPENDENCIA               : num  3 3 2 2 3 2 2 3 2 2 ...
+##  $ TP_LOCALIZACAO               : num  2 2 2 2 1 2 2 2 2 2 ...
+##  $ TP_CATEGORIA_ESCOLA_PRIVADA  : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ IN_CONVENIADA_PP             : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ TP_CONVENIO_PODER_PUBLICO    : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ IN_MANT_ESCOLA_PRIVADA_EMP   : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ IN_MANT_ESCOLA_PRIVADA_ONG   : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ IN_MANT_ESCOLA_PRIVADA_SIND  : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ IN_MANT_ESCOLA_PRIVADA_SIST_S: num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ IN_MANT_ESCOLA_PRIVADA_S_FINS: num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ CO_ESCOLA_SEDE_VINCULADA     : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ CO_IES_OFERTANTE             : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ TP_REGULAMENTACAO            : num  2 NA 2 2 2 2 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_PREDIO_ESCOLAR : num  1 NA 1 1 1 1 NA NA NA NA ...
+##  $ TP_OCUPACAO_PREDIO_ESCOLAR   : num  1 NA 1 1 1 1 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_SALAS_EMPRESA  : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_SOCIOEDUCATIVO : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_UNID_PRISIONAL : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_PRISIONAL_SOCIO: num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_TEMPLO_IGREJA  : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_CASA_PROFESSOR : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_GALPAO         : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ TP_OCUPACAO_GALPAO           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_SALAS_OUTRA_ESC: num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LOCAL_FUNC_OUTROS         : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_PREDIO_COMPARTILHADO      : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_AGUA_FILTRADA             : num  1 NA 1 1 1 1 NA NA NA NA ...
+##  $ IN_AGUA_REDE_PUBLICA         : num  0 NA 0 0 1 0 NA NA NA NA ...
+##  $ IN_AGUA_POCO_ARTESIANO       : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_AGUA_CACIMBA              : num  0 NA 1 0 0 1 NA NA NA NA ...
+##  $ IN_AGUA_FONTE_RIO            : num  0 NA 0 1 0 0 NA NA NA NA ...
+##  $ IN_AGUA_INEXISTENTE          : num  1 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_ENERGIA_REDE_PUBLICA      : num  1 NA 1 0 1 1 NA NA NA NA ...
+##  $ IN_ENERGIA_GERADOR           : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_ENERGIA_OUTROS            : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_ENERGIA_INEXISTENTE       : num  0 NA 0 1 0 0 NA NA NA NA ...
+##  $ IN_ESGOTO_REDE_PUBLICA       : num  0 NA 0 0 1 0 NA NA NA NA ...
+##  $ IN_ESGOTO_FOSSA              : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_ESGOTO_INEXISTENTE        : num  1 NA 1 1 0 0 NA NA NA NA ...
+##  $ IN_LIXO_COLETA_PERIODICA     : num  1 NA 0 0 1 1 NA NA NA NA ...
+##  $ IN_LIXO_QUEIMA               : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_LIXO_JOGA_OUTRA_AREA      : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LIXO_RECICLA              : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LIXO_ENTERRA              : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LIXO_OUTROS               : num  0 NA 1 1 0 0 NA NA NA NA ...
+##  $ IN_SALA_DIRETORIA            : num  0 NA 0 0 1 1 NA NA NA NA ...
+##  $ IN_SALA_PROFESSOR            : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_LABORATORIO_INFORMATICA   : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_LABORATORIO_CIENCIAS      : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_SALA_ATENDIMENTO_ESPECIAL : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_QUADRA_ESPORTES_COBERTA   : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_QUADRA_ESPORTES_DESCOBERTA: num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_QUADRA_ESPORTES           : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_COZINHA                   : num  1 NA 1 1 1 1 NA NA NA NA ...
+##  $ IN_BIBLIOTECA                : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_SALA_LEITURA              : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_BIBLIOTECA_SALA_LEITURA   : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_PARQUE_INFANTIL           : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_BERCARIO                  : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_BANHEIRO_FORA_PREDIO      : num  1 NA 1 1 0 1 NA NA NA NA ...
+##  $ IN_BANHEIRO_DENTRO_PREDIO    : num  0 NA 0 0 1 0 NA NA NA NA ...
+##  $ IN_BANHEIRO_EI               : num  0 NA 0 0 1 0 NA NA NA NA ...
+##  $ IN_BANHEIRO_PNE              : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_DEPENDENCIAS_PNE          : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_SECRETARIA                : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_BANHEIRO_CHUVEIRO         : num  0 NA 0 0 1 1 NA NA NA NA ...
+##  $ IN_REFEITORIO                : num  0 NA 0 0 1 1 NA NA NA NA ...
+##  $ IN_DESPENSA                  : num  0 NA 0 0 1 1 NA NA NA NA ...
+##  $ IN_ALMOXARIFADO              : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_AUDITORIO                 : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_PATIO_COBERTO             : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_PATIO_DESCOBERTO          : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_ALOJAM_ALUNO              : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_ALOJAM_PROFESSOR          : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_AREA_VERDE                : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_LAVANDERIA                : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_DEPENDENCIAS_OUTRAS       : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ NU_SALAS_EXISTENTES          : num  2 NA 3 1 2 1 NA NA NA NA ...
+##  $ NU_SALAS_UTILIZADAS          : num  2 NA 3 1 3 1 NA NA NA NA ...
+##  $ IN_EQUIP_TV                  : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_EQUIP_VIDEOCASSETE        : num  0 NA 0 0 0 0 NA NA NA NA ...
+##  $ IN_EQUIP_DVD                 : num  0 NA 0 0 1 1 NA NA NA NA ...
+##  $ IN_EQUIP_PARABOLICA          : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_EQUIP_COPIADORA           : num  0 NA 0 0 1 0 NA NA NA NA ...
+##  $ IN_EQUIP_RETROPROJETOR       : num  0 NA 0 0 0 1 NA NA NA NA ...
+##  $ IN_EQUIP_IMPRESSORA          : num  0 NA 0 0 1 1 NA NA NA NA ...
+##   [list output truncated]
+##  - attr(*, "codepage")= int 65001
+```
+---
+## Importando dados no R
+
+Para visualizar todo o conjunto de dados, use:
+
+
+```r
+View(dados.escola)
+```
+
+Para visualizar as 6 primeiras linhas do conjunto de dados, use:
+
+```r
+head(dados.escola)
+```
+
+```
+##   NU_ANO_CENSO CO_ENTIDADE                                  NO_ENTIDADE
+## 1         2015    12133221 ESC ESTELA PEREIRA DOS SANTOS               
+## 2         2015    12132225 ESC QUINTAIS FLORESTAIS                     
+## 3         2015    12131229 ESC INDIGENA SHANENAWA                      
+## 4         2015    12130222 ESC INDIGENA PEKURUNI SHANENAWA             
+## 5         2015    12129224 ESC CRECHE IEDA ARAUJO                      
+## 6         2015    12128236 ESC FAMILIA AGRICOLA JEAN PIERRE MINGAN     
+##   CO_ORGAO_REGIONAL TP_SITUACAO_FUNCIONAMENTO DT_ANO_LETIVO_INICIO
+## 1                NA                         1           23/03/2015
+## 2                NA                         4                     
+## 3                NA                         1           02/04/2015
+## 4                NA                         1           02/04/2015
+## 5                NA                         1           31/03/2015
+## 6                NA                         1           18/05/2015
+##   DT_ANO_LETIVO_TERMINO CO_REGIAO CO_MESORREGIAO CO_MICRORREGIAO CO_UF
+## 1            18/12/2015         1           1202           12005    12
+## 2                               1           1202           12005    12
+## 3            31/12/2015         1           1201           12002    12
+## 4            31/12/2015         1           1201           12002    12
+## 5            29/01/2016         1           1202           12003    12
+## 6            31/12/2015         1           1202           12004    12
+##   CO_MUNICIPIO CO_DISTRITO TP_DEPENDENCIA TP_LOCALIZACAO
+## 1      1200252   120025205              3              2
+## 2      1200252   120025205              3              2
+## 3      1200302   120030205              2              2
+## 4      1200302   120030205              2              2
+## 5      1200344   120034405              3              1
+## 6      1200013   120001305              2              2
+##   TP_CATEGORIA_ESCOLA_PRIVADA IN_CONVENIADA_PP TP_CONVENIO_PODER_PUBLICO
+## 1                          NA               NA                        NA
+## 2                          NA               NA                        NA
+## 3                          NA               NA                        NA
+## 4                          NA               NA                        NA
+## 5                          NA               NA                        NA
+## 6                          NA               NA                        NA
+##   IN_MANT_ESCOLA_PRIVADA_EMP IN_MANT_ESCOLA_PRIVADA_ONG
+## 1                         NA                         NA
+## 2                         NA                         NA
+## 3                         NA                         NA
+## 4                         NA                         NA
+## 5                         NA                         NA
+## 6                         NA                         NA
+##   IN_MANT_ESCOLA_PRIVADA_SIND IN_MANT_ESCOLA_PRIVADA_SIST_S
+## 1                          NA                            NA
+## 2                          NA                            NA
+## 3                          NA                            NA
+## 4                          NA                            NA
+## 5                          NA                            NA
+## 6                          NA                            NA
+##   IN_MANT_ESCOLA_PRIVADA_S_FINS CO_ESCOLA_SEDE_VINCULADA CO_IES_OFERTANTE
+## 1                            NA                       NA               NA
+## 2                            NA                       NA               NA
+## 3                            NA                       NA               NA
+## 4                            NA                       NA               NA
+## 5                            NA                       NA               NA
+## 6                            NA                       NA               NA
+##   TP_REGULAMENTACAO IN_LOCAL_FUNC_PREDIO_ESCOLAR TP_OCUPACAO_PREDIO_ESCOLAR
+## 1                 2                            1                          1
+## 2                NA                           NA                         NA
+## 3                 2                            1                          1
+## 4                 2                            1                          1
+## 5                 2                            1                          1
+## 6                 2                            1                          1
+##   IN_LOCAL_FUNC_SALAS_EMPRESA IN_LOCAL_FUNC_SOCIOEDUCATIVO
+## 1                           0                            0
+## 2                          NA                           NA
+## 3                           0                            0
+## 4                           0                            0
+## 5                           0                            0
+## 6                           0                            0
+##   IN_LOCAL_FUNC_UNID_PRISIONAL IN_LOCAL_FUNC_PRISIONAL_SOCIO
+## 1                            0                             0
+## 2                           NA                            NA
+## 3                            0                             0
+## 4                            0                             0
+## 5                            0                             0
+## 6                            0                             0
+##   IN_LOCAL_FUNC_TEMPLO_IGREJA IN_LOCAL_FUNC_CASA_PROFESSOR IN_LOCAL_FUNC_GALPAO
+## 1                           0                            0                    0
+## 2                          NA                           NA                   NA
+## 3                           0                            0                    0
+## 4                           0                            0                    0
+## 5                           0                            0                    0
+## 6                           0                            0                    0
+##   TP_OCUPACAO_GALPAO IN_LOCAL_FUNC_SALAS_OUTRA_ESC IN_LOCAL_FUNC_OUTROS
+## 1                 NA                             0                    0
+## 2                 NA                            NA                   NA
+## 3                 NA                             0                    0
+## 4                 NA                             0                    0
+## 5                 NA                             0                    0
+## 6                 NA                             0                    0
+##   IN_PREDIO_COMPARTILHADO IN_AGUA_FILTRADA IN_AGUA_REDE_PUBLICA
+## 1                       0                1                    0
+## 2                      NA               NA                   NA
+## 3                       0                1                    0
+## 4                       0                1                    0
+## 5                       0                1                    1
+## 6                       0                1                    0
+##   IN_AGUA_POCO_ARTESIANO IN_AGUA_CACIMBA IN_AGUA_FONTE_RIO IN_AGUA_INEXISTENTE
+## 1                      0               0                 0                   1
+## 2                     NA              NA                NA                  NA
+## 3                      0               1                 0                   0
+## 4                      0               0                 1                   0
+## 5                      0               0                 0                   0
+## 6                      0               1                 0                   0
+##   IN_ENERGIA_REDE_PUBLICA IN_ENERGIA_GERADOR IN_ENERGIA_OUTROS
+## 1                       1                  0                 0
+## 2                      NA                 NA                NA
+## 3                       1                  0                 0
+## 4                       0                  0                 0
+## 5                       1                  0                 0
+## 6                       1                  0                 0
+##   IN_ENERGIA_INEXISTENTE IN_ESGOTO_REDE_PUBLICA IN_ESGOTO_FOSSA
+## 1                      0                      0               0
+## 2                     NA                     NA              NA
+## 3                      0                      0               0
+## 4                      1                      0               0
+## 5                      0                      1               0
+## 6                      0                      0               1
+##   IN_ESGOTO_INEXISTENTE IN_LIXO_COLETA_PERIODICA IN_LIXO_QUEIMA
+## 1                     1                        1              0
+## 2                    NA                       NA             NA
+## 3                     1                        0              0
+## 4                     1                        0              0
+## 5                     0                        1              0
+## 6                     0                        1              1
+##   IN_LIXO_JOGA_OUTRA_AREA IN_LIXO_RECICLA IN_LIXO_ENTERRA IN_LIXO_OUTROS
+## 1                       0               0               0              0
+## 2                      NA              NA              NA             NA
+## 3                       0               0               0              1
+## 4                       0               0               0              1
+## 5                       0               0               0              0
+## 6                       0               0               0              0
+##   IN_SALA_DIRETORIA IN_SALA_PROFESSOR IN_LABORATORIO_INFORMATICA
+## 1                 0                 0                          0
+## 2                NA                NA                         NA
+## 3                 0                 0                          0
+## 4                 0                 0                          0
+## 5                 1                 0                          0
+## 6                 1                 1                          0
+##   IN_LABORATORIO_CIENCIAS IN_SALA_ATENDIMENTO_ESPECIAL
+## 1                       0                            0
+## 2                      NA                           NA
+## 3                       0                            0
+## 4                       0                            0
+## 5                       0                            0
+## 6                       0                            0
+##   IN_QUADRA_ESPORTES_COBERTA IN_QUADRA_ESPORTES_DESCOBERTA IN_QUADRA_ESPORTES
+## 1                          0                             0                  0
+## 2                         NA                            NA                 NA
+## 3                          0                             0                  0
+## 4                          0                             0                  0
+## 5                          0                             0                  0
+## 6                          0                             0                  0
+##   IN_COZINHA IN_BIBLIOTECA IN_SALA_LEITURA IN_BIBLIOTECA_SALA_LEITURA
+## 1          1             0               0                          0
+## 2         NA            NA              NA                         NA
+## 3          1             0               0                          0
+## 4          1             0               0                          0
+## 5          1             0               0                          0
+## 6          1             1               0                          1
+##   IN_PARQUE_INFANTIL IN_BERCARIO IN_BANHEIRO_FORA_PREDIO
+## 1                  0           0                       1
+## 2                 NA          NA                      NA
+## 3                  0           0                       1
+## 4                  0           0                       1
+## 5                  0           0                       0
+## 6                  0           0                       1
+##   IN_BANHEIRO_DENTRO_PREDIO IN_BANHEIRO_EI IN_BANHEIRO_PNE IN_DEPENDENCIAS_PNE
+## 1                         0              0               0                   0
+## 2                        NA             NA              NA                  NA
+## 3                         0              0               0                   0
+## 4                         0              0               0                   0
+## 5                         1              1               0                   0
+## 6                         0              0               0                   1
+##   IN_SECRETARIA IN_BANHEIRO_CHUVEIRO IN_REFEITORIO IN_DESPENSA IN_ALMOXARIFADO
+## 1             0                    0             0           0               0
+## 2            NA                   NA            NA          NA              NA
+## 3             0                    0             0           0               0
+## 4             0                    0             0           0               0
+## 5             0                    1             1           1               0
+## 6             1                    1             1           1               0
+##   IN_AUDITORIO IN_PATIO_COBERTO IN_PATIO_DESCOBERTO IN_ALOJAM_ALUNO
+## 1            0                0                   0               0
+## 2           NA               NA                  NA              NA
+## 3            0                0                   0               0
+## 4            0                0                   0               0
+## 5            0                0                   0               0
+## 6            0                0                   1               1
+##   IN_ALOJAM_PROFESSOR IN_AREA_VERDE IN_LAVANDERIA IN_DEPENDENCIAS_OUTRAS
+## 1                   0             0             0                      0
+## 2                  NA            NA            NA                     NA
+## 3                   0             0             0                      0
+## 4                   0             0             0                      0
+## 5                   0             0             0                      0
+## 6                   1             1             1                      0
+##   NU_SALAS_EXISTENTES NU_SALAS_UTILIZADAS IN_EQUIP_TV IN_EQUIP_VIDEOCASSETE
+## 1                   2                   2           0                     0
+## 2                  NA                  NA          NA                    NA
+## 3                   3                   3           0                     0
+## 4                   1                   1           0                     0
+## 5                   2                   3           0                     0
+## 6                   1                   1           1                     0
+##   IN_EQUIP_DVD IN_EQUIP_PARABOLICA IN_EQUIP_COPIADORA IN_EQUIP_RETROPROJETOR
+## 1            0                   0                  0                      0
+## 2           NA                  NA                 NA                     NA
+## 3            0                   0                  0                      0
+## 4            0                   0                  0                      0
+## 5            1                   0                  1                      0
+## 6            1                   1                  0                      1
+##   IN_EQUIP_IMPRESSORA IN_EQUIP_IMPRESSORA_MULT IN_EQUIP_SOM IN_EQUIP_MULTIMIDIA
+## 1                   0                        0            0                   0
+## 2                  NA                       NA           NA                  NA
+## 3                   0                        0            0                   0
+## 4                   0                        0            0                   0
+## 5                   1                        0            1                   1
+## 6                   1                        0            0                   1
+##   IN_EQUIP_FAX IN_EQUIP_FOTO IN_COMPUTADOR NU_EQUIP_TV NU_EQUIP_VIDEOCASSETE
+## 1            0             0             0           0                     0
+## 2           NA            NA            NA          NA                    NA
+## 3            0             0             0           0                     0
+## 4            0             0             0           0                     0
+## 5            0             1             1           0                     0
+## 6            0             0             1           1                     0
+##   NU_EQUIP_DVD NU_EQUIP_PARABOLICA NU_EQUIP_COPIADORA NU_EQUIP_RETROPROJETOR
+## 1            0                   0                  0                      0
+## 2           NA                  NA                 NA                     NA
+## 3            0                   0                  0                      0
+## 4            0                   0                  0                      0
+## 5            2                   0                  1                      0
+## 6            1                   1                  0                      1
+##   NU_EQUIP_IMPRESSORA NU_EQUIP_IMPRESSORA_MULT NU_EQUIP_SOM NU_EQUIP_MULTIMIDIA
+## 1                   0                        0            0                   0
+## 2                  NA                       NA           NA                  NA
+## 3                   0                        0            0                   0
+## 4                   0                        0            0                   0
+## 5                   1                        0            2                   1
+## 6                   1                        0            0                   1
+##   NU_EQUIP_FAX NU_EQUIP_FOTO NU_COMPUTADOR NU_COMP_ADMINISTRATIVO NU_COMP_ALUNO
+## 1            0             0             0                      0             0
+## 2           NA            NA            NA                     NA            NA
+## 3            0             0             0                      0             0
+## 4            0             0             0                      0             0
+## 5            0             1             1                      1             0
+## 6            0             0             1                      0             0
+##   IN_INTERNET IN_BANDA_LARGA NU_FUNCIONARIOS IN_ALIMENTACAO TP_AEE
+## 1           0              0               3              1      0
+## 2          NA             NA              NA             NA     NA
+## 3           0              0               7              1      0
+## 4           0              0               4              1      0
+## 5           1              1              21              1      0
+## 6           0              0              10              1      0
+##   TP_ATIVIDADE_COMPLEMENTAR IN_FUNDAMENTAL_CICLOS TP_LOCALIZACAO_DIFERENCIADA
+## 1                         0                     0                           0
+## 2                        NA                    NA                          NA
+## 3                         0                     0                           2
+## 4                         0                     0                           2
+## 5                         0                    NA                           0
+## 6                         0                    NA                           0
+##   IN_MATERIAL_ESP_QUILOMBOLA IN_MATERIAL_ESP_INDIGENA
+## 1                          0                        0
+## 2                         NA                       NA
+## 3                          0                        1
+## 4                          0                        1
+## 5                          0                        0
+## 6                          0                        0
+##   IN_MATERIAL_ESP_NAO_UTILIZA IN_EDUCACAO_INDIGENA TP_INDIGENA_LINGUA
+## 1                           1                    0                 NA
+## 2                          NA                   NA                 NA
+## 3                           0                    1                  3
+## 4                           0                    1                  3
+## 5                           1                    0                 NA
+## 6                           1                    0                 NA
+##   CO_LINGUA_INDIGENA IN_BRASIL_ALFABETIZADO IN_FINAL_SEMANA
+## 1                 NA                      0               0
+## 2                 NA                     NA              NA
+## 3                 78                      0               0
+## 4                 78                      0               0
+## 5                 NA                      0               1
+## 6                 NA                      0               1
+##   IN_FORMACAO_ALTERNANCIA IN_MEDIACAO_PRESENCIAL IN_MEDIACAO_SEMIPRESENCIAL
+## 1                       0                      1                          0
+## 2                      NA                     NA                         NA
+## 3                       0                      1                          0
+## 4                       0                      1                          0
+## 5                       0                      1                          0
+## 6                       1                      1                          0
+##   IN_MEDIACAO_EAD IN_ESPECIAL_EXCLUSIVA IN_REGULAR IN_EJA IN_PROFISSIONALIZANTE
+## 1               0                     0          1      0                     0
+## 2              NA                    NA         NA     NA                    NA
+## 3               0                     0          1      0                     0
+## 4               0                     0          1      0                     0
+## 5               0                     0          1      0                     0
+## 6               0                     0          1      0                     1
+##   IN_COMUM_CRECHE IN_COMUM_PRE IN_COMUM_FUND_AI IN_COMUM_FUND_AF
+## 1               0            1                1                0
+## 2              NA           NA               NA               NA
+## 3               0            1                1                1
+## 4               0            1                1                1
+## 5               1            0                0                0
+## 6               0            0                0                0
+##   IN_COMUM_MEDIO_MEDIO IN_COMUM_MEDIO_INTEGRADO IN_COMUM_MEDIO_NORMAL
+## 1                    0                        0                     0
+## 2                   NA                       NA                    NA
+## 3                    0                        0                     0
+## 4                    0                        0                     0
+## 5                    0                        0                     0
+## 6                    0                        1                     0
+##   IN_ESP_EXCLUSIVA_CRECHE IN_ESP_EXCLUSIVA_PRE IN_ESP_EXCLUSIVA_FUND_AI
+## 1                       0                    0                        0
+## 2                      NA                   NA                       NA
+## 3                       0                    0                        0
+## 4                       0                    0                        0
+## 5                       0                    0                        0
+## 6                       0                    0                        0
+##   IN_ESP_EXCLUSIVA_FUND_AF IN_ESP_EXCLUSIVA_MEDIO_MEDIO
+## 1                        0                            0
+## 2                       NA                           NA
+## 3                        0                            0
+## 4                        0                            0
+## 5                        0                            0
+## 6                        0                            0
+##   IN_ESP_EXCLUSIVA_MEDIO_INTEGR IN_ESP_EXCLUSIVA_MEDIO_NORMAL IN_COMUM_EJA_FUND
+## 1                             0                             0                 0
+## 2                            NA                            NA                NA
+## 3                             0                             0                 0
+## 4                             0                             0                 0
+## 5                             0                             0                 0
+## 6                             0                             0                 0
+##   IN_COMUM_EJA_MEDIO IN_COMUM_EJA_PROF IN_ESP_EXCLUSIVA_EJA_FUND
+## 1                  0                 0                         0
+## 2                 NA                NA                        NA
+## 3                  0                 0                         0
+## 4                  0                 0                         0
+## 5                  0                 0                         0
+## 6                  0                 0                         0
+##   IN_ESP_EXCLUSIVA_EJA_MEDIO IN_ESP_EXCLUSIVA_EJA_PROF IN_COMUM_PROF
+## 1                          0                         0             0
+## 2                         NA                        NA            NA
+## 3                          0                         0             0
+## 4                          0                         0             0
+## 5                          0                         0             0
+## 6                          0                         0             0
+##   IN_ESP_EXCLUSIVA_PROF
+## 1                     0
+## 2                    NA
+## 3                     0
+## 4                     0
+## 5                     0
+## 6                     0
+```
+---
+
+## Importando dados no R
+
+Vamos importar dados utilizando pacotes do `tidyverse`. Iniciaremos com o pacote `readr`, que importa arquivos de texto, como `.txt` ou `.csv`. O `readr` transforma arquivos de texto em `tibbles`&lt;sup&gt;[1]&lt;/sup&gt;, usando as funções:
+
+.left-column[
+
+- read_csv()
+
+- read_csv2()
+
+- read_tsv()
+
+- read_delim()
+
+- read_table()
+
+- read_fwf()
+
+- read_log()
+
+]
+
+.right-column[
+
+lê arquivos delimitados por vírgulas
+
+lê arquivos separados por ponto e vírgula
+
+lê arquivos separados por tabulações
+
+lê arquivos separados por qualquer delimitador
+
+lê arquivos de largura fixa, com colunas separadas por espaço
+
+lê arquivos de largura fixa, onde os campos são especificados por suas larguras
+
+lê arquivos padrões log (estilo `Apache`)
+
+  
+&lt;div style="text-align:right"&gt; &lt;a name=cite-RDataScience&gt;&lt;/a&gt;[Wickham and Grolemund (2019)](#bib-RDataScience) &lt;/div&gt;&lt;br&gt;
+]
+
+
+
+.footnote[
+[1] Tibbles são `data frames` com ajustes em comportamentos antigos, que as deixam mais amigáveis aos cientistas de dados.
+]
+---
+## Importando dados no R
+
+Como exemplo, vamos importar os dados de despesas municipais com educação e saúde, no formato csv. O banco de dados será atribuído a uma variável chamada `desp_csv` 
+
+
+```r
+desp_csv = read_csv("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\despesas_municipios_saude_educacao.csv")
+```
+
+```
+## Rows: 54097 Columns: 15
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (9): IN_PERIODICIDADE, CO_ESFERA, CO_PODER, NO_ENTE, SG_ENTE, fase_desp...
+## dbl  (5): AN_EXERCICIO, NR_PERIODO, ID_ENTE, VALUE, QT_HABITANTE
+## dttm (1): DT_STATUS_COLETA
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+---
+## Importando dados no R
+
+Visualize o banco pelo `Console`, executando a variável `desp_csv` ou clique no objeto `desp_csv`, em `Enviroment`, para abrir o banco em outra aba do `R`
+
+```r
+desp_csv
+```
+
+```
+## # A tibble: 54,097 × 15
+##    AN_EXERCICIO NR_PER…¹ IN_PE…² CO_ES…³ CO_PO…⁴ ID_ENTE NO_ENTE SG_ENTE fase_…⁵
+##           &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+##  1         2019        2 B       M       E       4206603 Guaruj… SC      DESPES…
+##  2         2019        1 B       M       E       2411908 São Fr… RN      DESPES…
+##  3         2019        4 B       M       E       4211454 Nova I… SC      DESPES…
+##  4         2019        1 B       M       E       4210704 Matos … SC      DESPES…
+##  5         2019        1 B       M       E       3112109 Caparaó MG      DESPES…
+##  6         2019        2 B       M       E       3514205 Dolcin… SP      DESPES…
+##  7         2019        4 B       M       E       3520608 Indiana SP      DESPES…
+##  8         2019        1 B       M       E       2503407 Cacimb… PB      DESPES…
+##  9         2019        1 B       M       E       4202875 Brunóp… SC      DESPES…
+## 10         2019        1 B       M       E       3551306 Sebast… SP      DESPES…
+## # … with 54,087 more rows, 6 more variables: funcao &lt;chr&gt;, VALUE &lt;dbl&gt;,
+## #   QT_HABITANTE &lt;dbl&gt;, ELEMENTLABEL &lt;chr&gt;, DT_STATUS_COLETA &lt;dttm&gt;,
+## #   dh_consulta &lt;chr&gt;, and abbreviated variable names ¹​NR_PERIODO,
+## #   ²​IN_PERIODICIDADE, ³​CO_ESFERA, ⁴​CO_PODER, ⁵​fase_despesa
+```
+---
+## Importando dados no R
+Vamos importar um banco de dados em Excel pelo pacote `readxl`. A variável `dados.escola_xlsx` receberá o banco `escolas.xlsx`:
+
+
+```r
+dados.escola_xlsx = read_excel("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\escolas.xlsx")
+dados.escola_xlsx
+```
+
+```
+## # A tibble: 62 × 166
+##    NU_ANO_CENSO CO_ENTIDADE NO_ENTIDADE      CO_OR…¹ TP_SI…² DT_ANO_LETIVO_INI…³
+##           &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;            &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;             
+##  1         2015    12133221 ESC ESTELA PERE… NA            1 2015-03-23 00:00:00
+##  2         2015    12132225 ESC QUINTAIS FL… NA            4 NA                 
+##  3         2015    12131229 ESC INDIGENA SH… NA            1 2015-04-02 00:00:00
+##  4         2015    12130222 ESC INDIGENA PE… NA            1 2015-04-02 00:00:00
+##  5         2015    12129224 ESC CRECHE IEDA… NA            1 2015-03-31 00:00:00
+##  6         2015    12128236 ESC FAMILIA AGR… NA            1 2015-05-18 00:00:00
+##  7         2015    12127221 MAL COSTA E SIL… NA            4 NA                 
+##  8         2015    12125229 ESC ESPERANCA    NA            2 NA                 
+##  9         2015    12124222 ESC CENTRO RURA… NA            2 NA                 
+## 10         2015    12123226 ESC CENTRO RURA… NA            2 NA                 
+## # … with 52 more rows, 160 more variables: DT_ANO_LETIVO_TERMINO &lt;dttm&gt;,
+## #   CO_REGIAO &lt;dbl&gt;, CO_MESORREGIAO &lt;dbl&gt;, CO_MICRORREGIAO &lt;dbl&gt;, CO_UF &lt;dbl&gt;,
+## #   CO_MUNICIPIO &lt;dbl&gt;, CO_DISTRITO &lt;dbl&gt;, TP_DEPENDENCIA &lt;dbl&gt;,
+## #   TP_LOCALIZACAO &lt;dbl&gt;, TP_CATEGORIA_ESCOLA_PRIVADA &lt;lgl&gt;,
+## #   IN_CONVENIADA_PP &lt;lgl&gt;, TP_CONVENIO_PODER_PUBLICO &lt;lgl&gt;,
+## #   IN_MANT_ESCOLA_PRIVADA_EMP &lt;lgl&gt;, IN_MANT_ESCOLA_PRIVADA_ONG &lt;lgl&gt;,
+## #   IN_MANT_ESCOLA_PRIVADA_SIND &lt;lgl&gt;, IN_MANT_ESCOLA_PRIVADA_SIST_S &lt;lgl&gt;, …
+```
+
+---
 # Referências
+
+&lt;a name=bib-CursoR&gt;&lt;/a&gt;[curso-r](#cite-CursoR) (2022). _RStudio_.
+[Online; acesso em 31-Novembro-2022]. URL:
+[https://livro.curso-r.com](https://livro.curso-r.com).
 
 &lt;a name=bib-lingR&gt;&lt;/a&gt;[INE/UFSC](#cite-lingR) (2013). _Linguagem R:
 R-Gui e R-Commander_. Universidade Federal de Santana Catarina - UFSC.
@@ -719,6 +1470,10 @@ R-Gui e R-Commander_. Universidade Federal de Santana Catarina - UFSC.
 &lt;a name=bib-andreluis&gt;&lt;/a&gt;[Maia, A. L. S.](#cite-andreluis) (2016).
 _Métodos Computacionais em Estatística no R_. Unijorge – Centro
 Universitário Jorge Amado. Boston, MA.
+
+&lt;a name=bib-RDataScience&gt;&lt;/a&gt;[Wickham, H. and G.
+Grolemund](#cite-RDataScience) (2019). _R para Data Science_. Rio de
+Janeiro: Alta Books.
 
 &lt;a name=bib-RStudio&gt;&lt;/a&gt;[Wikipédia](#cite-RStudio) (2017). _RStudio_.
 [Online; acesso em 28-Novembro-2022]. URL:

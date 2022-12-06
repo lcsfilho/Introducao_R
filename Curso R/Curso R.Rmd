@@ -581,6 +581,7 @@ dados_pessoas.M
 ---
 ## Dados no `R`
 Função `data.frame()`
+
 O _Data Frame_ é uma estrutura semelhante à uma matriz, mas com cada coluna sendo tratada separadamente. Em um _Data Frame_, todos osa dados dentro da mesma coluna serão forçados a serem do mesmo tipo. Podemos ver o _Data Frame_ como uma "tabela" formada por um conjunto de dados, podendo ser de tipos diferentes entre as colunas, sendo que esses tipos podem ser variáveis numéricas, _strings_, nominais (fatores), datas etc.
 
 ```{r collapse = TRUE}
@@ -635,6 +636,220 @@ Carregue o `tideverse`
 library(tidyverse)
 ```
 ]
+
+---
+## Importando dados no R
+
+
+O `Tidyverse` agrega um conjunto de 30 pacotes. São eles:
+
+```{r collapse = TRUE}
+tidyverse::tidyverse_packages()
+
+```
+
+O pacote `readr` importa arquivos de texto, como `.txt` ou `.csv`.
+
+Já o pacote `readxl` é utilizado para ler planilhas do Excel, basta utilizar a função `read_excel()`.
+
+O pacote `haven` é usado para ler arquivos gerados por outros sotwares, como  `SPSS`, `SAS` e `STATA`.
+
+`r RefManageR::TextCite(referencias, "CursoR")`
+
+---
+## Importando dados no R
+
+Mas antes do `tideyverse`, vamos falar um pouco de alguns pacotes de leitura de dados já presentes na instalação básica do `R`. Um desses pacotes é o  `utils`, que possui recursos para leitura de diversos arquivos, inclusive aqueles que estão na internet.
+
+Algumas de suas funções são: `read.table` e `read.csv`.
+
+Por padrão, o `R` considera que os dados estão separados por tabulação e o separador de decimais é o ponto.
+
+Se os dados estiverem separados por ":" e o separador decimal for ",", os argumentos `sep` e `dec` da função serão:
+
+```{r eval=FALSE, echo=TRUE}
+read.table("dados.csv", head=TRUE, sep=":", dec=",")
+```
+ou
+```{r eval=FALSE, echo=TRUE}
+read.csv("dados.csv", head=TRUE, sep=":", dec=",")
+```
+
+Ou podemo ler diretamente na internet
+```{r eval=FALSE, echo=TRUE}
+read.table("https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/escolas.txt",
+           sep="|", dec=",")
+```
+---
+## Importando dados no R
+
+O pacote `foreign`, também presente na distribuição base do `R`, possui diversas funções de importação. Para isso, basta carregar o pacote:
+
+
+```{r}
+library(foreign)
+```
+
+Algumas funções para importação de dados no `R`:
+
+.left-column[
+- read.dbf()
+
+- read.epiinfo()
+
+- read.mtp()
+
+- read.S()
+
+- read.spss()
+
+- read.dta()
+
+- read.xport()
+]
+
+
+.right-column[
+
+para arquivos DBASE
+
+para arquivos do Epi Info
+
+para arquivos do Minitab
+
+para arquivos do S-Plus
+
+para dados do SPSS
+
+para dados do Stata
+
+para dados do SAS
+
+]
+
+---
+## Importando dados no R
+Se o arquivo `.sav` está na sua pasta de trabalho:
+
+```{r eval=FALSE}
+read.spss("escolas.sav")
+```
+
+Caso contrário, localize o arquivo com a função:
+
+```{r eval=FALSE}
+file.chose()
+```
+
+O `R` retorna o caminho para o arquivo, por exemplo:
+
+```{r eval=FALSE}
+"F:\\Curso de R\\Introducao_R\\Curso R\\bd\\escolas.sav"
+
+```
+
+Então, use (com `to.data.frame = TRUE` para retornar um `data frame`)
+
+```{r}
+dados.escola = read.spss("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\escolas.sav", to.data.frame = TRUE)
+```
+
+Assim, criamos uma variável chamada `dados.escola`, que recebe o banco de banco de dados `escola.sav`
+
+---
+## Importando dados no R
+
+Para inspecionar a estrutura do conjunto de dados, use:
+```{r include=TRUE}
+str(dados.escola)
+```
+---
+## Importando dados no R
+
+Para visualizar todo o conjunto de dados, use:
+
+```{r}
+View(dados.escola)
+```
+
+Para visualizar as 6 primeiras linhas do conjunto de dados, use:
+```{r}
+head(dados.escola)
+```
+---
+
+## Importando dados no R
+
+Vamos importar dados utilizando pacotes do `tidyverse`. Iniciaremos com o pacote `readr`, que importa arquivos de texto, como `.txt` ou `.csv`. O `readr` transforma arquivos de texto em `tibbles`<sup>[1]</sup>, usando as funções:
+
+.left-column[
+
+- read_csv()
+
+- read_csv2()
+
+- read_tsv()
+
+- read_delim()
+
+- read_table()
+
+- read_fwf()
+
+- read_log()
+
+]
+
+.right-column[
+
+lê arquivos delimitados por vírgulas
+
+lê arquivos separados por ponto e vírgula
+
+lê arquivos separados por tabulações
+
+lê arquivos separados por qualquer delimitador
+
+lê arquivos de largura fixa, com colunas separadas por espaço
+
+lê arquivos de largura fixa, onde os campos são especificados por suas larguras
+
+lê arquivos padrões log (estilo `Apache`)
+
+  
+<div style="text-align:right"> `r RefManageR::TextCite(referencias, "RDataScience")` </div><br>
+]
+
+
+
+.footnote[
+[1] Tibbles são `data frames` com ajustes em comportamentos antigos, que as deixam mais amigáveis aos cientistas de dados.
+]
+---
+## Importando dados no R
+
+Como exemplo, vamos importar os dados de despesas municipais com educação e saúde, no formato csv. O banco de dados será atribuído a uma variável chamada `desp_csv` 
+
+```{r echo = 2}
+library(readr)
+desp_csv = read_csv("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\despesas_municipios_saude_educacao.csv")
+```
+---
+## Importando dados no R
+
+Visualize o banco pelo `Console`, executando a variável `desp_csv` ou clique no objeto `desp_csv`, em `Enviroment`, para abrir o banco em outra aba do `R`
+```{r}
+desp_csv
+```
+---
+## Importando dados no R
+Vamos importar um banco de dados em Excel pelo pacote `readxl`. A variável `dados.escola_xlsx` receberá o banco `escolas.xlsx`:
+
+```{r echo = c(2, 3)}
+library(readxl)
+dados.escola_xlsx = read_excel("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\escolas.xlsx")
+dados.escola_xlsx
+```
 
 ---
 # Referências
