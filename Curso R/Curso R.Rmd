@@ -106,6 +106,8 @@ writeLines(doc, file_name)
 -  Iniciação
 -  Dados no `R`
 -  Importando dados no R
+-  Carregando dados
+-  Análise descritiva
 -  Referências
 
 
@@ -828,7 +830,7 @@ lê arquivos padrões log (estilo `Apache`)
 ---
 ## Importando dados no R
 
-Como exemplo, vamos importar os dados de despesas municipais com educação e saúde, no formato csv. O banco de dados será atribuído a uma variável chamada `desp_csv` 
+Como exemplo, vamos importar os dados de despesas municipais com educação e saúde, no formato csv. O banco de dados será atribuído ao objeto que chamamos de `desp_csv` 
 
 ```{r echo = 2}
 library(readr)
@@ -843,13 +845,231 @@ desp_csv
 ```
 ---
 ## Importando dados no R
-Vamos importar um banco de dados em Excel pelo pacote `readxl`. A variável `dados.escola_xlsx` receberá o banco `escolas.xlsx`:
+Vamos importar um banco de dados em Excel pelo pacote `readxl`. O objeto `dados.escola_xlsx` receberá o banco `escolas.xlsx`:
 
 ```{r echo = c(2, 3)}
 library(readxl)
 dados.escola_xlsx = read_excel("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\escolas.xlsx")
 dados.escola_xlsx
 ```
+---
+# Carregando dados
+
+Para carregar conjuntos de dados existentes no `R`, use a função `data()`. Vamos carregar os dados `mtcars`, disponível no pacote `datasets`.
+O conjunto `mtcars` é um _data frame_ com 32 observações e 11 variáveis numéricas.
+
+.left-column[
+- mpg
+
+- cyl
+
+- disp
+
+- hp
+
+- drat 
+
+- wt
+
+- qsec
+
+- vs
+
+- am
+
+- gear
+
+- carb
+
+]
+.right-column[
+milhas(EUA) por galão
+
+número de cilindros
+
+cilindrada
+
+potência do motor (cavalos de força)
+
+relação do eixo traseiro
+
+peso (1000 libras)
+
+tempo para percorrer 1/4 de milha
+
+motor (0 = V; 1 = reto)
+
+transmisão (0 = automática; 1 = manual)
+
+número de marchas
+
+número de carburadores
+
+
+]
+---
+## Carregando dados
+
+Carregue o conjunto de dados com:
+
+```{r}
+data(mtcars)
+```
+
+Leia as 6 primeiras linhas:
+
+```{r}
+head(mtcars)
+```
+
+---
+# Análise descritiva
+
+Podemos acessar algumas informações sobre o conjunto de dados `mtcars`com:
+
+```{r eval=FALSE}
+help(mtcars)  #Documentação sobre o conjunto de dados
+
+dim(mtcars)   #Dimensão do conjunto de dados
+
+names(mtcars) #Nome das variáveis (colunas)
+```
+
+Vamos criar um objeto chamado `carros` e selecionar algumas variáveis do conjunto `mtcars` para compor o novo conjunto
+
+
+```{r}
+carros = mtcars[, c(1, 2, 3, 4, 6, 8, 9, 11)] #Selcionadas as colunas 1, 2, 3, 4, 6, 8, 9 e 11 e todas as observações
+head(carros)
+```
+
+---
+## Análise descritiva
+
+A função `search()` mostra o caminho de procura do `R`. Quando executada, essa função mostra o `.GlobalEnv`, pacotes, autoloads ou `data frames` e listas adicionadas com a função `attach()`.
+
+Para ver os objetos "atachados", digite:
+
+```{r}
+search()
+```
+
+Quando precisamos fazer muitas referências para um objeto, é possível minimizar a digitação, colocando o `data frame` ou lista no caminho de procura, pela função attach. 
+
+---
+## Análise descritiva
+Perceba que o objeto `carros` não apareceu na lista de objetos "atachados". Se quisermos calcular algumas estatísticas do peso dos carros, usando diretamente a variável `wt`, surgirá uma mensagem de erro:
+
+```{r error=TRUE}
+summary(wt)
+```
+
+Para executar o sumário sem acrescentar `carros` no caminho de procura, temos que o usar o símbolo `$` entre a base de dados e a coluna (variável) de interesse:
+
+```{r}
+summary(carros$wt)
+```
+
+---
+## Análise descritiva
+
+"Atachando" a base `carros`, podemos visualizá-la no caminho de procura do `R`.
+
+```{r}
+attach(carros)
+search()
+```
+
+Agora, podemos reduzir a digitação para calcular o sumário da variável peso (`wt`)
+
+```{r}
+summary(wt)
+```
+---
+## Análise descritiva
+
+.pull-left[
+Usamos a função `table` para gerar frequências por quantidade de carburador
+
+
+```{r}
+tabela.carb <- table(carb)
+tabela.carb
+```
+
+
+Tabela de freqências relativas
+```{r}
+tabela.carb/length(carb)
+```
+]
+
+.pull-right[
+Ou usando a função `prop.table`
+```{r}
+prop.table(tabela.carb)
+```
+
+]
+
+---
+## Análise descritiva
+Tabela de frequências para o peso com intervalos, usando a função `cut`
+
+```{r fig.height=2}
+
+table(cut(wt, br = seq(1.5, 5.5, 0.8)))
+
+```
+
+E outras estatísticas
+
+```{r collapse = TRUE}
+median(wt)           #Mediana
+mean(wt)             #Média
+sd(wt)               #Desvio padrão
+sd(wt)/mean(wt)*100  #Coeficiente de variação
+```
+
+---
+## Análise descritiva
+
+.pull-left[
+Gráfico de setores
+```{r fig.height=5.5}
+pie(tabela.carb)
+
+```
+]
+
+.pull-right[
+Gráfico de barras
+
+```{r fig.height=5.5}
+barplot(tabela.carb)
+
+```
+]
+
+---
+## Análise descritiva
+
+Histograma e boxplot
+
+.pull-left[
+Histograma
+```{r fig.height=5.2}
+hist(wt)
+```
+]
+
+.pull-right[
+Boxplot
+```{r fig.height=5.2}
+boxplot(wt)
+```
+]
+
 
 ---
 # Referências

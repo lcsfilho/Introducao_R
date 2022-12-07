@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Yihui Xie" />
     <meta name="author" content="Garrick Aden-Buie" />
-    <meta name="date" content="2022-12-06" />
+    <meta name="date" content="2022-12-07" />
     <script src="libs/header-attrs-2.18/header-attrs.js"></script>
     <link rel="stylesheet" href="Curso_R.css" type="text/css" />
   </head>
@@ -60,6 +60,8 @@ Diretoria de Planejamento Social&lt;/p&gt;
 -  Iniciação
 -  Dados no `R`
 -  Importando dados no R
+-  Carregando dados
+-  Análise descritiva
 -  Referências
 
 
@@ -1378,7 +1380,7 @@ lê arquivos padrões log (estilo `Apache`)
 ---
 ## Importando dados no R
 
-Como exemplo, vamos importar os dados de despesas municipais com educação e saúde, no formato csv. O banco de dados será atribuído a uma variável chamada `desp_csv` 
+Como exemplo, vamos importar os dados de despesas municipais com educação e saúde, no formato csv. O banco de dados será atribuído ao objeto que chamamos de `desp_csv` 
 
 
 ```r
@@ -1426,7 +1428,7 @@ desp_csv
 ```
 ---
 ## Importando dados no R
-Vamos importar um banco de dados em Excel pelo pacote `readxl`. A variável `dados.escola_xlsx` receberá o banco `escolas.xlsx`:
+Vamos importar um banco de dados em Excel pelo pacote `readxl`. O objeto `dados.escola_xlsx` receberá o banco `escolas.xlsx`:
 
 
 ```r
@@ -1456,6 +1458,324 @@ dados.escola_xlsx
 ## #   IN_MANT_ESCOLA_PRIVADA_EMP &lt;lgl&gt;, IN_MANT_ESCOLA_PRIVADA_ONG &lt;lgl&gt;,
 ## #   IN_MANT_ESCOLA_PRIVADA_SIND &lt;lgl&gt;, IN_MANT_ESCOLA_PRIVADA_SIST_S &lt;lgl&gt;, …
 ```
+---
+# Carregando dados
+
+Para carregar conjuntos de dados existentes no `R`, use a função `data()`. Vamos carregar os dados `mtcars`, disponível no pacote `datasets`.
+O conjunto `mtcars` é um _data frame_ com 32 observações e 11 variáveis numéricas.
+
+.left-column[
+- mpg
+
+- cyl
+
+- disp
+
+- hp
+
+- drat 
+
+- wt
+
+- qsec
+
+- vs
+
+- am
+
+- gear
+
+- carb
+
+]
+.right-column[
+milhas(EUA) por galão
+
+número de cilindros
+
+cilindrada
+
+potência do motor (cavalos de força)
+
+relação do eixo traseiro
+
+peso (1000 libras)
+
+tempo para percorrer 1/4 de milha
+
+motor (0 = V; 1 = reto)
+
+transmisão (0 = automática; 1 = manual)
+
+número de marchas
+
+número de carburadores
+
+
+]
+---
+## Carregando dados
+
+Carregue o conjunto de dados com:
+
+
+```r
+data(mtcars)
+```
+
+Leia as 6 primeiras linhas:
+
+
+```r
+head(mtcars)
+```
+
+```
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+---
+# Análise descritiva
+
+Podemos acessar algumas informações sobre o conjunto de dados `mtcars`com:
+
+
+```r
+help(mtcars)  #Documentação sobre o conjunto de dados
+
+dim(mtcars)   #Dimensão do conjunto de dados
+
+names(mtcars) #Nome das variáveis (colunas)
+```
+
+Vamos criar um objeto chamado `carros` e selecionar algumas variáveis do conjunto `mtcars` para compor o novo conjunto
+
+
+
+```r
+carros = mtcars[, c(1, 2, 3, 4, 6, 8, 9, 11)] #Selcionadas as colunas 1, 2, 3, 4, 6, 8, 9 e 11 e todas as observações
+head(carros)
+```
+
+```
+##                    mpg cyl disp  hp    wt vs am carb
+## Mazda RX4         21.0   6  160 110 2.620  0  1    4
+## Mazda RX4 Wag     21.0   6  160 110 2.875  0  1    4
+## Datsun 710        22.8   4  108  93 2.320  1  1    1
+## Hornet 4 Drive    21.4   6  258 110 3.215  1  0    1
+## Hornet Sportabout 18.7   8  360 175 3.440  0  0    2
+## Valiant           18.1   6  225 105 3.460  1  0    1
+```
+
+---
+## Análise descritiva
+
+A função `search()` mostra o caminho de procura do `R`. Quando executada, essa função mostra o `.GlobalEnv`, pacotes, autoloads ou `data frames` e listas adicionadas com a função `attach()`.
+
+Para ver os objetos "atachados", digite:
+
+
+```r
+search()
+```
+
+```
+##  [1] ".GlobalEnv"         "package:readxl"     "package:readr"     
+##  [4] "package:foreign"    "package:magrittr"   "package:RefManageR"
+##  [7] "package:stats"      "package:graphics"   "package:grDevices" 
+## [10] "package:utils"      "package:datasets"   "package:methods"   
+## [13] "Autoloads"          "package:base"
+```
+
+Quando precisamos fazer muitas referências para um objeto, é possível minimizar a digitação, colocando o `data frame` ou lista no caminho de procura, pela função attach. 
+
+---
+## Análise descritiva
+Perceba que o objeto `carros` não apareceu na lista de objetos "atachados". Se quisermos calcular algumas estatísticas do peso dos carros, usando diretamente a variável `wt`, surgirá uma mensagem de erro:
+
+
+```r
+summary(wt)
+```
+
+```
+## Error in summary(wt): objeto 'wt' não encontrado
+```
+
+Para executar o sumário sem acrescentar `carros` no caminho de procura, temos que o usar o símbolo `$` entre a base de dados e a coluna (variável) de interesse:
+
+
+```r
+summary(carros$wt)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.513   2.581   3.325   3.217   3.610   5.424
+```
+
+---
+## Análise descritiva
+
+"Atachando" a base `carros`, podemos visualizá-la no caminho de procura do `R`.
+
+
+```r
+attach(carros)
+search()
+```
+
+```
+##  [1] ".GlobalEnv"         "carros"             "package:readxl"    
+##  [4] "package:readr"      "package:foreign"    "package:magrittr"  
+##  [7] "package:RefManageR" "package:stats"      "package:graphics"  
+## [10] "package:grDevices"  "package:utils"      "package:datasets"  
+## [13] "package:methods"    "Autoloads"          "package:base"
+```
+
+Agora, podemos reduzir a digitação para calcular o sumário da variável peso (`wt`)
+
+
+```r
+summary(wt)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.513   2.581   3.325   3.217   3.610   5.424
+```
+---
+## Análise descritiva
+
+.pull-left[
+Usamos a função `table` para gerar frequências por quantidade de carburador
+
+
+
+```r
+tabela.carb &lt;- table(carb)
+tabela.carb
+```
+
+```
+## carb
+##  1  2  3  4  6  8 
+##  7 10  3 10  1  1
+```
+
+
+Tabela de freqências relativas
+
+```r
+tabela.carb/length(carb)
+```
+
+```
+## carb
+##       1       2       3       4       6       8 
+## 0.21875 0.31250 0.09375 0.31250 0.03125 0.03125
+```
+]
+
+.pull-right[
+Ou usando a função `prop.table`
+
+```r
+prop.table(tabela.carb)
+```
+
+```
+## carb
+##       1       2       3       4       6       8 
+## 0.21875 0.31250 0.09375 0.31250 0.03125 0.03125
+```
+
+]
+
+---
+## Análise descritiva
+Tabela de frequências para o peso com intervalos, usando a função `cut`
+
+
+```r
+table(cut(wt, br = seq(1.5, 5.5, 0.8)))
+```
+
+```
+## 
+## (1.5,2.3] (2.3,3.1] (3.1,3.9] (3.9,4.7] (4.7,5.5] 
+##         6         6        16         1         3
+```
+
+E outras estatísticas
+
+
+```r
+median(wt)           #Mediana
+## [1] 3.325
+mean(wt)             #Média
+## [1] 3.21725
+sd(wt)               #Desvio padrão
+## [1] 0.9784574
+sd(wt)/mean(wt)*100  #Coeficiente de variação
+## [1] 30.41285
+```
+
+---
+## Análise descritiva
+
+.pull-left[
+Gráfico de setores
+
+```r
+pie(tabela.carb)
+```
+
+![](Curso-R_files/figure-html/unnamed-chunk-60-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+Gráfico de barras
+
+
+```r
+barplot(tabela.carb)
+```
+
+![](Curso-R_files/figure-html/unnamed-chunk-61-1.png)&lt;!-- --&gt;
+]
+
+---
+## Análise descritiva
+
+Histograma e boxplot
+
+.pull-left[
+Histograma
+
+```r
+hist(wt)
+```
+
+![](Curso-R_files/figure-html/unnamed-chunk-62-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+Boxplot
+
+```r
+boxplot(wt)
+```
+
+![](Curso-R_files/figure-html/unnamed-chunk-63-1.png)&lt;!-- --&gt;
+]
+
 
 ---
 # Referências
