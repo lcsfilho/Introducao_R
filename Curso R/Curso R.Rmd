@@ -107,7 +107,8 @@ writeLines(doc, file_name)
 -  Dados no `R`
 -  Importando dados no R
 -  Carregando dados
--  Análise descritiva
+-  Análise descritiva (unidimensional)
+-  Pacote Tidyverse
 -  Referências
 
 
@@ -661,7 +662,7 @@ O pacote `haven` é usado para ler arquivos gerados por outros sotwares, como  `
 ---
 ## Importando dados no R
 
-Mas antes do `tideyverse`, vamos falar um pouco de alguns pacotes de leitura de dados já presentes na instalação básica do `R`. Um desses pacotes é o  `utils`, que possui recursos para leitura de diversos arquivos, inclusive aqueles que estão na internet.
+Mas antes do `tideyverse`, vamos falar um pouco de alguns pacotes de leitura de dados já presentes na instalação básica do `R`. Um desses pacotes é o `utils`, que possui recursos para leitura de diversos arquivos, inclusive aqueles que estão na internet.
 
 Algumas de suas funções são: `read.table` e `read.csv`.
 
@@ -883,7 +884,7 @@ O conjunto `mtcars` é um _data frame_ com 32 observações e 11 variáveis num�
 
 ]
 .right-column[
-milhas(EUA) por galão
+milhas (EUA) por galão
 
 número de cilindros
 
@@ -923,7 +924,7 @@ head(mtcars)
 ```
 
 ---
-# Análise descritiva
+# Análise descritiva (unidimensional)
 
 Podemos acessar algumas informações sobre o conjunto de dados `mtcars`com:
 
@@ -944,7 +945,7 @@ head(carros)
 ```
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 A função `search()` mostra o caminho de procura do `R`. Quando executada, essa função mostra o `.GlobalEnv`, pacotes, autoloads ou `data frames` e listas adicionadas com a função `attach()`.
 
@@ -957,7 +958,7 @@ search()
 Quando precisamos fazer muitas referências para um objeto, é possível minimizar a digitação, colocando o `data frame` ou lista no caminho de procura, pela função attach. 
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 Perceba que o objeto `carros` não apareceu na lista de objetos "atachados". Se quisermos calcular algumas estatísticas do peso dos carros, usando diretamente a variável `wt`, surgirá uma mensagem de erro:
 
 ```{r error=TRUE}
@@ -971,7 +972,7 @@ summary(carros$wt)
 ```
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 "Atachando" a base `carros`, podemos visualizá-la no caminho de procura do `R`.
 
@@ -986,7 +987,7 @@ Agora, podemos reduzir a digitação para calcular o sumário da variável peso 
 summary(wt)
 ```
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 .pull-left[
 Usamos a função `table` para gerar frequências por quantidade de carburador
@@ -1013,7 +1014,7 @@ prop.table(tabela.carb)
 ]
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 Tabela de frequências para o peso com intervalos, usando a função `cut`
 
 ```{r fig.height=2}
@@ -1032,7 +1033,7 @@ sd(wt)/mean(wt)*100  #Coeficiente de variação
 ```
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 .pull-left[
 Gráfico de setores
@@ -1052,9 +1053,8 @@ barplot(tabela.carb)
 ]
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
-Histograma e boxplot
 
 .pull-left[
 Histograma
@@ -1069,6 +1069,316 @@ Boxplot
 boxplot(wt)
 ```
 ]
+---
+## Análise descritiva (unidimensional)
+
+A estética e outros elementos dos gráficos podem ser editados, mas vamos explorar melhor esses recursos com o pacote `ggplot`, que faz parte do `tidyverse`.
+
+```{r fig.height=5.2, fig.align="center"}
+hist(wt, col = "blue", border = "yellow", main = "Histograma do peso do veículos",
+     xlab = "Peso (1.000 libras)", ylab = "Frequência")
+```
+---
+## Análise descritiva (bidimensional)
+
+número de cilindros (cyl) x número de carburadores (carb)
+
+```{r}
+table(cyl, carb)
+```
+
+Calculando as proporções:
+
+```{r}
+prop.table(table(cyl, carb))
+```
+
+---
+## Análise descritiva (bidimensional)
+
+Para porcentagens por linha ou por coluna, use `margin = 1` ou `margin = 2`, respectivamente.
+
+```{r}
+prop.table(table(cyl, carb), margin = 1)
+```
+
+```{r}
+prop.table(table(cyl, carb), margin = 2)
+```
+
+---
+## Análise descritiva (bidimensional)
+Também podemos obter visualizações gráficas dos cruzamentos
+
+.pull-left[
+
+```{r fig.height=5.2, fig.align="center"}
+plot(table(cyl, carb))
+```
+]
+
+.pull-right[
+
+```{r fig.height=5.2, fig.align="center"}
+barplot(table(cyl, carb), beside = TRUE,
+        leg = TRUE)
+```
+
+
+]
+---
+## Análise descritiva (bidimensional)
+Vamos relacionar uma variável categórica (qualitativa) com uma contínua.
+
+Tipo de transmissão (am) x consumo de combustível (mpg)
+
+```{r}
+tapply(mpg, am, summary)
+```
+
+Usmao `tapply` para dividir o conjunto de dados em grupos.
+
+---
+## Análise descritiva (bidimensional)
+Construindo um gráfico boxplot da relação `am` x `mpg`.
+
+```{r fig.height=5.5, fig.align="center"}
+boxplot(mpg ~ am, col = c("green", "magenta"), names = c("Manual", "Automático"),
+        main = "Consumo de combustível por tipo de transmissão", ylab = "milhas por galão")
+```
+
+---
+## Análise descritiva (bidimensional)
+
+
+.pull-left[
+Vamos verificar o `coeficiente de correlação linear de Pearson` entre o peso (wt) e o conumo de combustível (mpg)
+```{r}
+cor(wt, mpg)
+```
+]
+
+.pull-right[
+E o `gráfico de dispersão`
+
+```{r fig.height=4.8, fig.align="center"}
+plot(wt, mpg, xlab = "Peso do veículo",
+     ylab = "Consumo de combustível",
+     col = "blue", pch = 19)
+
+```
+
+]
+---
+## Análise descritiva
+
+Vamos incluir uma terceira variável nesta análise. Os pontos serão identificados pela categoria do número de cilindros (cyl), que são 4, 6 e 8.
+
+
+```{r eval = FALSE}
+plot(wt, mpg, xlab = "Peso do veículo",
+     ylab = "Consumo de combustível (milhas/galão)")
+points(wt[cyl == 4], mpg[cyl == 4], col="magenta", pch = 19)
+points(wt[cyl == 6], mpg[cyl == 6], col="blue", pch = 19)
+points(wt[cyl == 8], mpg[cyl == 8], col="green", pch = 19)
+legend(4.5, 33, c("4 cilindros", "6 cilindros", "8 cilindros"),
+pch = c(19, 19, 19), col=c("magenta", "blue", "green"))
+```
+
+---
+## Análise descritiva
+
+```{r echo=FALSE, fig.align="center"}
+plot(wt, mpg, xlab = "Peso do veículo",
+     ylab = "Consumo de combustível (milhas/galão)")
+points(wt[cyl == 4], mpg[cyl == 4], col="magenta", pch = 19)
+points(wt[cyl == 6], mpg[cyl == 6], col="blue", pch = 19)
+points(wt[cyl == 8], mpg[cyl == 8], col="green", pch = 19)
+legend(4.5, 33, c("4 cilindros", "6 cilindros", "8 cilindros"),
+pch = c(19, 19, 19), col=c("magenta", "blue", "green"))
+```
+
+---
+# Pacote Tidyverse
+
+Com o pacote `tidyverse`, conseguimos reduzir o tamanho do código para executar uma função. Voltemos ao conjunto de dados das despesas com educação e saúde.
+
+```{r echo = 2, warning=FALSE, message=FALSE}
+library(readr)
+desp_csv = read_csv("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\despesas_municipios_saude_educacao.csv")
+```
+
+Vamos visualizar o banco de dados (`data frame`):
+
+```{r eval = FALSE}
+View(desp_csv)
+```
+
+E listar os nomes das variáveis:
+
+```{r}
+names(desp_csv)
+```
+
+---
+## Pacote Tidyverse
+
+.pull-left[
+Recuperar as despesas dos municípios da Bahia
+```{r}
+desp_csv[desp_csv$SG_ENTE == "BA", "VALUE"]
+```
+]
+
+.pull-right[
+Somar o total de despesas municipais na Bahia
+```{r}
+sum(desp_csv[desp_csv$SG_ENTE == "RR",
+             "VALUE"])
+```
+
+ou da seguinte forma:
+
+```{r}
+sum(desp_csv[desp_csv[['SG_ENTE']] == "RR",
+             "VALUE"])
+```
+
+]
+
+---
+## Pacote Tidyverse (dplyer e magrittr)
+
+Vamos fazer a mesma coisa, dessa vez, usando o `dplyr`, um dos pacotes do `Tideverse`. O `dplyer` é muito usado para tarefas de manuseio de dados, como agregar, sumarizar, agrupar, ordenar, filtrar etc.
+
+`r RefManageR::TextCite(referencias, "SillasG")`
+
+```{r}
+desp_csv %>%
+  dplyr::filter(SG_ENTE == "RR") %>% 
+  dplyr::select(VALUE) %>% 
+  sum()
+```
+
+.pull-left[
+
+Há dois símbolos nesse código: o operador `pipe` (`%>%`) e os quatro pontos (`::`). O `pipe` permite o encademaneto de funções, ele concatena uma sequência de funções. O pacote `magrittr` é responsável pelo operador `pipe`. Já os quatro pontos (`::`) ligam o nome do pacote à sua função.
+]
+
+.pull-right[
+Ao digitar `::` após o o nome do pacote, o `R` abre uma janela com a lista das funções que pertencem àquele pacote. Além disso, estamos informando ao `R` qual pacote usar para aquela função, pois há funções com o mesmo nome, que pertencem a pacotes diferentes. É também uma forma de documentar o código, deixando claro qual pacote foi usado no código.
+
+]
+
+---
+## Pacote Tidyverse (dplyer)
+
+A interpretação do código abaixo está no comentário:
+```{r eval=FALSE}
+desp_csv %>% #No conjunto de dados "desp_csv"
+  dplyr::filter(SG_ENTE == "RR") %>% #Filtre o ente federativo Roraima
+  dplyr::select(VALUE) %>% #Selecione a coluna "VALUE"
+  sum() #Some tudo
+```
+
+Visualize o a despesa total por UF :
+```{r eval=FALSE}
+desp_csv %>% #No o conjunto de dados "desp_csv"
+   dplyr::select(SG_ENTE,VALUE) %>% #Selecione as colunas "SG_ENTE" e "VALUE"
+   dplyr::group_by(SG_ENTE) %>% #Agrupe por "SG_ENTE"
+   dplyr::summarise(
+    Soma = sum(VALUE) #Some os VALUE (valores das despesas)
+   )
+```
+
+---
+## Pacote Tidyverse (dplyer) e Pacote rmarkdown
+
+.pull-left[
+Visualize o a despesa total por UF :
+```{r echo=FALSE}
+desp_csv %>% #No o conjunto de dados "desp_csv"
+   dplyr::select(SG_ENTE,VALUE) %>% #Selecione as colunas "SG_ENTE" e "VALUE"
+   dplyr::group_by(SG_ENTE) %>% #Agrupe por "SG_ENTE"
+   dplyr::summarise(
+    Soma = sum(VALUE) #Some os VALUE (valores das despesas)
+    )
+
+```
+]
+
+.pull-right[
+Podemos melhorar a visualização da tabela, atribuindo a saída à um objeto, que vamos chamar de `Despesas`. Posteriormente, geramos uma tabela mais formatada com a função `paged_table`, do pacote `rmarkdown`.
+
+```{r include=TRUE}
+Despesas <- desp_csv %>%
+   dplyr::select(SG_ENTE,VALUE) %>%
+   dplyr::group_by(SG_ENTE) %>%
+   dplyr::summarise(
+    Soma = sum(VALUE)
+    )
+```
+]
+---
+## Pacote Tidyverse
+
+```{r}
+rmarkdown::paged_table(Despesas)
+```
+---
+## Pacote Tidyverse (dplyer) e pacote rmarkdown
+ Exibir a despesa total de forma ordenada (do maior para o menor)
+
+```{r include=TRUE, paged.print=FALSE}
+Despesas <- desp_csv %>% dplyr::select(SG_ENTE,VALUE) %>% dplyr::group_by(SG_ENTE) %>%
+  dplyr::summarise(Soma = sum(VALUE)) %>% dplyr::arrange(dplyr::desc(Soma))
+rmarkdown::paged_table(Despesas)
+```
+
+---
+## Pacote Tidyverse (dplyer)
+Salvando os dados em arquivo Excel
+
+```{r}
+xlsx::write.xlsx(Despesas, file = "Despesas.xlsx", sheetName = "Despesas", 
+  col.names = TRUE, row.names = TRUE, append = FALSE)
+```
+
+Vamos preparar uma tabela ordenada pela despesa média per capita, segundo os entes federativos.
+
+```{r}
+
+Desp_Med <- desp_csv %>%
+  dplyr::select(NO_ENTE,SG_ENTE,VALUE,QT_HABITANTE) %>% 
+  dplyr::group_by(NO_ENTE,SG_ENTE) %>%
+  dplyr::summarise(
+    DespesaTotal = sum(VALUE),
+    PopTotal = mean(QT_HABITANTE))
+```
+---
+## Pacote Tidyverse (dplyer)
+
+```{r}
+Desp_Med <- Desp_Med %>% 
+   dplyr::group_by(SG_ENTE) %>%
+   dplyr::summarise(
+    DespesaTotal = sum(DespesaTotal),
+    PopTotal = sum(PopTotal)) %>% 
+  dplyr::mutate(DespesaMedia = DespesaTotal/PopTotal) %>%
+  dplyr::select(SG_ENTE,DespesaMedia) %>%
+  dplyr::arrange(dplyr::desc(DespesaMedia))
+
+```
+
+
+
+---
+## Pacote Tidyverse e pacote rmarkdown
+
+```{r}
+rmarkdown::paged_table(Desp_Med)
+```
+
 
 
 ---

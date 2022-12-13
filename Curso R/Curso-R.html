@@ -5,8 +5,10 @@
     <meta charset="utf-8" />
     <meta name="author" content="Yihui Xie" />
     <meta name="author" content="Garrick Aden-Buie" />
-    <meta name="date" content="2022-12-07" />
+    <meta name="date" content="2022-12-13" />
     <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
     <link rel="stylesheet" href="Curso_R.css" type="text/css" />
   </head>
   <body>
@@ -61,7 +63,8 @@ Diretoria de Planejamento Social&lt;/p&gt;
 -  Dados no `R`
 -  Importando dados no R
 -  Carregando dados
--  Análise descritiva
+-  Análise descritiva (unidimensional)
+-  Pacote Tidyverse
 -  Referências
 
 
@@ -743,7 +746,7 @@ O pacote `haven` é usado para ler arquivos gerados por outros sotwares, como  `
 ---
 ## Importando dados no R
 
-Mas antes do `tideyverse`, vamos falar um pouco de alguns pacotes de leitura de dados já presentes na instalação básica do `R`. Um desses pacotes é o  `utils`, que possui recursos para leitura de diversos arquivos, inclusive aqueles que estão na internet.
+Mas antes do `tideyverse`, vamos falar um pouco de alguns pacotes de leitura de dados já presentes na instalação básica do `R`. Um desses pacotes é o `utils`, que possui recursos para leitura de diversos arquivos, inclusive aqueles que estão na internet.
 
 Algumas de suas funções são: `read.table` e `read.csv`.
 
@@ -1489,7 +1492,7 @@ O conjunto `mtcars` é um _data frame_ com 32 observações e 11 variáveis num�
 
 ]
 .right-column[
-milhas(EUA) por galão
+milhas (EUA) por galão
 
 número de cilindros
 
@@ -1541,7 +1544,7 @@ head(mtcars)
 ```
 
 ---
-# Análise descritiva
+# Análise descritiva (unidimensional)
 
 Podemos acessar algumas informações sobre o conjunto de dados `mtcars`com:
 
@@ -1574,7 +1577,7 @@ head(carros)
 ```
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 A função `search()` mostra o caminho de procura do `R`. Quando executada, essa função mostra o `.GlobalEnv`, pacotes, autoloads ou `data frames` e listas adicionadas com a função `attach()`.
 
@@ -1596,7 +1599,7 @@ search()
 Quando precisamos fazer muitas referências para um objeto, é possível minimizar a digitação, colocando o `data frame` ou lista no caminho de procura, pela função attach. 
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 Perceba que o objeto `carros` não apareceu na lista de objetos "atachados". Se quisermos calcular algumas estatísticas do peso dos carros, usando diretamente a variável `wt`, surgirá uma mensagem de erro:
 
 
@@ -1621,7 +1624,7 @@ summary(carros$wt)
 ```
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 "Atachando" a base `carros`, podemos visualizá-la no caminho de procura do `R`.
 
@@ -1651,7 +1654,7 @@ summary(wt)
 ##   1.513   2.581   3.325   3.217   3.610   5.424
 ```
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 .pull-left[
 Usamos a função `table` para gerar frequências por quantidade de carburador
@@ -1699,7 +1702,7 @@ prop.table(tabela.carb)
 ]
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 Tabela de frequências para o peso com intervalos, usando a função `cut`
 
 
@@ -1728,7 +1731,7 @@ sd(wt)/mean(wt)*100  #Coeficiente de variação
 ```
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
 .pull-left[
 Gráfico de setores
@@ -1752,9 +1755,8 @@ barplot(tabela.carb)
 ]
 
 ---
-## Análise descritiva
+## Análise descritiva (unidimensional)
 
-Histograma e boxplot
 
 .pull-left[
 Histograma
@@ -1775,6 +1777,455 @@ boxplot(wt)
 
 ![](Curso-R_files/figure-html/unnamed-chunk-63-1.png)&lt;!-- --&gt;
 ]
+---
+## Análise descritiva (unidimensional)
+
+A estética e outros elementos dos gráficos podem ser editados, mas vamos explorar melhor esses recursos com o pacote `ggplot`, que faz parte do `tidyverse`.
+
+
+```r
+hist(wt, col = "blue", border = "yellow", main = "Histograma do peso do veículos",
+     xlab = "Peso (1.000 libras)", ylab = "Frequência")
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-64-1.png" style="display: block; margin: auto;" /&gt;
+---
+## Análise descritiva (bidimensional)
+
+número de cilindros (cyl) x número de carburadores (carb)
+
+
+```r
+table(cyl, carb)
+```
+
+```
+##    carb
+## cyl 1 2 3 4 6 8
+##   4 5 6 0 0 0 0
+##   6 2 0 0 4 1 0
+##   8 0 4 3 6 0 1
+```
+
+Calculando as proporções:
+
+
+```r
+prop.table(table(cyl, carb))
+```
+
+```
+##    carb
+## cyl       1       2       3       4       6       8
+##   4 0.15625 0.18750 0.00000 0.00000 0.00000 0.00000
+##   6 0.06250 0.00000 0.00000 0.12500 0.03125 0.00000
+##   8 0.00000 0.12500 0.09375 0.18750 0.00000 0.03125
+```
+
+---
+## Análise descritiva (bidimensional)
+
+Para porcentagens por linha ou por coluna, use `margin = 1` ou `margin = 2`, respectivamente.
+
+
+```r
+prop.table(table(cyl, carb), margin = 1)
+```
+
+```
+##    carb
+## cyl          1          2          3          4          6          8
+##   4 0.45454545 0.54545455 0.00000000 0.00000000 0.00000000 0.00000000
+##   6 0.28571429 0.00000000 0.00000000 0.57142857 0.14285714 0.00000000
+##   8 0.00000000 0.28571429 0.21428571 0.42857143 0.00000000 0.07142857
+```
+
+
+```r
+prop.table(table(cyl, carb), margin = 2)
+```
+
+```
+##    carb
+## cyl         1         2         3         4         6         8
+##   4 0.7142857 0.6000000 0.0000000 0.0000000 0.0000000 0.0000000
+##   6 0.2857143 0.0000000 0.0000000 0.4000000 1.0000000 0.0000000
+##   8 0.0000000 0.4000000 1.0000000 0.6000000 0.0000000 1.0000000
+```
+
+---
+## Análise descritiva (bidimensional)
+Também podemos obter visualizações gráficas dos cruzamentos
+
+.pull-left[
+
+
+```r
+plot(table(cyl, carb))
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-69-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+
+```r
+barplot(table(cyl, carb), beside = TRUE,
+        leg = TRUE)
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-70-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+---
+## Análise descritiva (bidimensional)
+Vamos relacionar uma variável categórica (qualitativa) com uma contínua.
+
+Tipo de transmissão (am) x consumo de combustível (mpg)
+
+
+```r
+tapply(mpg, am, summary)
+```
+
+```
+## $`0`
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   10.40   14.95   17.30   17.15   19.20   24.40 
+## 
+## $`1`
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   15.00   21.00   22.80   24.39   30.40   33.90
+```
+
+Usmao `tapply` para dividir o conjunto de dados em grupos.
+
+---
+## Análise descritiva (bidimensional)
+Construindo um gráfico boxplot da relação `am` x `mpg`.
+
+
+```r
+boxplot(mpg ~ am, col = c("green", "magenta"), names = c("Manual", "Automático"),
+        main = "Consumo de combustível por tipo de transmissão", ylab = "milhas por galão")
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-72-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+## Análise descritiva (bidimensional)
+
+
+.pull-left[
+Vamos verificar o `coeficiente de correlação linear de Pearson` entre o peso (wt) e o conumo de combustível (mpg)
+
+```r
+cor(wt, mpg)
+```
+
+```
+## [1] -0.8676594
+```
+]
+
+.pull-right[
+E o `gráfico de dispersão`
+
+
+```r
+plot(wt, mpg, xlab = "Peso do veículo",
+     ylab = "Consumo de combustível",
+     col = "blue", pch = 19)
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-74-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+---
+## Análise descritiva
+
+Vamos incluir uma terceira variável nesta análise. Os pontos serão identificados pela categoria do número de cilindros (cyl), que são 4, 6 e 8.
+
+
+
+```r
+plot(wt, mpg, xlab = "Peso do veículo",
+     ylab = "Consumo de combustível (milhas/galão)")
+points(wt[cyl == 4], mpg[cyl == 4], col="magenta", pch = 19)
+points(wt[cyl == 6], mpg[cyl == 6], col="blue", pch = 19)
+points(wt[cyl == 8], mpg[cyl == 8], col="green", pch = 19)
+legend(4.5, 33, c("4 cilindros", "6 cilindros", "8 cilindros"),
+pch = c(19, 19, 19), col=c("magenta", "blue", "green"))
+```
+
+---
+## Análise descritiva
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-76-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Pacote Tidyverse
+
+Com o pacote `tidyverse`, conseguimos reduzir o tamanho do código para executar uma função. Voltemos ao conjunto de dados das despesas com educação e saúde.
+
+
+```r
+desp_csv = read_csv("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\despesas_municipios_saude_educacao.csv")
+```
+
+Vamos visualizar o banco de dados (`data frame`):
+
+
+```r
+View(desp_csv)
+```
+
+E listar os nomes das variáveis:
+
+
+```r
+names(desp_csv)
+```
+
+```
+##  [1] "AN_EXERCICIO"     "NR_PERIODO"       "IN_PERIODICIDADE" "CO_ESFERA"       
+##  [5] "CO_PODER"         "ID_ENTE"          "NO_ENTE"          "SG_ENTE"         
+##  [9] "fase_despesa"     "funcao"           "VALUE"            "QT_HABITANTE"    
+## [13] "ELEMENTLABEL"     "DT_STATUS_COLETA" "dh_consulta"
+```
+
+---
+## Pacote Tidyverse
+
+.pull-left[
+Recuperar as despesas dos municípios da Bahia
+
+```r
+desp_csv[desp_csv$SG_ENTE == "BA", "VALUE"]
+```
+
+```
+## # A tibble: 5,132 × 1
+##       VALUE
+##       &lt;dbl&gt;
+##  1  479245.
+##  2  834414.
+##  3  550915.
+##  4  865695.
+##  5 1081189.
+##  6 1118872.
+##  7 1281717.
+##  8  579776.
+##  9  473314.
+## 10  815257.
+## # … with 5,122 more rows
+```
+]
+
+.pull-right[
+Somar o total de despesas municipais na Bahia
+
+```r
+sum(desp_csv[desp_csv$SG_ENTE == "RR",
+             "VALUE"])
+```
+
+```
+## [1] 854738904
+```
+
+ou da seguinte forma:
+
+
+```r
+sum(desp_csv[desp_csv[['SG_ENTE']] == "RR",
+             "VALUE"])
+```
+
+```
+## [1] 854738904
+```
+
+]
+
+---
+## Pacote Tidyverse (dplyer e magrittr)
+
+Vamos fazer a mesma coisa, dessa vez, usando o `dplyr`, um dos pacotes do `Tideverse`. O `dplyer` é muito usado para tarefas de manuseio de dados, como agregar, sumarizar, agrupar, ordenar, filtrar etc.
+
+&lt;a name=cite-SillasG&gt;&lt;/a&gt;[Gonzaga (2018)](http://sillasgonzaga.com/material/curso_visualizacao/index.html)
+
+
+```r
+desp_csv %&gt;%
+  dplyr::filter(SG_ENTE == "RR") %&gt;% 
+  dplyr::select(VALUE) %&gt;% 
+  sum()
+```
+
+```
+## [1] 854738904
+```
+
+.pull-left[
+
+Há dois símbolos nesse código: o operador `pipe` (`%&gt;%`) e os quatro pontos (`::`). O `pipe` permite o encademaneto de funções, ele concatena uma sequência de funções. O pacote `magrittr` é responsável pelo operador `pipe`. Já os quatro pontos (`::`) ligam o nome do pacote à sua função.
+]
+
+.pull-right[
+Ao digitar `::` após o o nome do pacote, o `R` abre uma janela com a lista das funções que pertencem àquele pacote. Além disso, estamos informando ao `R` qual pacote usar para aquela função, pois há funções com o mesmo nome, que pertencem a pacotes diferentes. É também uma forma de documentar o código, deixando claro qual pacote foi usado no código.
+
+]
+
+---
+## Pacote Tidyverse (dplyer)
+
+A interpretação do código abaixo está no comentário:
+
+```r
+desp_csv %&gt;% #No conjunto de dados "desp_csv"
+  dplyr::filter(SG_ENTE == "RR") %&gt;% #Filtre o ente federativo Roraima
+  dplyr::select(VALUE) %&gt;% #Selecione a coluna "VALUE"
+  sum() #Some tudo
+```
+
+Visualize o a despesa total por UF :
+
+```r
+desp_csv %&gt;% #No o conjunto de dados "desp_csv"
+   dplyr::select(SG_ENTE,VALUE) %&gt;% #Selecione as colunas "SG_ENTE" e "VALUE"
+   dplyr::group_by(SG_ENTE) %&gt;% #Agrupe por "SG_ENTE"
+   dplyr::summarise(
+    Soma = sum(VALUE) #Some os VALUE (valores das despesas)
+   )
+```
+
+---
+## Pacote Tidyverse (dplyer) e Pacote rmarkdown
+
+.pull-left[
+Visualize o a despesa total por UF :
+
+```
+## # A tibble: 26 × 2
+##    SG_ENTE         Soma
+##    &lt;chr&gt;          &lt;dbl&gt;
+##  1 AC        849924641.
+##  2 AL       4272172277.
+##  3 AM       4457109424.
+##  4 AP        747540502.
+##  5 BA      21950110329.
+##  6 CE      13472020537.
+##  7 ES       4538370893.
+##  8 GO       8352979611.
+##  9 MA       8331320792.
+## 10 MG      24225450571.
+## # … with 16 more rows
+```
+]
+
+.pull-right[
+Podemos melhorar a visualização da tabela, atribuindo a saída à um objeto, que vamos chamar de `Despesas`. Posteriormente, geramos uma tabela mais formatada com a função `paged_table`, do pacote `rmarkdown`.
+
+
+```r
+Despesas &lt;- desp_csv %&gt;%
+   dplyr::select(SG_ENTE,VALUE) %&gt;%
+   dplyr::group_by(SG_ENTE) %&gt;%
+   dplyr::summarise(
+    Soma = sum(VALUE)
+    )
+```
+]
+---
+## Pacote Tidyverse
+
+
+```r
+rmarkdown::paged_table(Despesas)
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["SG_ENTE"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Soma"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"AC","2":"849924641"},{"1":"AL","2":"4272172277"},{"1":"AM","2":"4457109424"},{"1":"AP","2":"747540502"},{"1":"BA","2":"21950110329"},{"1":"CE","2":"13472020537"},{"1":"ES","2":"4538370893"},{"1":"GO","2":"8352979611"},{"1":"MA","2":"8331320792"},{"1":"MG","2":"24225450571"},{"1":"MS","2":"4427618311"},{"1":"MT","2":"5017722939"},{"1":"PA","2":"12266589666"},{"1":"PB","2":"5567605075"},{"1":"PE","2":"11851913587"},{"1":"PI","2":"4280268937"},{"1":"PR","2":"13358296179"},{"1":"RJ","2":"28520235299"},{"1":"RN","2":"4459952885"},{"1":"RO","2":"1896283028"},{"1":"RR","2":"854738904"},{"1":"RS","2":"12340791965"},{"1":"SC","2":"13235129807"},{"1":"SE","2":"3176324846"},{"1":"SP","2":"84136173246"},{"1":"TO","2":"1929544692"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+---
+## Pacote Tidyverse (dplyer) e pacote rmarkdown
+ Exibir a despesa total de forma ordenada (do maior para o menor)
+
+
+```r
+Despesas &lt;- desp_csv %&gt;% dplyr::select(SG_ENTE,VALUE) %&gt;% dplyr::group_by(SG_ENTE) %&gt;%
+  dplyr::summarise(Soma = sum(VALUE)) %&gt;% dplyr::arrange(dplyr::desc(Soma))
+rmarkdown::paged_table(Despesas)
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["SG_ENTE"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Soma"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"SP","2":"84136173246"},{"1":"RJ","2":"28520235299"},{"1":"MG","2":"24225450571"},{"1":"BA","2":"21950110329"},{"1":"CE","2":"13472020537"},{"1":"PR","2":"13358296179"},{"1":"SC","2":"13235129807"},{"1":"RS","2":"12340791965"},{"1":"PA","2":"12266589666"},{"1":"PE","2":"11851913587"},{"1":"GO","2":"8352979611"},{"1":"MA","2":"8331320792"},{"1":"PB","2":"5567605075"},{"1":"MT","2":"5017722939"},{"1":"ES","2":"4538370893"},{"1":"RN","2":"4459952885"},{"1":"AM","2":"4457109424"},{"1":"MS","2":"4427618311"},{"1":"PI","2":"4280268937"},{"1":"AL","2":"4272172277"},{"1":"SE","2":"3176324846"},{"1":"TO","2":"1929544692"},{"1":"RO","2":"1896283028"},{"1":"RR","2":"854738904"},{"1":"AC","2":"849924641"},{"1":"AP","2":"747540502"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+---
+## Pacote Tidyverse (dplyer)
+Salvando os dados em arquivo Excel
+
+
+```r
+xlsx::write.xlsx(Despesas, file = "Despesas.xlsx", sheetName = "Despesas", 
+  col.names = TRUE, row.names = TRUE, append = FALSE)
+```
+
+Vamos preparar uma tabela ordenada pela despesa média per capita, segundo os entes federativos.
+
+
+```r
+Desp_Med &lt;- desp_csv %&gt;%
+  dplyr::select(NO_ENTE,SG_ENTE,VALUE,QT_HABITANTE) %&gt;% 
+  dplyr::group_by(NO_ENTE,SG_ENTE) %&gt;%
+  dplyr::summarise(
+    DespesaTotal = sum(VALUE),
+    PopTotal = mean(QT_HABITANTE))
+```
+
+```
+## `summarise()` has grouped output by 'NO_ENTE'. You can override using the
+## `.groups` argument.
+```
+---
+## Pacote Tidyverse (dplyer)
+
+
+```r
+Desp_Med &lt;- Desp_Med %&gt;% 
+   dplyr::group_by(SG_ENTE) %&gt;%
+   dplyr::summarise(
+    DespesaTotal = sum(DespesaTotal),
+    PopTotal = sum(PopTotal)) %&gt;% 
+  dplyr::mutate(DespesaMedia = DespesaTotal/PopTotal) %&gt;%
+  dplyr::select(SG_ENTE,DespesaMedia) %&gt;%
+  dplyr::arrange(dplyr::desc(DespesaMedia))
+```
+
+
+
+---
+## Pacote Tidyverse e pacote rmarkdown
+
+
+```r
+rmarkdown::paged_table(Desp_Med)
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["SG_ENTE"],"name":[1],"type":["chr"],"align":["left"]},{"label":["DespesaMedia"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"MS","2":"2433.2801"},{"1":"SC","2":"2024.9980"},{"1":"MT","2":"1943.8925"},{"1":"SP","2":"1909.8608"},{"1":"PI","2":"1773.4674"},{"1":"TO","2":"1707.6251"},{"1":"RJ","2":"1681.7469"},{"1":"PR","2":"1646.3555"},{"1":"MG","2":"1629.2100"},{"1":"MA","2":"1607.9800"},{"1":"RS","2":"1593.6144"},{"1":"CE","2":"1568.7100"},{"1":"BA","2":"1492.7872"},{"1":"RR","2":"1482.4598"},{"1":"PA","2":"1474.1506"},{"1":"ES","2":"1471.4752"},{"1":"PB","2":"1456.1487"},{"1":"AL","2":"1414.6369"},{"1":"SE","2":"1404.3983"},{"1":"RN","2":"1399.8386"},{"1":"RO","2":"1358.8868"},{"1":"PE","2":"1292.4947"},{"1":"AM","2":"1259.3821"},{"1":"GO","2":"1248.3470"},{"1":"AC","2":"1012.3104"},{"1":"AP","2":"913.2296"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
 
 
 ---
@@ -1783,6 +2234,11 @@ boxplot(wt)
 &lt;a name=bib-CursoR&gt;&lt;/a&gt;[curso-r](#cite-CursoR) (2022). _RStudio_.
 [Online; acesso em 31-Novembro-2022]. URL:
 [https://livro.curso-r.com](https://livro.curso-r.com).
+
+&lt;a name=bib-SillasG&gt;&lt;/a&gt;[Gonzaga, S.](#cite-SillasG) (2018).
+_Introdução a R para Visualização e Apresentação de Dados_. [Online;
+acesso em 13-Dezembro-2022]. URL:
+[http://sillasgonzaga.com/material/curso_visualizacao/index.html](http://sillasgonzaga.com/material/curso_visualizacao/index.html).
 
 &lt;a name=bib-lingR&gt;&lt;/a&gt;[INE/UFSC](#cite-lingR) (2013). _Linguagem R:
 R-Gui e R-Commander_. Universidade Federal de Santana Catarina - UFSC.
