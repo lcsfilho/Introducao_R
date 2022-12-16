@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Yihui Xie" />
     <meta name="author" content="Garrick Aden-Buie" />
-    <meta name="date" content="2022-12-13" />
+    <meta name="date" content="2022-12-16" />
     <script src="libs/header-attrs-2.18/header-attrs.js"></script>
     <link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
     <script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
@@ -479,7 +479,7 @@ background-position: 50% 55%
 
 Vamos criar um conjunto de dados aleatório de 8 pessoas, com 4 variáveis: peso, altura, idade e renda. Perceba que a renda de uma pessoa não foi medida (dado _missing_).
 
-&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
 
 
 ```r
@@ -2103,7 +2103,7 @@ desp_csv %&gt;% #No o conjunto de dados "desp_csv"
 ```
 
 ---
-## Pacote Tidyverse (dplyer) e Pacote rmarkdown
+## Pacote Tidyverse (dplyer) e pacote rmarkdown
 
 .pull-left[
 Visualize o a despesa total por UF :
@@ -2140,7 +2140,7 @@ Despesas &lt;- desp_csv %&gt;%
 ```
 ]
 ---
-## Pacote Tidyverse
+## Pacote Tidyverse (dplyer)
 
 
 ```r
@@ -2213,7 +2213,7 @@ Desp_Med &lt;- Desp_Med %&gt;%
 
 
 ---
-## Pacote Tidyverse e pacote rmarkdown
+## Pacote Tidyverse e Pacote rmarkdown
 
 
 ```r
@@ -2226,6 +2226,326 @@ rmarkdown::paged_table(Desp_Med)
   &lt;/script&gt;
 &lt;/div&gt;
 
+---
+class: center
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/gif/Exercitar1.gif?raw=true)
+background-size: 30%
+background-position: 50% 70%
+
+&lt;font color="#256BC1", size="7", face="sans-serif"&gt; &lt;b&gt;Bora trabalhar!&lt;/b&gt; &lt;/font&gt;
+
+---
+## Pacote Tidyverse (ggplot2)
+
+O `ggplot2` é um poderoso pacote para criação de gráficos mais elegantes, versáteis e complexos.
+
+O termo **gg** vem de **gramática de gráficos**. Para um aprofundamento nos fundamentos teóricos do `ggplot2`, é recomendada a leitura de [*A Layered Grammar of Graphics*](http://vita.had.co.nz/papares/layered-grammar.pdf).
+
+O `ggplot2` oferece duas funções principais:
+- `quickplot()` ou `qplot`
+- `ggplot()`
+
+Iniciemos a construção dos gráficos com a leitura de um banco de dados em txt, com informações de PIB e população.
+
+
+```r
+dados_PIB = read_delim("F:\\Curso de R\\Introducao_R\\Curso R\\bd\\PIBMunicipios2019.txt",
+                       delim = ";")
+```
+---
+## Pacote Tidyverse (ggplot2)
+Leitura das primeiras dez linhas do conjunto de dados:
+
+```r
+head(dados_PIB, n = 10)
+```
+
+```
+## # A tibble: 10 × 9
+##    COD_UF UF    DESC_UF          COD_MUN MUNIC…¹ ATIVI…² PIB_T…³ POPUL…⁴ RANKI…⁵
+##     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1     35 SP    São Paulo        3550308 São Pa… Demais…  7.64e8  1.19e7       1
+##  2     33 RJ    Rio de Janeiro   3304557 Rio de… Demais…  3.55e8  6.50e6       2
+##  3     53 DF    Distrito Federal 5300108 Brasíl… Demais…  2.74e8  2.86e6       3
+##  4     29 BA    Bahia            2927408 Salvad… Demais…  6.38e7  2.85e6      12
+##  5     23 CE    Ceará            2304400 Fortal… Demais…  6.74e7  2.58e6       9
+##  6     31 MG    Minas Gerais     3106200 Belo H… Demais…  9.72e7  2.47e6       4
+##  7     13 AM    Amazonas         1302603 Manaus  Indúst…  8.49e7  2.02e6       6
+##  8     41 PR    Paraná           4106902 Curiti… Demais…  9.61e7  1.86e6       5
+##  9     26 PE    Pernambuco       2611606 Recife  Demais…  5.47e7  1.60e6      13
+## 10     43 RS    Rio Grande do S… 4314902 Porto … Demais…  8.24e7  1.46e6       7
+## # … with abbreviated variable names ¹​MUNICIPIO, ²​ATIVIDADE_ECONOMICA,
+## #   ³​`PIB_TOTAL (em R$ mi)`, ⁴​POPULACAO, ⁵​`RANKING PIB TOTAL`
+```
+---
+## Pacote Tidyverse (ggplot2)
+
+Os gráficos originados em `ggplot2` são baseados em *camadas*. Cada gráfico possui três componentes chave: `data` (os dados que vão alimentar o gráfico); `aes()` (aesthetic mappings), responsável pelo mapeamento estético e as propriedades visuais do gráfico; e a função `geom()`, responsável pela geometria do gráfico (linha, coluna, histograma etc). Vejamos o exemplo de um gráfico de barras do banco `dados_PIB`, que mostra a quantidade de municípios por UF.
+
+
+```r
+library(ggplot2)
+ggplot(data = dados_PIB, aes(x = UF)) + #aqui temos a definição dos dados e um pouco da estética
+  geom_bar() #a geometria definida aqui é o gráfico de barras
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-96-1.png" style="display: block; margin: auto;" /&gt;
+---
+## Pacote Tidyverse (ggplot2)
+.pull-left[
+
+```r
+ggplot(dados_PIB) +
+  geom_bar(aes(y = reorder(UF, UF, length)))
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-97-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+Este segundo gráfico apresenta os dados ordenados por quantidade de municípios e na forma de barras horizontais.
+
+Perceba agora que o nome do argumeto `data =` para o conjunto de dados foi suprimido; e a estética está incluída na camada da geometria (`geom_bar()`), e não na primeira camada (`ggplot()`).
+
+]
+---
+## Pacote Tidyverse (ggplot2)
+.pull-left[
+
+```r
+##Gráfico usando a abordagem tidyverse
+library(tidyverse)
+dados_PIB %&gt;%
+  group_by(UF) %&gt;%
+  summarise(
+    media = mean(POPULACAO),
+    mediana= mean(POPULACAO),
+    maximo =  max(POPULACAO),
+    minimo = min(POPULACAO),
+    total = sum(POPULACAO) #A função sum faz
+    #o somatório de um conjunto de valores
+    #numéricos
+  ) %&gt;%
+  ggplot() +
+  geom_col(aes(x = UF, y = total))#Experimente
+  #trocar o eixo y por outras variáveis
+  #descritivas
+```
+
+]
+
+.pull-right[
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-99-1.png" style="display: block; margin: auto;" /&gt;
+Perceba que o `pipe` concatenou o o código das estatísticas descritivas com o código do gráfico `ggplot`. Por causa dessa "concatenação", a definição do conjunto de dados em `ggplot()` foi suprimida.
+]
+
+---
+## Pacote Tidyverse (ggplot2)
+
+```r
+#Aprofundando  análise e alterando e alterando uma variável
+dados_PIB %&gt;%
+  dplyr::filter(UF == "BA") %&gt;%
+  dplyr::slice_max(order_by = POPULACAO, n = 10) %&gt;%
+  dplyr::mutate(MUNICIPIO = reorder(MUNICIPIO, POPULACAO)) %&gt;%
+  ggplot()+
+  geom_col(aes(y = MUNICIPIO, x = POPULACAO))
+```
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-100-1.png" style="display: block; margin: auto;" /&gt;
+---
+## Pacote Tidyverse (ggplot2 e janitor)
+
+Vamos aumentar a complexidade do código, criando uma nova variável, chamada `PIB_percapita`, a partir da relação entre o PIB total e a população. O `R` apontará um erro nesse código
+
+```r
+dados_PIB %&gt;% 
+  dplyr::filter(UF == "BA") %&gt;% 
+  dplyr::mutate(PIB_percapita = round(PIB_TOTAL (em R$ mi)/POPULACAO * 1000, 0)) %&gt;%
+  dplyr::select(MUNICIPIO, PIB_percapita) %&gt;% 
+  dplyr::arrange(dplyr::desc(PIB_percapita)) %&gt;% 
+  ggplot()+
+  geom_col(aes(y = MUNICIPIO, x = POPULACAO))
+```
+
+```
+## Error: &lt;text&gt;:3:53: unexpected symbol
+## 2:   dplyr::filter(UF == "BA") %&gt;% 
+## 3:   dplyr::mutate(PIB_percapita = round(PIB_TOTAL (em R
+##                                                        ^
+```
+O problema econtra-se no texto da variável `PIB_TOTAL (em R$ mi)`, pois o símbolo `$` é utilizado pelo `R` para referenciar colunas de um banco de dados. Teremos outro problema se `PIB_TOTAL (em R$ mi)` for colocado entre aspas. Vamos testar:
+
+---
+## Pacote Tidyverse (ggplot2 e janitor)
+
+Vamos aumentar a complexidade do código, criando uma nova variável, chamada `PIB_percapita`, a partir da relação entre o PIB total e a população. O `R` apontará um erro nesse código
+
+```r
+dados_PIB %&gt;% 
+  dplyr::filter(UF == "BA") %&gt;% 
+  dplyr::mutate(PIB_percapita = round("PIB_TOTAL (em R$ mi)"/POPULACAO * 1000, 0)) %&gt;%
+  dplyr::select(MUNICIPIO, PIB_percapita) %&gt;% 
+  dplyr::arrange(dplyr::desc(PIB_percapita)) %&gt;% 
+  ggplot()+
+  geom_col(aes(y = MUNICIPIO, x = POPULACAO))
+```
+
+```
+## Error in `dplyr::mutate()`:
+## ! Problem while computing `PIB_percapita = round("PIB_TOTAL (em R$
+##   mi)"/POPULACAO * 1000, 0)`.
+## Caused by error in `"PIB_TOTAL (em R$ mi)" / POPULACAO`:
+## ! argumento não-numérico para operador binário
+```
+
+Nesse caso, introduzir as aspas fez a função `mutate` "entender" que a variável `PIB_TOTAL (em R$ mi)` é um argumento não-numérico. É aí que entra o pacote `janitor`, que vai arrumar os nomes das variáveis para atender às boas práticas de programação, removendo o espaço em branco no nome de cada variável.
+
+---
+## Pacote Tidyverse (ggplot2 e janitor)
+
+Vamos listar as variáveis presentes na base de dados com a função `names()`:
+
+```r
+dados_PIB %&gt;% names()
+```
+
+```
+## [1] "COD_UF"               "UF"                   "DESC_UF"             
+## [4] "COD_MUN"              "MUNICIPIO"            "ATIVIDADE_ECONOMICA" 
+## [7] "PIB_TOTAL (em R$ mi)" "POPULACAO"            "RANKING PIB TOTAL"
+```
+Os nomes de algumas variáveis contém espaços, que atrapalham na hora da programação. A função `clean_names()` do pacote `janitor` faz a limpeza de acentos, letras maiúsculas, parênteses, pontos, barras etc, que causam problemas na leitura das variáveis. Veja como ficam as variáveis após a limpeza:
+
+
+```r
+dados_PIB %&gt;% #A partir a base dados_PIB
+  janitor::clean_names() %&gt;% #Limpe os nomes das variáveis
+  names() #Liste os nomes das variáveis 
+```
+
+```
+## [1] "cod_uf"              "uf"                  "desc_uf"            
+## [4] "cod_mun"             "municipio"           "atividade_economica"
+## [7] "pib_total_em_r_mi"   "populacao"           "ranking_pib_total"
+```
+
+---
+## Pacote Tidyverse (ggplot2 e janitor)
+Só que o código anterior não fez a substitituição das variáveis, mas fez apenas uma limpeza nos nomes sem modificar a estrutura do banco. Para realizar essa alteração, vamos substituir o banco `dados_PIB` por outro do mesmo nome, com a substituição dos nomes das variáveis.
+
+
+```r
+library(janitor)
+dados_PIB &lt;-  clean_names(dados_PIB) #Limpe os nomes das variáveis e substitua o banco antigo
+
+names(dados_PIB) #Liste os nomes das variáveis
+```
+
+```
+## [1] "cod_uf"              "uf"                  "desc_uf"            
+## [4] "cod_mun"             "municipio"           "atividade_economica"
+## [7] "pib_total_em_r_mi"   "populacao"           "ranking_pib_total"
+```
+
+Agora, sim, podemos gerar aquele gráfico com o `ggplot2`, fazendo as devidas substituições.
+
+---
+## Pacote Tidyverse (ggplot2)
+.pull-left[
+
+```r
+dados_PIB %&gt;% 
+  dplyr::filter(uf == "RO") %&gt;% 
+  dplyr::mutate(pib_percapita =
+                round(
+                  pib_total_em_r_mi/populacao
+                  * 1000, 0)) %&gt;%
+  dplyr::select(municipio,
+                pib_percapita) %&gt;% 
+  dplyr::mutate(municipio =
+                  reorder(municipio,
+                          pib_percapita)) %&gt;% 
+  ggplot()+
+  geom_col(aes(y = municipio,
+               x = pib_percapita))
+```
+]
+
+.pull-right[
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-107-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+
+```r
+dados_PIB %&gt;% #Na base de dados "dados_PIB"
+  group_by(uf) %&gt;% #Agrupe por "uf"
+  summarise(PIBtotal = round(sum(pib_total_em_r_mi)/1000000,1)) %&gt;% #crie a variavel "PIBtotal",
+  #somando a coluna do pib, divida por 1 milhao e arredonde para 1 decimal
+  ggplot() + #crie um gráfico "ggplot"
+  ggplot2::aes( y = forcats::fct_reorder(uf,PIBtotal), #no eixo Y, ordene as UFs pelo PIB
+    x = PIBtotal) + #no eixo x, o PIB
+  ggplot2::geom_col(fill = 'deeppink', width = 0.9, alpha = 0.7, colour = 'blue') + #use gráfico de
+  #coluna de cor rosa profunda, largura 0.9, transparencia 0.7 e boradas azuis
+  ggplot2::labs(x = 'PIB total (em R$ BI)',  y = 'Unidade Federativa', #Substitua os textos nos eixos x e y
+    title = 'Produto interno bruto segundo unidade federativa. 2019. Brasil', #Acrescente um título
+    subtitle = 'Dados consultados em 14/12/2022', #Acrescente o subtítulo
+    caption = 'Fonte: IBGE') + #Acrescente a fonte
+  theme_test() + #use esse o tema "theme_test()" (sem cor no fundo e sem linhas intermediárias)
+   geom_text(aes(label = PIBtotal), vjust = 0.4, hjust = -0.06) + # rótulos na variável PIBtotal
+  #no argumento "theme", faça os seguintes ajustes de altura (size) e cor (colour):
+  theme(axis.text.x = element_text(size = 14, colour = 'blue'), #altura 14 e cor azul para o texto do eixo y
+    axis.text.y = element_text(size = 12, colour = 'blue'), #texto do eixo y
+    axis.title.y = element_text(size = 12, colour = 'blue'), #título do eixo y
+    axis.title.x = element_text(size = 14, colour = 'blue'), #título do eixo x
+    plot.title = element_text(size = 20)) #título principal
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-109-1.png" style="display: block; margin: auto;" /&gt;
+---
+
+
+```r
+ggplot2::ggplot(data = dados_PIB %&gt;%
+                  dplyr::filter(uf == 'BA'))+
+  ggplot2::aes(
+    x = pib_total_em_r_mi,
+    y = populacao,
+  )+
+  ggplot2::geom_point(
+    aes(colour = atividade_economica),
+    size = 6
+  )+
+  ggplot2::labs(
+    x = 'PIB total',
+    y = 'População',
+    title = 'Produto interno Bruto versus população',
+    caption = 'Fonte: IBGE'
+  )+
+  ggplot2::geom_text(
+    aes(
+      x = pib_total_em_r_mi,
+      y = populacao,
+      label = atividade_economica
+    ),
+    size = 2.5
+  )+
+  ggplot2::theme(
+    legend.position = 'none'
+  )
+```
+---
+
+&lt;img src="Curso-R_files/figure-html/unnamed-chunk-111-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
