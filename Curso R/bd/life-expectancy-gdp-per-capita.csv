@@ -1,4 +1,4 @@
-pais;codigo;anpo;expectativa_vida;pib_per_capita;populacao;continente
+pais;codigo;ano;expectativa_vida;pib_per_capita;populacao;continente
 Afghanistan;AFG;1300;;;1749998;
 Albania;ALB;1300;;;200000;
 Algeria;DZA;1300;;;1684987;

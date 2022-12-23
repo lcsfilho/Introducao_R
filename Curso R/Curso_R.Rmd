@@ -1681,7 +1681,25 @@ dados_PIB %>%
 ---
 ## Pacote Tidyverse (ggplot2)
 
-Histograma em escala logarítmica no eixo y
+Histograma em **escala logarítmica** no eixo y
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+    geom_histogram(aes(x = pib_percapita), fill = "blue", color = "#000050",) +
+  theme_bw() +
+  ggtitle('Histograma do PIB per capita municipal. Bahia. 2019') +
+  xlab("PIB per capita") +
+  ylab("Quantidade de municípios (escala logarítmica)") +
+  scale_y_log10() #transformação logarítmica no eixo (y)
+
+```
+---
+## Pacote Tidyverse (ggplot2)
+
+Histograma em **escala logarítmica** no eixo y
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
 dados_PIB %>%
@@ -1693,46 +1711,234 @@ dados_PIB %>%
   ggtitle('Histograma do PIB per capita municipal. Bahia. 2019') +
   xlab("PIB per capita") +
   ylab("Quantidade de municípios (escala logarítmica)") +
-  scale_y_log10() #transformação logarítima no eixo (y)
+  scale_y_log10() #transformação logarítmica no eixo (y)
 
 ```
 
 ---
 ## Pacote Tidyverse (ggplot2)
 
-Box-plot em escala contínua no eixo y
+Box-plot do PIB per capita na Bahia em escala contínua.
 
-```{r}
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+    geom_boxplot(aes(x = pib_percapita), fill = "blue", color = "#000050",) +
+  theme_classic() +
+  ggtitle('Box-plot do PIB per capita municipal na Bahia. 2019') +
+  xlab("PIB per capita")
+
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+    geom_boxplot(aes(x = pib_percapita), fill = "blue", color = "#000050",) +
+  theme_classic() +
+  ggtitle('Box-plot do PIB per capita municipal na Bahia. 2019') +
+  xlab("PIB per capita")
+
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+Box-plot do PIB per capita na Bahia em escala logarítmica
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+    geom_boxplot(aes(x = pib_percapita), fill = "blue", color = "#000050",) +
+  theme_classic() +
+  ggtitle('Box-plot do PIB per capita municipal na Bahia. 2019') +
+  xlab("PIB per capita") +
+  scale_x_log10() #transformação logarítmica no eixo (x)
+
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Escala logarítmica** no eixo x
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+    geom_boxplot(aes(x = pib_percapita), fill = "blue", color = "#000050",) +
+  theme_classic() +
+  ggtitle('Box-plot do PIB per capita municipal na Bahia. 2019') +
+  xlab("PIB per capita (escala logarítmica)") +
+  scale_x_log10() #transformação logarítimica no eixo (x)
+
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+Uma maneira de introduzir o nome do município no ponto mais distante (outlier) é usando o código a seguir:
+
+```{r eval=TRUE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+
+dado <- dados_PIB %>% #Atribuir ao objeto "dado" o banco "dados_PIB"
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>% #Criar a variável 
+  #PIB per capita
+  filter(uf == "BA", pib_percapita > 200000) #filtrar o estado da Bahia e o PIB per capita maior
+  #que 200.000
+dado #Visualizar o objeto "dado"
+```
+
+O município de interesse é São Francisco do Conde, com valor de PIB per capita de 217.464.
+
+Agora, vamos introduzir  o *label* de São Francisco do Conde com a função **anotatte**.
+
+---
+## Pacote Tidyverse (ggplot2)
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+  geom_boxplot(aes(x = pib_percapita), fill = "blue", color = "#000050") +
+  theme_classic() +
+  ggtitle('Box-plot do PIB per capita municipal na Bahia. 2019') +
+  xlab("PIB per capita (escala logarítmica)") +
+  annotate("text", x = 217464, y = 0.05, label = "São Francisco \n do Conde") #O argumento "text"
+#\n quebra a linha
+#é uma das geometrias da função
+#x e y dão as coordedanas do label
+```
+
+
+---
+## Pacote Tidyverse (ggplot2)
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+  geom_boxplot(aes(x = pib_percapita), fill = "blue", color = "#000050") +
+  theme_classic() +
+  ggtitle('Box-plot do PIB per capita municipal na Bahia. 2019') +
+  xlab("PIB per capita (escala logarítmica)") +
+  annotate("text", x = 217464, y = 0.05, label = "São Francisco \n do Conde") #O argumento "text"
+#\n quebra a linha
+#é uma das geometrias da função
+#x e y dão as coordedanas do label
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+Box-plot do PIB per capita por UF em **escala contínua**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
 dados_PIB %>%
   group_by(uf) %>% 
   dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
   ggplot() +
-  geom_boxplot(aes(x = uf, y = pib_percapita, fill = uf))+
+  geom_boxplot(aes(x = uf, y = pib_percapita, fill = uf)) +
     theme_classic() +
   ggplot2::labs(
   title = 'Distribuição do PIB per capita municipal por UF. Brasil. 2019',
   x = "UF",
   y = "PIB per capita") +
-  theme(legend.position = 'none') 
+  theme(legend.position="none")
 ```
 ---
 ## Pacote Tidyverse (ggplot2)
 
-Box-plot em escala contínua no eixo y
+Box-plot do PIB per capita por UF em **escala contínua**
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
 dados_PIB %>%
   group_by(uf) %>% 
   dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
   ggplot() +
-  geom_boxplot(aes(x = uf, y = pib_percapita, fill = uf))+
+  geom_boxplot(aes(x = uf, y = pib_percapita, fill = uf)) +
     theme_classic() +
   ggplot2::labs(
   title = 'Distribuição do PIB per capita municipal por UF. Brasil. 2019',
   x = "UF",
   y = "PIB per capita") +
-  theme(legend.position = 'none') +
+   theme(legend.position="none")
+```
+
+---
+
+## Pacote Tidyverse (ggplot2)
+
+Box-plot do PIB per capita por UF em **escala logarítmica**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  group_by(uf) %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+  geom_boxplot(aes(x = uf, y = pib_percapita, fill = uf)) +
+    theme_classic() +
+  ggplot2::labs(
+  title = 'Distribuição do PIB per capita municipal por UF. Brasil. 2019',
+  x = "UF",
+  y = "PIB per capita") +
+  theme(legend.position="none") +
   scale_y_log10()
+```
+---
+## Pacote Tidyverse (ggplot2)
+
+Box-plot do PIB per capita por UF em **escala logarítmica**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  group_by(uf) %>% 
+  dplyr::mutate(pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)) %>%
+  ggplot() +
+  geom_boxplot(aes(x = uf, y = pib_percapita, fill = uf)) +
+    theme_classic() +
+  ggplot2::labs(
+  title = 'Distribuição do PIB per capita municipal por UF. Brasil. 2019',
+  x = "UF",
+  y = "PIB per capita") +
+   theme(legend.position="none") +
+  scale_y_log10()
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+Ranking dos 10 municípios baianos com maior PIB per capita
+
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_PIB %>%
+  filter(uf == "BA") %>%
+  group_by(municipio) %>%
+  summarise(
+  pib_percapita = round(pib_total_em_r_mi/populacao * 1000, 0)
+  ) %>%
+  slice_max(order_by = pib_percapita, n = 10) %>%
+  mutate(municipio=reorder(municipio,pib_percapita)) %>%
+  ggplot() +
+  geom_col(aes(y=municipio, x = pib_percapita), fill = "Blue")+
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Ranking dos 10 municípios baianos com maior PIB per capita. 2019',
+  x = "PIB per capita",
+  y = "Municípios")
+names(dados_PIB)
+  
 ```
 ---
 ## Pacote Tidyverse (ggplot2)
@@ -1740,7 +1946,7 @@ dados_PIB %>%
 Ranking dos 10 municípios baianos com maior PIB per capita
 
 
-```{r , warning=F}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
 dados_PIB %>%
   filter(uf == "BA") %>%
   group_by(municipio) %>%
@@ -1760,9 +1966,524 @@ names(dados_PIB)
   
 ```
 
+---
+## Pacote Tidyverse (ggplot2)
+
+Vamos importar uma série histórica do DataSUS de 2000 a 2020, sobre nascimento e óbitos infantis por UF.
+
+```{r message=FALSE, warning=FALSE}
+library(readxl)
+dados_saude <- read_xlsx("F:/Curso de R/Introducao_R/Curso R/bd/dados_saude.xlsx")
+head(dados_saude)
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Gráfico de dispersão**, relacionando a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas)) +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.")
+```
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), color = "blue", size = 2) +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.")
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Incluindo linha de tendência**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), color = "blue", size = 2) +
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab."
+  )
+```
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), color = "blue", size = 2) +
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab."
+  )
+```
+---
+## Pacote Tidyverse (ggplot2)
+
+**Incluindo linha de tendência**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = uf),  size = 2) + #Para diferenciar por UF, incluímos a cor dentro de "aes"
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Unidade federativa"
+  )
+```
+
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = uf),  size = 2) + #Para diferenciar por UF, incluímos a cor dentro de "aes"
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Unidade federativa"
+  )
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+**Introduzindo a coluna de Regiões**
+
+Primeiro, vamos importar o arquivo "regioes.csv", que está no repositório do `GitHub`
+
+```{r Nao_executar_nem_exibir_codigo, eval=FALSE, include=FALSE}
+dados_saude <- dados_saude %>% 
+  dplyr::mutate ( cod_regiao = dplyr::case_when(cod_uf < 20 ~ 1,
+                                            cod_uf < 30 ~ 2,
+                                            cod_uf < 40 ~ 3,
+                                            cod_uf < 50 ~ 4,
+                                            cod_uf < 60 ~ 5),
+                  dec_regiao = dplyr::case_when(cod_uf < 20 ~ "Norte",
+                                            cod_uf < 30 ~ "Nordeste",
+                                            cod_uf < 40 ~ "Sudeste",
+                                            cod_uf < 50 ~ "Sul",
+                                            cod_uf < 60 ~ "Centro-Oeste"))
+
+```
+
+```{r}
+
+regioes <- utils::read.csv(
+  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/regioes.csv',
+  sep = ';',
+  dec = ','
+)
+head(regioes)
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+**Introduzindo a coluna de Regiões**
+Agora, vamos juntar os conjuntos `dados_saude` e `regioes` com a função `lefht_join`. É algo parecido com a função `PROCV` do `Excel`.
+
+```{r }
+#Juntando os datasets "dados_saude" com "regioes"
+dados_saude <- dplyr::left_join( #Chamamos a função `left_jpoin`, substituindo o conjunto
+  #"dados_saude"
+  x = dados_saude, #à esquerda, o conjunto "dados_saude"
+  y = regioes, #à direita, o conjunto "regioes"
+  by = c('cod_uf'='cod_uf') #a união é pelo código das UFs.
+  #Esquerda: cod_uf do conjunto "dados_saude". 
+  #Direita: cod_uf do conjunto "regioes"
+  #Obs: as colunas não precisam ter necessariamente o mesmo nome
+)
+names(dados_saude) #relacionando os nomes das colunas
+
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Gráfico de dispersão diferenciando as regiões**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+   #Diferenciar por Regiao
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao),  size = 2) +
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região") + 
+  scale_colour_manual(values = c('#078F34','blue','red','orange','#A601E8')) #personalizando as cores
+```
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  #Diferenciar por Regiao
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao),  size = 2) +
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região") + 
+  scale_colour_manual(values = c('#078F34','blue','red','orange','#A601E8')) #personalizando as cores
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Gráfico de dispersão agrupando por ano e região**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  group_by(ano, desc_regiao) %>% #agrupando por ano e região
+  dplyr::mutate(
+    tx_mort_inf = round(sum(obitos_infantis) / sum(nascidos_vivos) * 1000, 1), #Esse agrupamento exige o somatório das variáveis
+    tx_doencas_infecciosas = round(sum(doencas_infecciosas) / sum(populacao) *100000,1) #Esse agrupamento exige o somatório das variáveis
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao),  size = 2) + #Diferenciar por Regiao
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região"
+  ) + 
+  scale_colour_manual(values = c('#078F34','blue','red','orange','#A601E8')) #personalizando as cores
+```
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>% 
+  group_by(ano, desc_regiao) %>% #agrupando por ano e região
+  dplyr::mutate(
+    tx_mort_inf = round(sum(obitos_infantis) / sum(nascidos_vivos) * 1000, 1), #Esse agrupamento exige o somatório das variáveis
+    tx_doencas_infecciosas = round(sum(doencas_infecciosas) / sum(populacao) *100000,1) #Esse agrupamento exige o somatório das variáveis
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao),  size = 2) + #Diferenciar por Regiao
+  #geom-smooth inclui a linha de tendência;
+  #o método "lm" é tendencia linear
+  geom_smooth(aes(x = tx_mort_inf, y = tx_doencas_infecciosas), method = 'lm') +
+  theme_classic() +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região"
+  ) + 
+  scale_colour_manual(values = c('#078F34','blue','red','orange','#A601E8')) #personalizando as cores
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Facetando gráficos**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_saude %>%
+  group_by(desc_regiao) %>%
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao)) +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região") + 
+  facet_grid(~ desc_regiao) #Facetando por Região
+```
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>%
+  group_by(desc_regiao) %>%
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao)) +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região") + 
+  facet_grid(~ desc_regiao) #Facetando por Região
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Facetando gráficos**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_saude %>%
+  group_by(desc_regiao) %>%
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao)) +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região") + 
+  facet_grid(vars(desc_regiao),vars(ano)) #Facetando por Região e ano
+```
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>%
+  group_by(desc_regiao) %>%
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas, color = desc_regiao)) +
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região") + 
+  facet_grid(vars(desc_regiao),vars(ano)) #Facetando por Região e ano
+```
 
 ---
 
+## Pacote Tidyverse (ggplot2)
+
+**Gráfico de linha**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_saude %>%
+  filter(sigla_uf == "BA") %>% 
+  group_by(ano) %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    ) %>%
+  ggplot(aes(x = ano , y = tx_mort_inf, label = tx_mort_inf)) +
+  geom_line(color = "blue", size = 2) + #Aqui definimos a geometria "linha"
+  geom_point(color = "blue", size = 4) + #Também queremos os pontos
+  theme_classic() +
+  geom_text(nudge_y = 0.25) + #Incluindo o label dos valores e sua altura
+  ggplot2::labs(
+  title = 'Taxa de mortalidade infantil (por 1000 n.v.). 2008-2020. Bahia',
+  x = "Ano",
+  y = "Taxa(por 1000 n.v.)")
+```
+---
+
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>%
+  filter(sigla_uf == "BA") %>% 
+  group_by(ano) %>% 
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    ) %>%
+  ggplot(aes(x = ano , y = tx_mort_inf, label = tx_mort_inf)) +
+  geom_line(color = "blue", size = 2) + #Aqui definimos a geometria "linha"
+  geom_point(color = "blue", size = 4) + #Também queremos os pontos
+  theme_classic() +
+  geom_text(nudge_y = 0.25) + #Incluindo o label dos valores e sua altura
+  ggplot2::labs(
+  title = 'Taxa de mortalidade infantil (por 1000 n.v.). 2008-2020. Bahia',
+  x = "Ano",
+  y = "Taxa (por 1000 n.v.)")
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Gráfico de bolhas**
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=12}
+dados_saude %>%
+  group_by(desc_regiao) %>%
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas,
+                 size= populacao, color = desc_regiao)) + #size: tamanho da bolha pela dimensão
+  #da população
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região")
+```
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6.5, fig.width=12}
+dados_saude %>%
+  group_by(desc_regiao) %>%
+  dplyr::mutate(
+    tx_mort_inf = round(obitos_infantis / nascidos_vivos * 1000, 1),
+    tx_doencas_infecciosas = round(doencas_infecciosas / populacao *100000,1)
+    ) %>% 
+  ggplot() +
+  geom_point(aes(x = tx_mort_inf, y = tx_doencas_infecciosas,
+                 size= populacao, color = desc_regiao)) + #size: tamanho da bolha pela
+  #dimensão da população
+  ggplot2::labs(
+  title = 'Gráfico de dispersão entre a taxa de mortalidade infantil e taxa de doenças infecciosas e parasitárias',
+  x = "Taxa de mortalidade infantil (por 1000 n.v.)",
+  y = "Taxa de incidência de doenças infecciosas e parasitárias (por 100 mil hab.",
+  color = "Região")
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+Vamos trabalhar com **gráfico dinâmico**, também conhecido como **gráfico em movimento**. O banco de dados escolhido para gerar o gráfico contém uma série temporal dos países com PIB per capita, expectativa de vida e tamanho populacional.
+
+```{r}
+
+paises <- utils::read.csv(
+  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/life-expectancy-gdp-per-capita.csv',
+  sep = ';',  dec = ',',  encoding = "UTF-8"
+)
+rmarkdown::paged_table(paises, options = list(rows.print=5))
+```
+---
+
+```{r echo=FALSE, eval=TRUE, message=F, warning=F, fig.width=15, fig.height=7.8}
+library(plotly)
+paises_sel <- paises %>% 
+  filter(pais %in% c('Brazil', 'United Satates', 'China', 'India', 'Kuwait'))
+
+P_lot <-  ggplot(paises, aes(expectativa_vida, round(pib_per_capita, 0), fill = continente)) +
+  geom_point(aes(size = populacao, frame = ano, ids = pais, colours="black", stroke = 0.2)) +
+  ggplot2::labs(
+    x = 'Esperança de vida ao nascer',
+    y = 'PIB per capita',
+    title = 'Gráfico dinâmico: Esperança de vida ao nascer, PIB per capita e População estimada. 1960-2018',
+    caption = 'Fonte: https://ourworldindata.org/about',
+    size = "População estimada",
+    fill = "Continente",
+    frame = "Ano"
+    ) +
+  theme_classic()
+
+ggplotly(P_lot)
+```
+---
 
 # Referências
 
