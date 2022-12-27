@@ -109,6 +109,7 @@ writeLines(doc, file_name)
 -  Carregando dados
 -  Análise descritiva (unidimensional)
 -  Pacote Tidyverse
+-  Mapas
 -  Referências
 
 
@@ -2456,33 +2457,157 @@ Vamos trabalhar com **gráfico dinâmico**, também conhecido como **gráfico em
 ```{r}
 
 paises <- utils::read.csv(
-  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/life-expectancy-gdp-per-capita.csv',
+  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/life-expectancy-vs-gdp-per-capita.csv',
   sep = ';',  dec = ',',  encoding = "UTF-8"
 )
 rmarkdown::paged_table(paises, options = list(rows.print=5))
 ```
 ---
+## Pacote Tidyverse (ggplot2)
 
-```{r echo=FALSE, eval=TRUE, message=F, warning=F, fig.width=15, fig.height=7.8}
+```{r eval=FALSE, message=F, warning=F, fig.width=15, fig.height=6.8}
 library(plotly)
-paises_sel <- paises %>% 
-  filter(pais %in% c('Brazil', 'United Satates', 'China', 'India', 'Kuwait'))
 
-P_lot <-  ggplot(paises, aes(expectativa_vida, round(pib_per_capita, 0), fill = continente)) +
-  geom_point(aes(size = populacao, frame = ano, ids = pais, colours="black", stroke = 0.2)) +
+P_lot <-  ggplot(paises, aes(round(pib_per_capita, 0), expectativa_vida, size = populacao, fill = continente)) +
+  geom_point(aes(frame = ano, ids = pais, colours="black", stroke = 0.0),  alpha=0.8) +
   ggplot2::labs(
-    x = 'Esperança de vida ao nascer',
-    y = 'PIB per capita',
+    x = 'PIB per capita',
+    y = 'Expectativa de vida',
     title = 'Gráfico dinâmico: Esperança de vida ao nascer, PIB per capita e População estimada. 1960-2018',
     caption = 'Fonte: https://ourworldindata.org/about',
     size = "População estimada",
     fill = "Continente",
     frame = "Ano"
     ) +
-  theme_classic()
+  theme_classic() +
+  #personalizando as cores
+  scale_fill_manual(values = c('#FC6342','#2CB1B8','#2F7BFA','#EACC26','#BF8BE1', '#6120F0')) +
+  scale_size(range = c(2, 15), name="População")
 
 ggplotly(P_lot)
 ```
+
+
+---
+## Pacote Tidyverse (ggplot2)
+
+```{r echo=FALSE, message=F, warning=F, fig.width=15, fig.height=6.8}
+library(plotly)
+
+P_lot <-  ggplot(paises, aes(round(pib_per_capita, 0), expectativa_vida, size = populacao, fill = continente)) +
+  geom_point(aes(frame = ano, ids = pais, colours="black", stroke = 0.0),  alpha=0.8) +
+  ggplot2::labs(
+    x = 'PIB per capita',
+    y = 'Expectativa de vida',
+    title = 'Gráfico dinâmico: Esperança de vida ao nascer, PIB per capita e População estimada. 1960-2018',
+    caption = 'Fonte: https://ourworldindata.org/about',
+    size = "População estimada",
+    fill = "Continente",
+    frame = "Ano"
+    ) +
+  theme_classic() +
+  #personalizando as cores
+  scale_fill_manual(values = c('#FC6342','#2CB1B8','#2F7BFA','#EACC26','#BF8BE1', '#6120F0')) +
+  scale_size(range = c(2, 15), name="População")
+
+  
+ggplotly(P_lot)
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+**Facetando o gráfico dinâmico**
+
+```{r eval=FALSE, message=F, warning=F, fig.width=15, fig.height=6.8}
+library(plotly)
+
+P_lot <-  ggplot(paises, aes(round(pib_per_capita, 0), expectativa_vida, size = populacao, fill = continente)) +
+  geom_point(aes(frame = ano, ids = pais, colours="black", stroke = 0.0),  alpha=0.8) +
+  ggplot2::labs(
+    x = 'PIB per capita',
+    y = 'Expectativa de vida',
+    title = 'Gráfico dinâmico: Esperança de vida ao nascer, PIB per capita e População estimada. 1960-2018',
+    caption = 'Fonte: https://ourworldindata.org/about',
+    size = "População estimada",
+    fill = "Continente",
+    frame = "Ano"
+    ) +
+  theme_bw() +
+  #personalizando as cores
+  scale_fill_manual(values = c('#FC6342','#2CB1B8','#2F7BFA','#EACC26','#BF8BE1', '#6120F0')) +
+  scale_size(range = c(2, 15), name="População") +
+  facet_wrap(~ continente, scales = "fixed")
+
+  
+ggplotly(P_lot)
+```
+
+---
+## Pacote Tidyverse (ggplot2)
+
+```{r echo=FALSE, message=F, warning=F, fig.width=15, fig.height=6.8}
+library(plotly)
+
+P_lot2 <-  ggplot(paises, aes(round(pib_per_capita, 0), expectativa_vida, size = populacao, fill = continente)) +
+  geom_point(aes(frame = ano, ids = pais, colours="black", stroke = 0.0),  alpha=0.8) +
+  ggplot2::labs(
+    x = 'PIB per capita',
+    y = 'Expectativa de vida',
+    title = 'Gráfico dinâmico: Esperança de vida ao nascer, PIB per capita e População estimada. 1960-2018',
+    caption = 'Fonte: https://ourworldindata.org/about',
+    size = "População estimada",
+    fill = "Continente",
+    frame = "Ano"
+    ) +
+  theme_bw() +
+  #personalizando as cores
+  scale_fill_manual(values = c('#FC6342','#2CB1B8','#2F7BFA','#EACC26','#BF8BE1', '#6120F0')) +
+  scale_size(range = c(2, 15), name="População") +
+  facet_wrap(~ continente, scales = "fixed")
+
+  
+ggplotly(P_lot2)
+```
+
+---
+# Mapas
+Há vários pacotes para produção de mapas no R, mas vamos usar apenas dois: o `maptools` e o `leaflet`.
+
+Para usar o o pacote `maptools`, devemos baixar malhas digitais. Um formato padrão de mapa digital é o _shapefile_. _Shapefile_ é um formato de armazenagem de dados vetoriais para
+armazenar a posição, o formato e os atributos de feições geográficas.
+
+_Shapefile- é um conjunto de, ao menos três arquivos:
+- Arquivo com os polígonos (com extensão `.shp`);
+- Arquivo com os atributos (com extensão `.dbf`);
+- Arquivo com os índices (com extensão `.shx`).
+
+Também há outros formatos de mapas que podem ser importados pelo `R`, como o formato `.rds`.
+
+A forma usual de apresentação de dados agregados por áreas é o uso de _maps temáticos_.
+
+---
+## Mapas
+
+Algumas páginas para baixar malhas digitais:
+
+> [StatSilk](http://www.statsilk.com/maps/download-free-shapefile-maps)
+
+</br>
+> [Natural Earth](http://www.naturalearthdata.com/features/)
+
+</br>
+> [Global Administrative Areas (GADM)](https://gadm.org/download_country.html)
+
+</br>
+> [IBGE](https://www.ibge.gov.br/geociencias/downloads-geociencias.html)
+
+---
+## Mapas
+
+O _IBGE_ disponibiliza centenas de mapas. Há mapas do Brasil divididos por municípios e mapas de municípios divididos por setores censitários. Na área de geociências é possível fazer downloads de cartas imagem, imagens aéreas e orbitais, mapas, malhas, além de conteúdos da INDE, atlas e arquivos Google Earth, entre outros.
+
+https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2021/Brasil/BR/
 ---
 
 # Referências
