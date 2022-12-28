@@ -110,6 +110,9 @@ writeLines(doc, file_name)
 -  Análise descritiva (unidimensional)
 -  Pacote Tidyverse
 -  Mapas
+-  Malha digital da Bahia por municípios
+-  Malha digital da Bahia por mesorregiões
+-  Malha digital da Bahia por microrregiões
 -  Referências
 
 
@@ -2591,25 +2594,127 @@ A forma usual de apresentação de dados agregados por áreas é o uso de _maps 
 
 Algumas páginas para baixar malhas digitais:
 
-> [StatSilk](http://www.statsilk.com/maps/download-free-shapefile-maps)
+> [**StatSilk**](http://www.statsilk.com/maps/download-free-shapefile-maps) - http://www.statsilk.com/maps/download-free-shapefile-maps
 
 </br>
-> [Natural Earth](http://www.naturalearthdata.com/features/)
+> [**Natural Earth**](http://www.naturalearthdata.com/features/) - http://www.naturalearthdata.com/features/
 
 </br>
-> [Global Administrative Areas (GADM)](https://gadm.org/download_country.html)
+> [**Global Administrative Areas (GADM)**](https://gadm.org/download_country.html) - https://gadm.org/download_country.html
 
 </br>
-> [IBGE](https://www.ibge.gov.br/geociencias/downloads-geociencias.html)
+> [**IBGE**](https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/) - https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/
+
+---
+background-image: url(https://github.com/lcsfilho/Introducao_R/blob/master/Curso%20R/fig/MalhaTerrit.PNG?raw=true)
+background-size: 80%
+background-position: 30% 95%
+
+## Mapas
+
+O `IBGE` disponibiliza centenas de mapas, desde mapas do Brasil divididos por municípios a mapas de municípios divididos por setores censitários. Na área de geociências é possível fazer downloads de cartas imagem, imagens aéreas e orbitais, mapas, malhas, além de conteúdos da INDE, atlas e arquivos Google Earth, entre outros.
+
+</br>
+
+**Importando mapas**
+
+Vamos importar o mapa da Bahia subdividido em municípios, macro e mesorregiões, pela página do `IBGE`.
+
+
+https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2021/UFs/BA/
 
 ---
 ## Mapas
 
-O _IBGE_ disponibiliza centenas de mapas. Há mapas do Brasil divididos por municípios e mapas de municípios divididos por setores censitários. Na área de geociências é possível fazer downloads de cartas imagem, imagens aéreas e orbitais, mapas, malhas, além de conteúdos da INDE, atlas e arquivos Google Earth, entre outros.
+```{r eval=-1, fig.align='center', fig.height=5, message=FALSE, warning=FALSE}
+install.packages("maptools")
+library(maptools)
 
-https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2021/Brasil/BR/
+# Malha digital da Bahia por municípios
+bahia_mun = readShapeSpatial(
+  "F:/Curso de R/Introducao_R/Curso R/malhadigital/BA_Municipios_2021/BA_Municipios_2021.shp"
+  )
+
+# Malha digital da Bahia por mesorregiões
+bahia_mes = readShapeSpatial(
+  "F:/Curso de R/Introducao_R/Curso R/malhadigital/BA_Mesorregioes_2021/BA_Mesorregioes_2021.shp"
+  )
+
+
+# Malha digital da Bahia por microrregiões
+bahia_mic = readShapeSpatial(
+  "F:/Curso de R/Introducao_R/Curso R/malhadigital/BA_Microrregioes_2021/BA_Microrregioes_2021.shp"
+  )
+```
+
 ---
+## Mapas
 
+Malha da Bahia por municípios
+```{r  fig.align='center', fig.height=6.5, message=FALSE, warning=FALSE}
+plot(bahia_mun)
+```
+
+---
+## Mapas
+.pull-left[
+Malha da Bahia por microrregiões
+```{r  fig.align='center', fig.height=6.5, message=FALSE, warning=FALSE}
+plot(bahia_mic)
+```
+
+]
+
+.pull-right[
+Malha da Bahia por mesorregiões
+```{r fig.align='center', fig.height=6.5, message=FALSE, warning=FALSE}
+plot(bahia_mes)
+```
+
+]
+
+---
+## Mapas
+
+Ajustando cores e linhas
+```{r  fig.align='center', fig.height=6.5, message=FALSE, warning=FALSE}
+plot(bahia_mun, col="gray", border="white")
+
+```
+
+---
+## Mapas
+
+O objeto `bahia_mun` contém:
+
+> Um conjunto de polígonos, que representam os 417 municípios da Bahia;
+
+> Uma tabela (`data.frame`) com alguns atributos dos municípios (417 linhas)
+
+Espiando o data.frame associado ao objeto `bahia_mun`
+```{r }
+names(bahia_mun) #Leitura do cabeçalho do data-frame
+head(data.frame(bahia_mun)) #Leitura das 5 primeiras linhas do data-frame
+
+```
+
+---
+## Mapas
+Vamos contruir o mapa da taxa de mortalidade infantil.
+
+**Atenção**: o código do município da sua tabela deve ser escrito exatamente igual ao código do município do `IBGE`, pois é por ele que as bases serão `ligadas`. O `R` já entende que a variável comum (chave) é **CD_MUN**.
+
+
+```{r}
+dados_mun_ba <- utils::read.csv(
+  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/obitos_Infantis_nascidos_vivos_BA_mun_2020.csv',
+  sep = ';', encoding = "UTF-8"
+)
+rmarkdown::paged_table(dados_mun_ba, options = list(rows.print=5))
+```
+
+
+---
 # Referências
 
 ```{r refs, echo=FALSE, results="asis"}
