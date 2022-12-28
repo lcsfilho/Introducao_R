@@ -1,0 +1,418 @@
+cod_munic;Município;nasc_vivos
+2900108;Abaíra;46
+2900207;Abaré;318
+2900306;Acajutiba;159
+2900355;Adustina;143
+2900405;Água Fria;127
+2900603;Aiquara;44
+2900702;Alagoinhas;2136
+2900801;Alcobaça;333
+2900900;Almadina;59
+2901007;Amargosa;459
+2901106;Amélia Rodrigues;175
+2901155;América Dourada;209
+2901205;Anagé;241
+2901304;Andaraí;180
+2901353;Andorinha;177
+2901403;Angical;184
+2901502;Anguera;53
+2901601;Antas;153
+2901700;Antônio Cardoso;141
+2901809;Antônio Gonçalves;160
+2901908;Aporá;169
+2901957;Apuarema;103
+2902054;Araçás;151
+2902005;Aracatu;158
+2902104;Araci;661
+2902203;Aramari;100
+2902252;Arataca;139
+2902302;Aratuípe;135
+2902401;Aurelino Leal;190
+2902500;Baianópolis;186
+2902609;Baixa Grande;204
+2902658;Banzaê;161
+2902708;Barra;834
+2902807;Barra da Estiva;421
+2902906;Barra do Choça;540
+2903003;Barra do Mendes;148
+2903102;Barra do Rocha;59
+2903201;Barreiras;2545
+2903235;Barro Alto;156
+2903300;Barro Preto;61
+2903276;Barrocas;170
+2903409;Belmonte;316
+2903508;Belo Campo;219
+2903607;Biritinga;214
+2903706;Boa Nova;176
+2903805;Boa Vista do Tupim;234
+2903904;Bom Jesus da Lapa;1087
+2903953;Bom Jesus da Serra;125
+2904001;Boninal;180
+2904050;Bonito;245
+2904100;Boquira;247
+2904209;Botuporã;132
+2904308;Brejões;139
+2904407;Brejolândia;98
+2904506;Brotas de Macaúbas;146
+2904605;Brumado;856
+2904704;Buerarema;202
+2904753;Buritirama;310
+2904803;Caatiba;66
+2904852;Cabaceiras do Paraguaçu;208
+2904902;Cachoeira;360
+2905008;Caculé;310
+2905107;Caém;149
+2905156;Caetanos;122
+2905206;Caetité;676
+2905305;Cafarnaum;241
+2905404;Cairu;303
+2905503;Caldeirão Grande;191
+2905602;Camacan;345
+2905701;Camaçari;3893
+2905800;Camamu;570
+2905909;Campo Alegre de Lourdes;516
+2906006;Campo Formoso;1122
+2906105;Canápolis;128
+2906204;Canarana;306
+2906303;Canavieiras;431
+2906402;Candeal;62
+2906501;Candeias;975
+2906600;Candiba;169
+2906709;Cândido Sales;341
+2906808;Cansanção;466
+2906824;Canudos;210
+2906857;Capela do Alto Alegre;103
+2906873;Capim Grosso;447
+2906899;Caraíbas;88
+2906907;Caravelas;267
+2907004;Cardeal da Silva;108
+2907103;Carinhanha;439
+2907202;Casa Nova;985
+2907301;Castro Alves;305
+2907400;Catolândia;42
+2907509;Catu;467
+2907558;Caturama;83
+2907608;Central;202
+2907707;Chorrochó;141
+2907806;Cícero Dantas;315
+2907905;Cipó;274
+2908002;Coaraci;195
+2908101;Cocos;274
+2908200;Conceição da Feira;238
+2908309;Conceição do Almeida;161
+2908408;Conceição do Coité;971
+2908507;Conceição do Jacuípe;349
+2908606;Conde;323
+2908705;Condeúba;212
+2908804;Contendas do Sincorá;42
+2908903;Coração de Maria;223
+2909000;Cordeiros;80
+2909109;Coribe;148
+2909208;Coronel João Sá;203
+2909307;Correntina;421
+2909406;Cotegipe;172
+2909505;Cravolândia;73
+2909604;Crisópolis;226
+2909703;Cristópolis;168
+2909802;Cruz das Almas;786
+2909901;Curaçá;551
+2910008;Dário Meira;136
+2910057;Dias D'Ávila;1046
+2910107;Dom Basílio;122
+2910206;Dom Macedo Costa;52
+2910305;Elísio Medrado;84
+2910404;Encruzilhada;273
+2910503;Entre Rios;510
+2900504;Érico Cardoso;108
+2910602;Esplanada;497
+2910701;Euclides da Cunha;824
+2910727;Eunápolis;1809
+2910750;Fátima;213
+2910776;Feira da Mata;60
+2910800;Feira de Santana;9465
+2910859;Filadélfia;233
+2910909;Firmino Alves;50
+2911006;Floresta Azul;90
+2911105;Formosa do Rio Preto;424
+2911204;Gandu;429
+2911253;Gavião;47
+2911303;Gentio do Ouro;141
+2911402;Glória;223
+2911501;Gongogi;70
+2911600;Governador Mangabeira;278
+2911659;Guajeru;63
+2911709;Guanambi;1265
+2911808;Guaratinga;220
+2911857;Heliópolis;132
+2911907;Iaçu;334
+2912004;Ibiassucê;98
+2912103;Ibicaraí;229
+2912202;Ibicoara;322
+2912301;Ibicuí;151
+2912400;Ibipeba;197
+2912509;Ibipitanga;140
+2912608;Ibiquera;57
+2912707;Ibirapitanga;331
+2912806;Ibirapoã;126
+2912905;Ibirataia;233
+2913002;Ibitiara;136
+2913101;Ibititá;215
+2913200;Ibotirama;404
+2913309;Ichu;39
+2913408;Igaporã;134
+2913457;Igrapiúna;180
+2913507;Iguaí;364
+2913606;Ilhéus;2281
+2913705;Inhambupe;405
+2913804;Ipecaetá;123
+2913903;Ipiaú;602
+2914000;Ipirá;695
+2914109;Ipupiara;92
+2914208;Irajuba;65
+2914307;Iramaia;105
+2914406;Iraquara;367
+2914505;Irará;296
+2914604;Irecê;1259
+2914653;Itabela;512
+2914703;Itaberaba;848
+2914802;Itabuna;2333
+2914901;Itacaré;409
+2915007;Itaeté;197
+2915106;Itagi;202
+2915205;Itagibá;152
+2915304;Itagimirim;54
+2915353;Itaguaçu da Bahia;180
+2915403;Itaju do Colônia;74
+2915502;Itajuípe;213
+2915601;Itamaraju;985
+2915700;Itamari;131
+2915809;Itambé;267
+2915908;Itanagra;94
+2916005;Itanhém;187
+2916104;Itaparica;262
+2916203;Itapé;113
+2916302;Itapebi;105
+2916401;Itapetinga;959
+2916500;Itapicuru;322
+2916609;Itapitanga;72
+2916708;Itaquara;85
+2916807;Itarantim;207
+2916856;Itatim;153
+2916906;Itiruçu;139
+2917003;Itiúba;511
+2917102;Itororó;203
+2917201;Ituaçu;203
+2917300;Ituberá;293
+2917334;Iuiu;131
+2917359;Jaborandi;139
+2917409;Jacaraci;121
+2917508;Jacobina;1294
+2917607;Jaguaquara;679
+2917706;Jaguarari;449
+2917805;Jaguaripe;230
+2917904;Jandaíra;143
+2918001;Jequié;2240
+2918100;Jeremoabo;492
+2918209;Jiquiriçá;141
+2918308;Jitaúna;184
+2918357;João Dourado;404
+2918407;Juazeiro;4263
+2918456;Jucuruçu;84
+2918506;Jussara;188
+2918555;Jussari;56
+2918605;Jussiape;58
+2918704;Lafayette Coutinho;56
+2919058;Lagedo do Tabocal;66
+2918753;Lagoa Real;135
+2918803;Laje;267
+2918902;Lajedão;33
+2919009;Lajedinho;37
+2919108;Lamarão;87
+2919157;Lapão;355
+2919207;Lauro de Freitas;3013
+2919306;Lençóis;137
+2919405;Licínio de Almeida;156
+2919504;Livramento de Nossa Senhora;564
+2919553;Luís Eduardo Magalhães;2035
+2919603;Macajuba;131
+2919702;Macarani;192
+2919801;Macaúbas;552
+2919900;Macururé;97
+2919926;Madre de Deus;254
+2919959;Maetinga;83
+2920007;Maiquinique;112
+2920106;Mairi;210
+2920205;Malhada;174
+2920304;Malhada de Pedras;104
+2920403;Manoel Vitorino;178
+2920452;Mansidão;89
+2920502;Maracás;288
+2920601;Maragogipe;424
+2920700;Maraú;291
+2920809;Marcionílio Souza;109
+2920908;Mascote;123
+2921005;Mata de São João;756
+2921054;Matina;132
+2921104;Medeiros Neto;285
+2921203;Miguel Calmon;370
+2921302;Milagres;130
+2921401;Mirangaba;182
+2921450;Mirante;93
+2921500;Monte Santo;640
+2921609;Morpará;103
+2921708;Morro do Chapéu;473
+2921807;Mortugaba;124
+2921906;Mucugê;129
+2922003;Mucuri;641
+2922052;Mulungu do Morro;181
+2922102;Mundo Novo;181
+2922201;Muniz Ferreira;71
+2922250;Muquém de São Francisco;177
+2922300;Muritiba;307
+2922409;Mutuípe;252
+2922508;Nazaré;283
+2922607;Nilo Peçanha;167
+2922656;Nordestina;164
+2922706;Nova Canaã;154
+2922730;Nova Fátima;68
+2922755;Nova Ibiá;44
+2922805;Nova Itarana;109
+2922854;Nova Redenção;95
+2922904;Nova Soure;332
+2923001;Nova Viçosa;433
+2923035;Novo Horizonte;156
+2923050;Novo Triunfo;107
+2923100;Olindina;282
+2923209;Oliveira dos Brejinhos;246
+2923308;Ouriçangas;66
+2923357;Ourolândia;247
+2923407;Palmas de Monte Alto;237
+2923506;Palmeiras;151
+2923605;Paramirim;239
+2923704;Paratinga;425
+2923803;Paripiranga;281
+2923902;Pau Brasil;153
+2924009;Paulo Afonso;1749
+2924058;Pé de Serra;148
+2924108;Pedrão;76
+2924207;Pedro Alexandre;190
+2924306;Piatã;239
+2924405;Pilão Arcado;604
+2924504;Pindaí;148
+2924603;Pindobaçu;262
+2924652;Pintadas;72
+2924678;Piraí do Norte;95
+2924702;Piripá;93
+2924801;Piritiba;205
+2924900;Planaltino;78
+2925006;Planalto;296
+2925105;Poções;650
+2925204;Pojuca;418
+2925253;Ponto Novo;257
+2925303;Porto Seguro;2762
+2925402;Potiraguá;106
+2925501;Prado;521
+2925600;Presidente Dutra;149
+2925709;Presidente Jânio Quadros;122
+2925758;Presidente Tancredo Neves;384
+2925808;Queimadas;333
+2925907;Quijingue;301
+2925931;Quixabeira;98
+2925956;Rafael Jambeiro;213
+2926004;Remanso;647
+2926103;Retirolândia;175
+2926202;Riachão das Neves;299
+2926301;Riachão do Jacuípe;383
+2926400;Riacho de Santana;339
+2926509;Ribeira do Amparo;177
+2926608;Ribeira do Pombal;731
+2926657;Ribeirão do Largo;107
+2926707;Rio de Contas;137
+2926806;Rio do Antônio;130
+2926905;Rio do Pires;85
+2927002;Rio Real;469
+2927101;Rodelas;184
+2927200;Ruy Barbosa;412
+2927309;Salinas da Margarida;191
+2927408;Salvador;30149
+2927507;Santa Bárbara;230
+2927606;Santa Brígida;205
+2927705;Santa Cruz Cabrália;453
+2927804;Santa Cruz da Vitória;58
+2927903;Santa Inês;103
+2928059;Santa Luzia;161
+2928109;Santa Maria da Vitória;523
+2928406;Santa Rita de Cássia;386
+2928505;Santa Terezinha;148
+2928000;Santaluz;529
+2928208;Santana;302
+2928307;Santanópolis;55
+2928604;Santo Amaro;578
+2928703;Santo Antônio de Jesus;1320
+2928802;Santo Estêvão;638
+2928901;São Desidério;548
+2928950;São Domingos;70
+2929107;São Felipe;212
+2929008;São Félix;155
+2929057;São Félix do Coribe;250
+2929206;São Francisco do Conde;563
+2929255;São Gabriel;223
+2929305;São Gonçalo dos Campos;341
+2929354;São José da Vitória;82
+2929370;São José do Jacuípe;128
+2929404;São Miguel das Matas;113
+2929503;São Sebastião do Passé;456
+2929602;Sapeaçu;210
+2929701;Sátiro Dias;172
+2929750;Saubara;134
+2929800;Saúde;109
+2929909;Seabra;623
+2930006;Sebastião Laranjeiras;82
+2930105;Senhor do Bonfim;1010
+2930204;Sento Sé;499
+2930154;Serra do Ramalho;565
+2930303;Serra Dourada;216
+2930402;Serra Preta;88
+2930501;Serrinha;1145
+2930600;Serrolândia;155
+2930709;Simões Filho;1749
+2930758;Sítio do Mato;190
+2930766;Sítio do Quinto;137
+2930774;Sobradinho;433
+2930808;Souto Soares;233
+2930907;Tabocas do Brejo Velho;135
+2931004;Tanhaçu;253
+2931053;Tanque Novo;198
+2931103;Tanquinho;74
+2931202;Taperoá;215
+2931301;Tapiramutá;243
+2931350;Teixeira de Freitas;2547
+2931400;Teodoro Sampaio;70
+2931509;Teofilândia;263
+2931608;Teolândia;178
+2931707;Terra Nova;108
+2931806;Tremedal;171
+2931905;Tucano;567
+2932002;Uauá;337
+2932101;Ubaíra;199
+2932200;Ubaitaba;255
+2932309;Ubatã;204
+2932408;Uibaí;149
+2932457;Umburanas;207
+2932507;Una;237
+2932606;Urandi;163
+2932705;Uruçuca;297
+2932804;Utinga;221
+2932903;Valença;1371
+2933000;Valente;263
+2933059;Várzea da Roça;120
+2933109;Várzea do Poço;88
+2933158;Várzea Nova;174
+2933174;Varzedo;99
+2933208;Vera Cruz;552
+2933257;Vereda;70
+2933307;Vitória da Conquista;5174
+2933406;Wagner;99
+2933455;Wanderley;164
+2933505;Wenceslau Guimarães;296
+2933604;Xique-Xique;856
