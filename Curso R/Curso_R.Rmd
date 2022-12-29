@@ -2700,7 +2700,7 @@ head(data.frame(bahia_mun)) #Leitura das 5 primeiras linhas do data-frame
 
 ---
 ## Mapas
-Vamos contruir o mapa da taxa de mortalidade infantil.
+Vamos construir o mapa da taxa de mortalidade infantil.
 
 **Atenção**: o código do município da sua tabela deve ser escrito exatamente igual ao código do município do `IBGE`, pois é por ele que as bases serão `ligadas`. O `R` já entende que a variável comum (chave) é **CD_MUN**.
 
@@ -2712,6 +2712,42 @@ dados_mun_ba <- utils::read.csv(
 )
 rmarkdown::paged_table(dados_mun_ba, options = list(rows.print=5))
 ```
+
+---
+## Mapas
+
+Perceba que o conjunto de dados não possui a taxa de mortalidade infantil. Vamos calcular e incluir no `data-frame`. A coluna com o nome do município será removida, pois iremos unir esse banco ao objeto espacial, que já possui o nome do município.
+
+```{r}
+dados_mun_ba <- dados_mun_ba %>%
+  select(CD_MUN, nasc_vivos, obitos_infantis) %>% #aqui não selecionamos o nome do município
+  mutate(tx_mort_inf=round((obitos_infantis/nasc_vivos * 1000), 1))
+
+rmarkdown::paged_table(dados_mun_ba, options = list(rows.print=5))
+```
+---
+## Mapas
+
+Agora, vamos criar uma nova tabela contendo o código do município, o nome do município, nascidos vivos, óbitos infantis e a taxa de mortalidade infantil. Faremos uma `merge` (união) entre o objeto espacial `bahia_mun` e o data-frame `dados_mun_ba`. Lembre que o `R` já entende que a variável comum `CD_MUN` é a chave.
+
+
+```{r}
+dados_txmort_BA = merge(bahia_mun@data, dados_mun_ba, sort=FALSE)
+rmarkdown::paged_table(dados_txmort_BA, options = list(rows.print=5))
+```
+
+
+---
+## Mapas
+Mas `dados_txmort_BA` é uma classe de dados não-espacial, então vamos atribuir esse conjunto de dados ao `SpatialPolygonsDataFrame`, que consiste de uma classe de objetos para armazenar polígonos com seus atributos.
+
+```{r}
+bahia_mun@data = dados_txmort_BA #atribuímos os dados do data-frame ao objeto espacial
+names(bahia_mun) #espiando como ficou
+```
+
+
+
 
 
 ---
