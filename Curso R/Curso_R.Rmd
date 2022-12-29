@@ -113,6 +113,11 @@ writeLines(doc, file_name)
 -  Malha digital da Bahia por municípios
 -  Malha digital da Bahia por mesorregiões
 -  Malha digital da Bahia por microrregiões
+-  Intervalos de classe para a variável
+-  Aplicando titulo
+-       cex.main = 0.8)
+-  Criando legenda
+-  Criando legenda
 -  Referências
 
 
@@ -2678,7 +2683,7 @@ plot(bahia_mes)
 
 Ajustando cores e linhas
 ```{r  fig.align='center', fig.height=6.5, message=FALSE, warning=FALSE}
-plot(bahia_mun, col="gray", border="white")
+plot(bahia_mun, col="#64a8d9", border="white")
 
 ```
 
@@ -2743,12 +2748,147 @@ Mas `dados_txmort_BA` é uma classe de dados não-espacial, então vamos atribui
 
 ```{r}
 bahia_mun@data = dados_txmort_BA #atribuímos os dados do data-frame ao objeto espacial
-names(bahia_mun) #espiando como ficou
+names(bahia_mun) #espiando os nomes das variáveis
+```
+
+---
+## Mapas
+A partir de agora, vamos iniciar a construção dos mapas temáticos. Para criar os intervalos de valores, que serão coloridos no mapa de acordo com sua classe, usamos o pacote `classInt`; e, para colorir os mapas, vamos usar o pacote `RColorBrewer`, que é usado, especialmente, em mapas temáticos.
+
+```{r, eval=-1, warning=FALSE, message=FALSE}
+install.packages("classInt", "RColorBrewer")
+library(classInt)
+library(RColorBrewer)
+```
+
+Escolhendo a variável, criando os intervalos e colorindo o mapa
+```{r warning=FALSE, message=FALSE}
+txmortinf = bahia_mun@data[,"tx_mort_inf"] #Selecionando a variável para o mapa temático
+# Intervalos de classe para a variável
+intervalos = classIntervals(txmortinf, n = 5, style = "fisher")$brk 
+#Escolhendo as cores (repare que a quantidade de intervalos deve ser informada novamente)
+cores = brewer.pal(5, "Blues")
+```
+---
+## Mapas
+
+```{r  fig.align='center', fig.height=5, message=FALSE, warning=FALSE}
+#Plotando o mapa
+par(mar = c(0, 0, 0, 0)) #removendo as margens para dar mais espaço ao mapa
+plot(bahia_mun, col=cores[findInterval(txmortinf, intervalos, all.inside = TRUE)],
+     axes = TRUE, border = rgb(0.7, 0.7, 0.7), cex = 2)
 ```
 
 
+---
+## Mapas (alguns argumentos gráficos) 
+
+.pull-left[
+- adj: justificação de texto
+- ann: inserção de títulos
+- bg: cor de fundo
+- bty: tipo de caixa do gráfico
+- cex: tamanho do texto
+- cex.axis: tamanho do 'tick' dos eixos
+- cex.lab: tamanho dos nomes dos eixos
+- cex.main: tamanho do título do gráfico
+- cex.sub: tamanho do sub-título do gráfico
+- col: cor de linhas e símbolos
+- col.axis: cor do 'tick' dos eixos
+- col.lab: cor dos nomes dos eixos
+- col.main: cor do título do gráfico
+- col.sub: cor do sub-título
+- fg: cor das linhas externas
+- font: fonte para texto
+- font.axis: fonte para 'tick' dos eixos
+- font.lab: fonte para nome dos eixos
+- font.main: fonte para o título
+]
+
+.pull-right[
+- font.sub: fonte para o subtítulo
+- gamma: correção para cores
+- lab: número de 'ticks' nos eixos
+- las: rotação de textos nas margens dos eixos
+- lty: tipo de linha
+- lwd: largura da linha
+- mgp: localização de 'ticks' e nomes de 'ticks'
+- pch: tipo de símbolo
+- srt: rotação de de texto na região do plot
+- tck: comprimento dos 'ticks' (em relação ao gráfico)
+- tcl: comprimento dos 'ticks' (em relação ao texto)
+- tmag: tamanho do título do gráfico (rel. outros eixos)
+- type: tipo de gráfico (pontos, linhas, ambos)
+- xaxp: número de 'ticks' sobre eiso 'x'
+- xaxs: cálculo da amplitude de escal do eixo x
+- xaxt: estilo do eixo x (padrão ou nenhum)
+- yaxp: número de 'ticks' sobre eiso 'y'
+- yaxs: cálculo da amplitude de escal do eixo y
+- yaxt: estilo do eixo y (padrão ou nenhum)
+]
+
+---
+## Mapas
+
+Vamos incluir o título no gráfico. Há duas maneiras: a primeira, usando a função `title()`; e a segunda, usando `text()`, na qual precisamos definir as coordenadas do título. Para isso, isamos a função `locator()`, que, quando acionado, o `R` altera o formato do cursor para uma cruz. Após essa alteração, devemos clicar no ponto onde ficará o centro do texto e acionar a techa `esc` para sair da função e observar as coordenadas impressas no console.
+
+**Obs**: \n (quebra de linha
+
+```{r eval=FALSE}
+# Aplicando titulo
+#title(main = list("Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020"),
+#      cex.main = 0.8)
+#locator() # utilizado para encontrar as coordenadas para inserção do título
+#ou 
+text(-39.84, -8.49,"Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020")
+```
+
+Agora vamos plotar o mapa
+---
+
+## Mapas
+```{r  fig.align='center', fig.height=5, message=FALSE, warning=FALSE}
+par(mar = c(0, 0, 0, 0)) #removendo as margens para dar mais espaço ao mapa
+plot(bahia_mun, col=cores[findInterval(txmortinf, intervalos, all.inside = TRUE)],
+     axes = TRUE, border = rgb(0.7, 0.7, 0.7), cex = 2)
+text(-42, -8.4,"Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020")
+```
+---
+
+## Mapas
+
+Para finalizar, precisamos criar a legenda
+
+```{r  eval=FALSE, fig.align='center', fig.height=5, message=FALSE, warning=FALSE}
+par(mar = c(0, 0, 0, 0)) #removendo as margens para dar mais espaço ao mapa
+plot(bahia_mun, col=cores[findInterval(txmortinf, intervalos, all.inside = TRUE)],
+     axes = TRUE, border = rgb(0.7, 0.7, 0.7), cex = 2)
+text(-42, -8.4,"Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020")
+
+# Criando legenda
+legend(x=-44.4, y=-16.3, legend=leglabs(intervalos),
+       fill=cores, bty="n", cex=0.8)
+```
+Em `leglabs`, defininos o texto dos intervalos já criados.
+
+Em `fill`, as cores também já definidas anteriormente.
+
+`bty` está relacionado à caixa ao redor da legenda. Assume valores "n" ou "o", que significam "não" (sem a caixa) e "sim" (com a caixa), respectivamente. O default é o valor "o".
+
+---
+## Mapas
 
 
+```{r , echo=FALSE, fig.align='center', fig.height=6.5, message=FALSE, warning=FALSE}
+par(mar = c(0, 0, 0, 0)) #removendo as margens para dar mais espaço ao mapa
+plot(bahia_mun, col=cores[findInterval(txmortinf, intervalos, all.inside = TRUE)],
+     axes = TRUE, border = rgb(0.7, 0.7, 0.7), cex = 2)
+text(-42, -8.4,"Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020")
+
+# Criando legenda
+legend(x=-44.4, y=-16.3, legend=leglabs(intervalos),
+       fill=cores, bty="n", cex=0.8)
+```
 
 ---
 # Referências
