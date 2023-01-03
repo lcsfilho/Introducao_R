@@ -2772,6 +2772,16 @@ cores = brewer.pal(5, "Blues")
 ---
 ## Mapas
 
+O pacote `RColorBrewer` possui as seguintes paleta de cores:
+```{r echo=FALSE, fig.align='center', fig.height=7.5, message=FALSE, warning=FALSE}
+display.brewer.all(n=NULL,type='all',colorblindFriendly=TRUE)
+
+```
+
+
+---
+## Mapas
+
 ```{r  fig.align='center', fig.height=5, message=FALSE, warning=FALSE}
 #Plotando o mapa
 par(mar = c(0, 0, 0, 0)) #removendo as margens para dar mais espaço ao mapa
@@ -2889,6 +2899,163 @@ text(-42, -8.4,"Taxa de mortalidade infantil municipal por mil nascidos vivos. B
 legend(x=-44.4, y=-16.3, legend=leglabs(intervalos),
        fill=cores, bty="n", cex=0.8)
 ```
+
+---
+## Mapas
+Agora vamos criar um mapa pelo pacote `leaflet`, um dos pacotes do `tidyverse`. O **Leaflet** é uma das bibliotecas `JavaScript` para a criação de mapas interativos. É possível gerar esses mapas de forma direta no `R` para usar em documentos `RMarkdown` e `Shiny`.
+
+Como utilizar?
+
+Basicamente, a criação de um mapa pelo `leaflet` passa pelos seguintes passos:
+
+1. Criação do mapa pela função `leaflet()`
+2. Inclusão de camadas com as funções `addTiles()`, `addMarkers()` ou `addPolygons()`.
+3. Impresão do mapa.
+
+`r RefManageR::Cite(referencias, "Statplace")`
+
+
+Nos nossos exemplos, vamos substituir a função `addMarkers()` por `setView()`.
+
+Vejamos um simples exemplo de geração de mapa no próximo slide.
+
+
+---
+## Mapas
+
+```{r fig.align='center', fig.height=4.2, fig.width=15}
+
+library(leaflet)
+
+mapa <- leaflet() %>% #Chama a função leaflet()
+  addTiles() %>%  #Adiciona um recorte de mapa do OpenStreetMap
+  setView(lat=-12.95323880717755, lng=-38.42876781766252, zoom=18) #Coordenadas e zoom inicial
+mapa  #Gera o mapa
+
+```
+
+---
+## Mapas
+
+Utilizando os dados da taxa de mortalidade infantil, vamos construir um mapa interativo pelo `leaflet`. Primeiro, vamos ler o arquivo geoespacial dos municípios baianos no formato `.json`.
+
+```{r eval=T, message=F,warning=F}
+
+#Carregando a shapefile (JSON) por município da Bahia
+MUN_BA <- rgdal::readOGR(
+  dsn = "https://raw.githubusercontent.com/lcsfilho/geodata-br/master/geojson/geojs-29-mun.json", 
+  use_iconv = T,
+  encoding = "UTF-8"
+)
+```
+
+---
+## Mapas
+
+Vamos espiar a base pelo `Glimpse`
+
+```{r eval=T, message=F,warning=F}
+
+#Espiando a base
+dplyr::glimpse(MUN_BA@data)
+
+```
+
+Podemos notar que o código do município no arquivo `json` está identificado como `id` e na base com as taxas de mortalidade infantil, está escrito `CD_MUN`. Então, devemos alterar nossa base para se igualar ao arquivo `json`, afim de unir essas bases corretamente.
+---
+## Mapas
+Observando informações das colunas
+
+```{r eval=T, message=F,warning=F}
+
+MUN_BA@data
+```
+
+---
+## Mapas
+
+Primeiro, vamos converter o tipo de variável da coluna código do município
+
+```{r}
+dados_mun_ba$CD_MUN <- as.character(dados_mun_ba$CD_MUN) #Convertendo o tipo de variável
+class(dados_mun_ba$CD_MUN) #Verificando a classe de variável
+
+```
+
+Agora, vamos renomear a coluna do código do município para igualar ao nome que está na base em `json`.
+```{r}
+#Renomeando a coluna do código da UF no banco ProjIBGE_2018
+dados_mun_ba <- dplyr::rename(dados_mun_ba, id = CD_MUN)
+names(dados_mun_ba)
+
+```
+---
+## Mapas
+
+Agora, vamos unir as bases
+
+```{r eval=T, message=F, warning=F}
+
+MUN_BA@data <- dplyr::left_join(
+  x = MUN_BA@data,
+  y = dados_mun_ba, 
+  by = 'id'
+)
+names(MUN_BA)
+```
+
+---
+## Mapas
+
+
+**Criar a paleta de cores**
+```{r}
+paleta_Mun <- leaflet::colorBin( 
+  "Blues", #A paleta de cores escolhida
+  MUN_BA$tx_mort_inf, #A variável escolhida
+  5, #Quantidade de intervalos para a paleta de cores
+  pretty = FALSE #Usado quando os pontos de corte são previamente definidos
+)
+
+```
+
+---
+## Mapas
+
+**Construindo o mapa**
+```{r eval=TRUE}
+Mapa_Parte1 <- leaflet(
+  data = MUN_BA, #O dataframe geospacial
+  options = leafletOptions(
+    zoomControl = TRUE, #opção de controle de zoom
+    minZoom = 1, maxZoom = 20, #Configuração do zoom mínimo e máximo
+    dragging = TRUE, #Arrasto habilitado
+    doubleClickZoom=FALSE  #Zoom com duplo click desabilitado
+  )
+) %>%
+  addTiles() %>% #Adiciona um recorte de mapa do OpenStreetMap
+  #Configura as coordenadas e o zoom inicial
+  setView(lat = -15.013615209001625, lng = -50.317577612085536, zoom = 4) %>% 
+  addPolygons(
+    stroke = T, #Desenho dos polígonos (ordas) habilitado
+    opacity = 1, #Opacidade máxima
+    color = "black", #Cor dos polígonos
+    weight = 0.5, #Espessira da linhas dos polígonos
+    smoothFactor = 0.0, #Simplificação da polilinha do polígono
+    fillOpacity = 1, #Opacidade máxima do preenchimento
+    label = ~paste0('Mun: ', name, " | Taxa de mortalidade infantil: ", tx_mort_inf, '/ 1.000 n.v.'), #Conteúdo da etiqueta ao passar o mouse
+    fillColor = ~paleta_Mun(tx_mort_inf), #Cores da paleta criada em função da Taxa
+    highlight = highlightOptions( #Opções de destaque ao passar o mouse
+      weight = 2, #Espessura da linha
+      color = "black", #Cor da linha
+      fillOpacity = 1, #Opacidade do preenchimento
+      bringToFront = TRUE #Trazer para frente
+    ),
+    layerId = ~id #Chave que identifica o município
+ )
+```
+
+
 
 ---
 # Referências
