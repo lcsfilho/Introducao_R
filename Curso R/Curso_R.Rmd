@@ -108,16 +108,10 @@ writeLines(doc, file_name)
 -  Importando dados no R
 -  Carregando dados
 -  Análise descritiva (unidimensional)
+-  Análise descritiva (bidimensional)
 -  Pacote Tidyverse
 -  Mapas
--  Malha digital da Bahia por municípios
--  Malha digital da Bahia por mesorregiões
--  Malha digital da Bahia por microrregiões
--  Intervalos de classe para a variável
--  Aplicando titulo
--       cex.main = 0.8)
--  Criando legenda
--  Criando legenda
+-  RMarkdown
 -  Referências
 
 
@@ -689,7 +683,7 @@ read.csv("dados.csv", head=TRUE, sep=":", dec=",")
 
 Ou podemo ler diretamente na internet
 ```{r eval=FALSE, echo=TRUE}
-read.table("https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/escolas.txt",
+read.table("https://raw.githubusercontent.com/lcsfilho/dados_abertos/main/escolas.txt",
            sep="|", dec=",")
 ```
 ---
@@ -1088,7 +1082,7 @@ hist(wt, col = "blue", border = "yellow", main = "Histograma do peso do veículo
      xlab = "Peso (1.000 libras)", ylab = "Frequência")
 ```
 ---
-## Análise descritiva (bidimensional)
+# Análise descritiva (bidimensional)
 
 número de cilindros (cyl) x número de carburadores (carb)
 
@@ -2146,7 +2140,7 @@ dados_saude <- dados_saude %>%
 ```{r}
 
 regioes <- utils::read.csv(
-  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/regioes.csv',
+  file = 'https://raw.githubusercontent.com/lcsfilho/dados_abertos/main/regioes.csv',
   sep = ';',
   dec = ','
 )
@@ -2465,7 +2459,7 @@ Vamos trabalhar com **gráfico dinâmico**, também conhecido como **gráfico em
 ```{r}
 
 paises <- utils::read.csv(
-  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/life-expectancy-vs-gdp-per-capita.csv',
+  file = 'https://raw.githubusercontent.com/lcsfilho/dados_abertos/main/life-expectancy-vs-gdp-per-capita.csv',
   sep = ';',  dec = ',',  encoding = "UTF-8"
 )
 rmarkdown::paged_table(paises, options = list(rows.print=5))
@@ -2635,18 +2629,18 @@ https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_
 install.packages("maptools")
 library(maptools)
 
-# Malha digital da Bahia por municípios
+##Malha digital da Bahia por municípios
 bahia_mun = readShapeSpatial(
   "F:/Curso de R/Introducao_R/Curso R/malhadigital/BA_Municipios_2021/BA_Municipios_2021.shp"
   )
 
-# Malha digital da Bahia por mesorregiões
+##Malha digital da Bahia por mesorregiões
 bahia_mes = readShapeSpatial(
   "F:/Curso de R/Introducao_R/Curso R/malhadigital/BA_Mesorregioes_2021/BA_Mesorregioes_2021.shp"
   )
 
 
-# Malha digital da Bahia por microrregiões
+##Malha digital da Bahia por microrregiões
 bahia_mic = readShapeSpatial(
   "F:/Curso de R/Introducao_R/Curso R/malhadigital/BA_Microrregioes_2021/BA_Microrregioes_2021.shp"
   )
@@ -2712,7 +2706,7 @@ Vamos construir o mapa da taxa de mortalidade infantil.
 
 ```{r}
 dados_mun_ba <- utils::read.csv(
-  file = 'https://raw.githubusercontent.com/lcsfilho/Introducao_R/master/Curso%20R/bd/obitos_Infantis_nascidos_vivos_BA_mun_2020.csv',
+  file = 'https://raw.githubusercontent.com/lcsfilho/dados_abertos/main/obitos_Infantis_nascidos_vivos_BA_mun_2020.csv',
   sep = ';', encoding = "UTF-8"
 )
 rmarkdown::paged_table(dados_mun_ba, options = list(rows.print=5))
@@ -2764,7 +2758,7 @@ library(RColorBrewer)
 Escolhendo a variável, criando os intervalos e colorindo o mapa
 ```{r warning=FALSE, message=FALSE}
 txmortinf = bahia_mun@data[,"tx_mort_inf"] #Selecionando a variável para o mapa temático
-# Intervalos de classe para a variável
+##Intervalos de classe para a variável
 intervalos = classIntervals(txmortinf, n = 5, style = "fisher")$brk 
 #Escolhendo as cores (repare que a quantidade de intervalos deve ser informada novamente)
 cores = brewer.pal(5, "Blues")
@@ -2845,9 +2839,9 @@ Vamos incluir o título no gráfico. Há duas maneiras: a primeira, usando a fun
 **Obs**: \n (quebra de linha
 
 ```{r eval=FALSE}
-# Aplicando titulo
+#Aplicando titulo
 #title(main = list("Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020"),
-#      cex.main = 0.8)
+#cex.main = 0.8)
 #locator() # utilizado para encontrar as coordenadas para inserção do título
 #ou 
 text(-39.84, -8.49,"Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020")
@@ -2875,7 +2869,7 @@ plot(bahia_mun, col=cores[findInterval(txmortinf, intervalos, all.inside = TRUE)
      axes = TRUE, border = rgb(0.7, 0.7, 0.7), cex = 2)
 text(-42, -8.4,"Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020")
 
-# Criando legenda
+#Criando legenda
 legend(x=-44.4, y=-16.3, legend=leglabs(intervalos),
        fill=cores, bty="n", cex=0.8)
 ```
@@ -2895,7 +2889,7 @@ plot(bahia_mun, col=cores[findInterval(txmortinf, intervalos, all.inside = TRUE)
      axes = TRUE, border = rgb(0.7, 0.7, 0.7), cex = 2)
 text(-42, -8.4,"Taxa de mortalidade infantil municipal por mil nascidos vivos. Bahia. 2020")
 
-# Criando legenda
+#Criando legenda
 legend(x=-44.4, y=-16.3, legend=leglabs(intervalos),
        fill=cores, bty="n", cex=0.8)
 ```
@@ -3022,8 +3016,8 @@ paleta_Mun <- leaflet::colorBin(
 ---
 ## Mapas
 
-**Construindo o mapa**
-```{r eval=TRUE}
+**Construindo o mapa - Parte 1**
+```{r eval=FALSE}
 Mapa_Parte1 <- leaflet(
   data = MUN_BA, #O dataframe geospacial
   options = leafletOptions(
@@ -3035,28 +3029,103 @@ Mapa_Parte1 <- leaflet(
 ) %>%
   addTiles() %>% #Adiciona um recorte de mapa do OpenStreetMap
   #Configura as coordenadas e o zoom inicial
-  setView(lat = -15.013615209001625, lng = -50.317577612085536, zoom = 4) %>% 
-  addPolygons(
-    stroke = T, #Desenho dos polígonos (ordas) habilitado
-    opacity = 1, #Opacidade máxima
-    color = "black", #Cor dos polígonos
-    weight = 0.5, #Espessira da linhas dos polígonos
-    smoothFactor = 0.0, #Simplificação da polilinha do polígono
-    fillOpacity = 1, #Opacidade máxima do preenchimento
-    label = ~paste0('Mun: ', name, " | Taxa de mortalidade infantil: ", tx_mort_inf, '/ 1.000 n.v.'), #Conteúdo da etiqueta ao passar o mouse
-    fillColor = ~paleta_Mun(tx_mort_inf), #Cores da paleta criada em função da Taxa
-    highlight = highlightOptions( #Opções de destaque ao passar o mouse
-      weight = 2, #Espessura da linha
-      color = "black", #Cor da linha
-      fillOpacity = 1, #Opacidade do preenchimento
-      bringToFront = TRUE #Trazer para frente
-    ),
-    layerId = ~id #Chave que identifica o município
- )
+  setView(lat = -13.2, lng = -42, zoom = 6) %>% 
+addLegend(
+    position = "bottomright", 
+    opacity = 1,
+    title = "Taxa de mortalidade infantil por 1.000 n.v.", 
+    pal = paleta_Mun, 
+    values = ~tx_mort_inf,
+  )
 ```
 
 
 
+---
+## Mapas
+
+**Construindo o mapa - Parte 1 + Parte 2**
+
+```{r eval=FALSE}
+Mapa_Parte1 %>% 
+  addPolygons( stroke = T, #Desenho dos polígonos (ordas) habilitado
+    opacity = 1, color = "black",#Opacidade máxima e cor dos polígonos
+    weight = 0.5, smoothFactor = 0.0, #Espessira e simplificação das linhas
+    fillOpacity = 1, #Opacidade máxima do preenchimento
+    #Conteúdo da etiqueta ao passar o mouse
+    label=~paste0('Mun: ', name," | Taxa de mortalidade infantil: ", tx_mort_inf, ' / 1.000 n.v.'), 
+    fillColor = ~paleta_Mun(tx_mort_inf), #Cores da paleta criada em função da Taxa
+    highlight = highlightOptions( #Opções de destaque ao passar o mouse
+      weight = 2, color = "black", #Espessura e cor da linha
+      fillOpacity = 1, #Opacidade do preenchimento
+      bringToFront = TRUE #Trazer para frente
+    ), layerId = ~id ) %>% #Chave que identifica o município
+  addLegend( #Adição da legenda
+    position = "bottomright", opacity = 1, #Posição da legenda e opacidade da legenda
+    title = "Taxa de mortalidade infantil por 1.000 n.v.", 
+    pal = paleta_Mun, #Paleta de cores utilizada
+    values = ~tx_mort_inf, #variável para a legenda
+  )
+ 
+```
+
+---
+## Mapas
+
+
+```{r echo=FALSE, fig.align='center', fig.height=6.5, fig.width=15}
+leaflet(
+  data = MUN_BA, #O dataframe geospacial
+  options = leafletOptions(
+    zoomControl = TRUE, #opção de controle de zoom
+    minZoom = 1, maxZoom = 20, #Configuração do zoom mínimo e máximo
+    dragging = TRUE, #Arrasto habilitado
+    doubleClickZoom=FALSE  #Zoom com duplo click desabilitado
+  )
+) %>%
+  addTiles() %>% #Adiciona um recorte de mapa do OpenStreetMap
+  #Configura as coordenadas e o zoom inicial
+  setView(lat = -13.4, lng = -42, zoom = 6) %>%
+  addPolygons(
+    stroke = T, #Desenho dos polígonos (ordas) habilitado
+    opacity = 1, color = "black",#Opacidade máxima e cor dos polígonos
+    weight = 0.5, smoothFactor = 0.0, #Espessira e simplificação das linhas
+    fillOpacity = 1, #Opacidade máxima do preenchimento
+    #Conteúdo da etiqueta ao passar o mouse
+    label=~paste0('Mun: ', name," | Taxa de mortalidade infantil: ", tx_mort_inf, ' / 1.000 n.v.'), 
+    fillColor = ~paleta_Mun(tx_mort_inf), #Cores da paleta criada em função da Taxa
+    highlight = highlightOptions( #Opções de destaque ao passar o mouse
+      weight = 2, color = "black", #Espessura e cor da linha
+      fillOpacity = 1, #Opacidade do preenchimento
+      bringToFront = TRUE #Trazer para frente
+    ), layerId = ~id ) %>% #Chave que identifica o município
+  addLegend( #Adição da legenda
+    position = "bottomright", #Posição da legenda
+    opacity = 1, #Opacidade da legenda (0=transparente; 1=opaca)
+    title = "Taxa de mortalidade infantil por 1.000 n.v.", 
+    pal = paleta_Mun, #Paleta de cores utilizada
+    values = ~tx_mort_inf, #variável para a legenda
+  )
+ 
+```
+
+---
+# RMarkdown
+
+`RMarkdown` é uma ferramenta poderosa para combinar análises e raltórios no mesmo documento.
+
+Para usar o `RMarkdown`, claro, além do `R` e do `RStudio`, você deve iisntalar o pacote do `RMarkdown`
+
+```{r eval=FALSE}
+#Instalação do pacote RMarkdown do CRAN no R
+install.packages("rmarkdown")
+```
+
+O documento `.Rmd` é o formato original do arquivo `RMarkdown`. Ele contém uma combinação de `YAML` (metadados), texto e blocos de códigos (`chunk`).
+.
+Os principais documetos de saída são `DOC`, `HTML` e `PDF`. Para a saída em PDF, é necessária a instalação do `LATEX`.
+
+Também é possível gerar arquivos em outros formatos, como apresentações em `Power Point`.
 ---
 # Referências
 
